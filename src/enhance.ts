@@ -111,7 +111,9 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
   const frms = Array.from(root.querySelectorAll('.page .frm')) as HTMLElement[];
   frms.forEach((box) => {
     const pageId = (box.closest('.page') as HTMLElement).id.slice(3);
-    const hasBranch = box.querySelectorAll('.f').length >= 4;
+    const hasMsg = !!box.querySelector('.f.full');
+    const hasBranch = !hasMsg && box.querySelectorAll('.f').length >= 4;
+    const olab = Array.from(box.querySelectorAll('.f label')).map((l) => (l.textContent || '').trim());
     const privacy = box.querySelector('.chk a') as HTMLAnchorElement | null;
     const privHtml = privacy ? privacy.outerHTML : '';
     const consentText = (box.querySelector('.chk span') as HTMLElement).innerHTML;
@@ -121,7 +123,7 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
     const uid = pageId + '-';
     box.innerHTML =
       '<form novalidate method="post" action="#" onsubmit="return false" class="frm-real"><div class="g">' +
-      field(uid + 'name', t.name, 'text') + field(uid + 'phone', t.phone, 'tel') + field(uid + 'email', t.email, 'email') +
+      (hasMsg ? field(uid + 'name', olab[0] || t.name, 'text') + field(uid + 'email', olab[1] || t.email, 'email') + field(uid + 'phone', olab[2] || t.phone, 'tel') + '<div class="f full"><label for="' + uid + 'message">' + esc(olab[3] || '') + '</label><textarea id="' + uid + 'message" name="message" rows="4" maxlength="2000"></textarea><small class="err" aria-live="polite"></small></div>' : field(uid + 'name', t.name, 'text') + field(uid + 'phone', t.phone, 'tel') + field(uid + 'email', t.email, 'email')) +
       (hasBranch ? '<div class="f"><label for="' + uid + 'branch">' + esc(t.branch) + '</label><select id="' + uid + 'branch" name="branch"><option value="">' + esc(t.pick) + '</option><option value="rg">' + esc(t.rg) + '</option><option value="jlm">' + esc(t.jlm) + '</option><option value="ph">' + esc(t.ph) + '</option><option value="kt">' + esc(t.kt) + '</option><option value="md">' + esc(t.md) + '</option></select><small class="err" aria-live="polite"></small></div>' : '') +
       '</div><div class="hp" aria-hidden="true"><label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>' +
       '<div class="chk"><input type="checkbox" id="' + uid + 'consent" name="consent"><label for="' + uid + 'consent">' + consentText + '</label></div><small class="err cerr" aria-live="polite"></small>' +
@@ -150,7 +152,7 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
       const btn = form.querySelector('.sbm') as HTMLButtonElement; btn.disabled = true; btn.textContent = t.sending;
       try {
         const r = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ form: pageId, name: nm.value.trim(), phone: ph.value.trim(), email: em.value.trim(), branch: br ? br.value : '', lang, consent: true, page: location.href }) });
+          body: JSON.stringify({ form: pageId, name: nm.value.trim(), phone: ph.value.trim(), email: em.value.trim(), branch: br ? br.value : '', message: g('message'), lang, consent: true, page: location.href }) });
         if (!r.ok) throw new Error(String(r.status));
         msg.textContent = t.ok; msg.classList.add('ok'); form.reset();
       } catch (e) { msg.textContent = t.fail; msg.classList.add('bad'); }
