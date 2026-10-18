@@ -31,3 +31,10 @@
 
 /* Larger-text mode on desktop widths: tighter header spacing so every item (including the language switch) stays on screen */
 @media (min-width:701px){.ccw.a11y-zoom header .in{gap:14px;padding:0 24px}.ccw.a11y-zoom .mn{gap:2px}.ccw.a11y-zoom .tools{gap:10px}.ccw.a11y-zoom .donate{padding:9px 14px}}
+
+/* Skip link, focus ring */
+.ccw .skip{position:absolute;top:-60px;inset-inline-start:12px;z-index:100;background:#4a2237;color:#fff;padding:10px 16px;border-radius:10px;font-weight:600;text-decoration:none}
+.ccw .skip:focus{top:10px}
+.ccw .page:focus{outline:none}
+.ccw a:focus-visible,.ccw button:focus-visible,.ccw select:focus-visible,.ccw input:focus-visible,.ccw [role=button]:focus-visible{outline:3px solid #6b2a45;outline-offset:3px;border-radius:4px}
+.ccw .donate:focus-visible,.ccw .btn:focus-visible{outline-color:#8a4a96}

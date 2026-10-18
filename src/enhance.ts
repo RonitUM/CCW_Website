@@ -160,6 +160,32 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
     cleanups.push(() => form.removeEventListener('submit', submit));
   });
 
+  // ---------- Structure for assistive tech (skip link, heading levels, decorative icons, menu state) ----------
+  root.querySelectorAll('svg').forEach((sv) => { if (!sv.hasAttribute('role') && !sv.hasAttribute('aria-label') && !sv.hasAttribute('aria-labelledby')) { sv.setAttribute('aria-hidden', 'true'); sv.setAttribute('focusable', 'false'); } });
+  root.querySelectorAll('.page').forEach((pg) => {
+    const stack: Array<[number, number]> = [];
+    pg.querySelectorAll('h1,h2,h3,h4,h5,h6').forEach((h) => {
+      const lvl = Number(h.tagName.charAt(1));
+      while (stack.length && stack[stack.length - 1][0] >= lvl) stack.pop();
+      const eff = stack.length ? stack[stack.length - 1][1] + 1 : 1;
+      if (eff !== lvl) h.setAttribute('aria-level', String(eff));
+      stack.push([lvl, eff]);
+    });
+  });
+  const skip = document.createElement('a');
+  skip.className = 'skip'; skip.href = '#'; skip.textContent = lang === 'en' ? 'Skip to content' : 'דלג לתוכן';
+  const onSkip = (e: Event) => { e.preventDefault(); const m = root.querySelector('.page.on') as HTMLElement | null; if (m) { m.focus({ preventScroll: false }); } };
+  skip.addEventListener('click', onSkip);
+  root.insertBefore(skip, root.firstChild);
+  const burgerBtn = root.querySelector('.burger') as HTMLElement | null;
+  const hdrNav = root.querySelector('header nav') as HTMLElement | null;
+  if (hdrNav && !hdrNav.id) hdrNav.id = 'mainnav';
+  const syncMenu = () => { if (burgerBtn) { burgerBtn.setAttribute('aria-expanded', String(root.classList.contains('menu'))); if (hdrNav) burgerBtn.setAttribute('aria-controls', hdrNav.id); } };
+  syncMenu();
+  const mo = new MutationObserver(syncMenu);
+  mo.observe(root, { attributes: true, attributeFilter: ['class'] });
+  cleanups.push(() => { mo.disconnect(); skip.removeEventListener('click', onSkip); skip.remove(); });
+
   // ---------- Accessibility toolbar (in-house, no third party; persists in localStorage) ----------
   const AKEY = 'ccwA11y';
   const ASTEPS = [1, 1.15, 1.3];
