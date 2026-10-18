@@ -168,9 +168,27 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
     if (!v || !b) return;
     const sync = () => { const paused = v.paused; b.classList.toggle('is-paused', paused); b.setAttribute('aria-label', b.getAttribute(paused ? 'data-play' : 'data-pause') || ''); };
     fixHeroClip(v);
-    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) { v.removeAttribute('autoplay'); v.pause(); }
-    else { const pr = v.play(); if (pr && typeof pr.catch === 'function') { pr.catch(() => {}); } }
-    b.addEventListener('click', () => { if (v.paused) { void v.play(); } else { v.pause(); } });
+    // Safari autoplay needs the muted ATTRIBUTE present; property alone is not enough.
+    v.setAttribute('muted', ''); v.defaultMuted = true; v.muted = true;
+    v.setAttribute('playsinline', ''); v.setAttribute('webkit-playsinline', '');
+    v.setAttribute('loop', ''); v.loop = true;
+    const reduceMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    let userPaused = false;
+    const tryPlay = () => {
+      if (reduceMotion || userPaused || !v.paused || !(v.currentSrc || v.src) || v.offsetParent === null) return;
+      if (document.visibilityState && document.visibilityState !== 'visible') return;
+      const pr = v.play(); if (pr && typeof pr.catch === 'function') { pr.catch(() => {}); }
+    };
+    if (reduceMotion) { v.removeAttribute('autoplay'); v.pause(); }
+    else { tryPlay(); }
+    b.addEventListener('click', () => { if (v.paused) { userPaused = false; tryPlay(); } else { userPaused = true; v.pause(); } });
+    // Safari can drop loop on blob/short sources: restart on ended as a fallback.
+    v.addEventListener('ended', () => { if (userPaused) return; try { v.currentTime = 0; } catch (e) { /* ignore */ } const pr = v.play(); if (pr && typeof pr.catch === 'function') { pr.catch(() => {}); } });
+    v.addEventListener('canplay', tryPlay);
+    v.addEventListener('loadeddata', tryPlay);
+    document.addEventListener('visibilitychange', tryPlay);
+    window.addEventListener('pageshow', tryPlay);
+    window.setInterval(tryPlay, 2000);
     v.addEventListener('play', sync); v.addEventListener('pause', sync); sync();
   });
 
