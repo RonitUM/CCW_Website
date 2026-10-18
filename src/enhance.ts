@@ -135,6 +135,30 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
     v.addEventListener('play', sync); v.addEventListener('pause', sync); sync();
   });
 
+  // ---------- Flyers: tap to enlarge (the capped thumbnails are small by design; open the full image on tap) ----------
+  let imgov: HTMLElement | null = null;
+  const closeImgov = () => { if (imgov) { imgov.remove(); imgov = null; } };
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeImgov(); });
+  Array.from(root.querySelectorAll('.flyers .fig')).forEach((fig) => {
+    const el = fig as HTMLElement;
+    el.setAttribute('tabindex', '0');
+    el.setAttribute('role', 'button');
+    el.setAttribute('aria-label', lang === 'en' ? 'Enlarge image' : 'הגדלת התמונה');
+    const open = () => {
+      const m = /url\(["']?([^"')]+)["']?\)/.exec(el.style.backgroundImage || getComputedStyle(el).backgroundImage || '');
+      if (!m) return;
+      closeImgov();
+      imgov = document.createElement('div');
+      imgov.className = 'imgov';
+      imgov.innerHTML = '<div class="imgov-box"><button type="button" class="imgov-x" aria-label="' + T[lang].close + '">✕</button><img class="imgov-img" src="' + m[1] + '" alt="" /></div>';
+      imgov.addEventListener('click', (e) => { if (e.target === imgov) closeImgov(); });
+      const x = imgov.querySelector('.imgov-x'); if (x) x.addEventListener('click', closeImgov);
+      document.body.appendChild(imgov);
+    };
+    el.addEventListener('click', open);
+    el.addEventListener('keydown', (e) => { const k = (e as KeyboardEvent).key; if (k === 'Enter' || k === ' ') { e.preventDefault(); open(); } });
+  });
+
   // ---------- Forms ----------
   const endpoint = ((import.meta as any).env && (import.meta as any).env.VITE_FORM_ENDPOINT) || '';
   const frms = Array.from(root.querySelectorAll('.page .frm')) as HTMLElement[];
