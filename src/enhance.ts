@@ -126,7 +126,7 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
 
 
   // ---------- Feature line animation: pause control, respects reduced motion ----------
-  Array.from(root.querySelectorAll('.feature .ph')).forEach((sec) => {
+  Array.from(root.querySelectorAll('.feature .ph, .hero')).forEach((sec) => {
     const v = sec.querySelector('video') as HTMLVideoElement | null, b = sec.querySelector('.mpb') as HTMLButtonElement | null;
     if (!v || !b) return;
     const sync = () => { const paused = v.paused; b.classList.toggle('is-paused', paused); b.setAttribute('aria-label', b.getAttribute(paused ? 'data-play' : 'data-pause') || ''); };
