@@ -32,7 +32,7 @@ export function App() {
             const d1 = (((p1 && p1.textContent) || '').replace(/\s+/g, ' ').trim()).slice(0, 160);
             md.content = id === 'home' || !d1 ? (isEn ? 'The Counseling Center for Women - therapy center, training center and community' : 'מרכז יעוץ לאשה - מרכז טיפולי, מרכז הכשרה וקהילה') : d1;
             if (push) { try { history.pushState({ p: id }, '', '#/' + id); } catch (e) { /* ignore */ } }
-            try { root.scrollIntoView({ block: 'start' }); window.scrollTo(0, 0); } catch (e) { /* ignore */ } try { setTimeout(() => { (root.querySelectorAll('video[data-hero]') as NodeListOf<HTMLVideoElement>).forEach((vd) => { if (vd.offsetParent !== null && vd.src && vd.paused && !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) { vd.muted = true; const pl = vd.play(); if (pl && pl.catch) pl.catch(() => { /* poster stays */ }); } }); }, 60); } catch (e) { /* ignore */ }
+            try { root.scrollIntoView({ block: 'start' }); window.scrollTo(0, 0); } catch (e) { /* ignore */ } try { setTimeout(() => { (root.querySelectorAll('video[data-hero]') as NodeListOf<HTMLVideoElement>).forEach((vd) => { if (vd.offsetParent !== null && (vd.currentSrc || vd.src) && vd.paused && !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) { vd.muted = true; const pl = vd.play(); if (pl && pl.catch) pl.catch(() => { /* poster stays */ }); } }); }, 60); } catch (e) { /* ignore */ }
         };
         const onClick = (e: MouseEvent) => {
             if ((e.target as HTMLElement).closest('.burger')) { root.classList.toggle('menu'); return; }
@@ -55,7 +55,7 @@ export function App() {
         let cur = 'home';
         const heroVids = Array.from(root.querySelectorAll('video[data-hero]')) as HTMLVideoElement[];
         const reduceMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-        const playVis = () => { if (reduceMotion) return; heroVids.forEach((vd) => { if (vd.offsetParent === null || !vd.src) return; vd.muted = true; const pl = vd.play(); if (pl && pl.catch) pl.catch(() => { /* poster stays */ }); }); };
+        const playVis = () => { if (reduceMotion) return; heroVids.forEach((vd) => { if (vd.offsetParent === null || !(vd.currentSrc || vd.src)) return; vd.muted = true; const pl = vd.play(); if (pl && pl.catch) pl.catch(() => { /* poster stays */ }); }); };
         const setSrc = (u: string) => { heroVids.forEach((vd) => { vd.muted = true; vd.defaultMuted = true; vd.playsInline = true; vd.setAttribute('playsinline', ''); vd.setAttribute('webkit-playsinline', ''); vd.src = u; vd.load(); }); playVis(); };
         heroVids.forEach((vd) => { vd.muted = true; vd.defaultMuted = true; vd.playsInline = true; vd.setAttribute('playsinline', ''); vd.setAttribute('webkit-playsinline', ''); if (reduceMotion) vd.removeAttribute('autoplay'); vd.addEventListener('canplay', playVis); });
         setSrc(heroLoop);
