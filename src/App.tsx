@@ -4,6 +4,7 @@ import heroLoop from './photos/hero-loop.mp4';
 import { PDF_PAGES } from './docs/pdf-pages';
 import { html } from './body';
 import { htmlEn } from './body-en';
+import { enhance } from './enhance';
 
 export function App() {
     const ref = useRef<HTMLDivElement>(null);
@@ -79,9 +80,10 @@ export function App() {
             show(id, false);
         };
         root.addEventListener('click', onClick);
+        const undoEnhance = enhance(root, lang);
         window.addEventListener('popstate', onPop);
         if (location.hash.indexOf('#/') === 0) show(location.hash.slice(2), false); else show('home', false);
-        return () => { window.removeEventListener('touchstart', kick); window.removeEventListener('click', kick); document.removeEventListener('visibilitychange', kick); window.removeEventListener('resize', fit); root.removeEventListener('click', onClick); window.removeEventListener('popstate', onPop); };
+        return () => { undoEnhance(); window.removeEventListener('touchstart', kick); window.removeEventListener('click', kick); document.removeEventListener('visibilitychange', kick); window.removeEventListener('resize', fit); root.removeEventListener('click', onClick); window.removeEventListener('popstate', onPop); };
     }, [lang]);
     return <div className="ccw" id="ccw" dir={lang === 'en' ? 'ltr' : 'rtl'} lang={lang} ref={ref} dangerouslySetInnerHTML={{ __html: lang === 'en' ? htmlEn : html }} />;
 }
