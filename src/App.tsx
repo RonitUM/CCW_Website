@@ -11,7 +11,7 @@ export function App() {
     const ref = useRef<HTMLDivElement>(null);
     const [lang, setLang] = useState<'he' | 'en'>(() => { try { return localStorage.getItem('ccwLang') === 'en' ? 'en' : 'he'; } catch (e) { return 'he'; } });
     useEffect(() => {
-        const isEn = lang === 'en';
+        const isEn = lang === 'en'; try { document.documentElement.lang = lang; document.documentElement.dir = isEn ? 'ltr' : 'rtl'; } catch (e) { /* ignore */ }
         const root = ref.current!;
         const fit = () => { const w = window.innerWidth; (root.style as any).zoom = String(w > 1100 ? Math.min(1, w / 1440) : 1); };
         fit(); window.addEventListener('resize', fit);
@@ -19,7 +19,7 @@ export function App() {
             let el = root.querySelector('#pg-' + id);
             if (!el) { id = 'home'; el = root.querySelector('#pg-home'); }
             root.querySelectorAll('.page').forEach((p) => p.classList.remove('on'));
-            el!.classList.add('on'); root.classList.remove('menu');
+            el!.classList.add('on'); root.classList.remove('menu'); root.querySelectorAll('.page').forEach((p) => p.removeAttribute('role')); el!.setAttribute('role', 'main'); el!.setAttribute('tabindex', '-1');
             if (id === 'home') root.classList.remove('sp'); else root.classList.add('sp');
             root.querySelectorAll('.ni.open').forEach((n) => n.classList.remove('open'));
             // Per-route document title and meta description (browser UX + assistive tech; crawlers still need prerendering).
