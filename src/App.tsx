@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './style.css';
+import './a11y.css';
 import heroLoop from './photos/hero-loop.mp4';
 import { PDF_PAGES } from './docs/pdf-pages';
 import { html } from './body';
@@ -21,6 +22,15 @@ export function App() {
             el!.classList.add('on'); root.classList.remove('menu');
             if (id === 'home') root.classList.remove('sp'); else root.classList.add('sp');
             root.querySelectorAll('.ni.open').forEach((n) => n.classList.remove('open'));
+            // Per-route document title and meta description (browser UX + assistive tech; crawlers still need prerendering).
+            const h1t = ((el!.querySelector('h1') && el!.querySelector('h1')!.textContent) || '').replace(/\s+/g, ' ').trim();
+            const orgT = isEn ? 'The Counseling Center for Women' : 'מרכז יעוץ לאשה';
+            document.title = (id === 'home' || !h1t) ? 'מרכז יעוץ לאשה | The Counseling Center for Women' : h1t + ' | ' + orgT;
+            let md = document.querySelector('meta[name="description"]') as HTMLMetaElement | null;
+            if (!md) { md = document.createElement('meta'); md.name = 'description'; document.head.appendChild(md); }
+            const p1 = el!.querySelector('.pg-b p, .sec p, .page p');
+            const d1 = (((p1 && p1.textContent) || '').replace(/\s+/g, ' ').trim()).slice(0, 160);
+            md.content = id === 'home' || !d1 ? (isEn ? 'The Counseling Center for Women - therapy center, training center and community' : 'מרכז יעוץ לאשה - מרכז טיפולי, מרכז הכשרה וקהילה') : d1;
             if (push) { try { history.pushState({ p: id }, '', '#/' + id); } catch (e) { /* ignore */ } }
             try { root.scrollIntoView({ block: 'start' }); window.scrollTo(0, 0); } catch (e) { /* ignore */ } try { setTimeout(() => { (root.querySelectorAll('video[data-hero]') as NodeListOf<HTMLVideoElement>).forEach((vd) => { if (vd.offsetParent !== null && vd.src && vd.paused && !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) { vd.muted = true; const pl = vd.play(); if (pl && pl.catch) pl.catch(() => { /* poster stays */ }); } }); }, 60); } catch (e) { /* ignore */ }
         };
