@@ -641,6 +641,7 @@ header .tools > svg[role=button]{cursor:pointer}
 .frm button.sbm:disabled{opacity:.6;cursor:wait}
 .frm .frm-msg{margin:14px 0 0;font-size:16px}
 .frm .frm-msg.ok{color:#2f6b3f}.frm .frm-msg.bad{color:#a3262a}.frm .frm-msg.warn{color:#8a5a00}
-.srch-m{display:none;border:0;background:transparent;width:44px;height:44px;padding:0;cursor:pointer;flex:none;align-items:center;justify-content:center}
+.srch-m{display:none;border:0;background:transparent;width:36px;height:44px;padding:0;cursor:pointer;flex:none;align-items:center;justify-content:center}
 .srch-m svg{width:22px;height:22px;stroke:var(--plum);fill:none;stroke-width:1.8}
 @media (max-width:1100px){.srch-m{display:flex}}
+@media (max-width:420px){.ccw header .in{gap:6px}.ccw .tools{gap:8px}.burger{width:38px;padding:0 6px}}
