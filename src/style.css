@@ -668,3 +668,4 @@ header .tools > svg[role=button]{cursor:pointer}
 .books .stack{padding-bottom:16px;gap:12px}}
 .belief .btn{white-space:nowrap}
 .belief .btn{width:auto;min-width:210px;gap:12px;padding-inline:26px}
+@media (min-width:1101px){.hero .txt{top:150px}.hero p{font-size:18px;margin-top:22px}.hero .btns{margin-top:28px}}
