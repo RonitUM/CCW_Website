@@ -702,3 +702,4 @@ header .tools > svg[role=button]{cursor:pointer}
 .mpb.is-paused:after{display:none}
 .mpb:focus-visible{outline:3px solid #fff;outline-offset:2px;box-shadow:0 0 0 5px var(--plum)}
 @media(max-width:900px){.mpb{inset-inline-start:auto;inset-inline-end:14px;top:auto;bottom:14px}}
+@media(min-width:901px){.ccw[dir="ltr"] .stats{height:auto;min-height:300px;padding-bottom:50px}.ccw[dir="ltr"] .feature{height:auto;min-height:465px}.ccw[dir="ltr"] .feature .t{top:56px;width:480px}.ccw[dir="ltr"] .feature h2{font-size:40px}}
