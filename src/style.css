@@ -667,3 +667,4 @@ header .tools > svg[role=button]{cursor:pointer}
 .books .b:nth-child(2),.books .b:nth-child(4){transform:translateY(16px)}
 .books .stack{padding-bottom:16px;gap:12px}}
 .belief .btn{white-space:nowrap}
+.belief .btn{width:auto;min-width:210px;gap:12px;padding-inline:26px}
