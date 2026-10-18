@@ -8,7 +8,7 @@ const T = {
   he: {
     searchPh: 'חיפוש באתר', searchBtn: 'חיפוש', close: 'סגירה', none: 'לא נמצאו תוצאות', hint: 'יש להקליד לפחות 2 תווים',
     name: 'שם', phone: 'טלפון', email: 'אימייל', branch: 'הפניה לסניף', pick: 'יש לבחור את הסניף הרצוי מהרשימה',
-    rg: 'סניף רמת גן', jlm: 'סניף ירושלים', send: 'שליחה', sending: 'שולח...',
+    rg: 'סניף רמת גן והמרכז', jlm: 'סניף ירושלים והסביבה', ph: 'פרדס חנה', kt: 'קריית טבעון', md: 'מודיעין', send: 'שליחה', sending: 'שולח...',
     req: 'יש למלא את השדה', needOne: 'יש למלא טלפון או אימייל', badEmail: 'כתובת אימייל לא תקינה', badPhone: 'מספר טלפון לא תקין', consent: 'יש לאשר את מדיניות הפרטיות',
     ok: 'תודה, ההודעה נשלחה. נחזור אליך בהקדם.', fail: 'השליחה נכשלה. אפשר לנסות שוב או ליצור קשר בטלפון.',
     off: 'הטופס עדיין לא מחובר לשליחה, ולכן לא נשלח דבר. אפשר ליצור קשר בטלפון או במייל המופיעים בעמוד.',
@@ -16,7 +16,7 @@ const T = {
   en: {
     searchPh: 'Search the site', searchBtn: 'Search', close: 'Close', none: 'No results found', hint: 'Type at least 2 characters',
     name: 'Name', phone: 'Phone', email: 'Email', branch: 'Referral to branch', pick: 'Please select the desired branch from the list',
-    rg: 'Ramat Gan Branch', jlm: 'Jerusalem Branch', send: 'Send', sending: 'Sending...',
+    rg: 'Ramat Gan and the Area', jlm: 'Jerusalem and the Area', ph: 'Pardes Hanna, Hadera and the Area', kt: 'Kiryat Tivon', md: 'Modiin and the Area', send: 'Send', sending: 'Sending...',
     req: 'Please fill in this field', needOne: 'Please enter a phone number or an email', badEmail: 'Invalid email address', badPhone: 'Invalid phone number', consent: 'Please accept the privacy policy',
     ok: 'Thank you, your message was sent. We will get back to you shortly.', fail: 'Sending failed. Please try again or contact us by phone.',
     off: 'This form is not connected to sending yet, so nothing was sent. Please use the phone or email shown on the page.',
@@ -120,7 +120,7 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
     box.innerHTML =
       '<form novalidate class="frm-real"><div class="g">' +
       field(uid + 'name', t.name, 'text') + field(uid + 'phone', t.phone, 'tel') + field(uid + 'email', t.email, 'email') +
-      (hasBranch ? '<div class="f"><label for="' + uid + 'branch">' + esc(t.branch) + '</label><select id="' + uid + 'branch" name="branch"><option value="">' + esc(t.pick) + '</option><option value="rg">' + esc(t.rg) + '</option><option value="jlm">' + esc(t.jlm) + '</option></select><small class="err" aria-live="polite"></small></div>' : '') +
+      (hasBranch ? '<div class="f"><label for="' + uid + 'branch">' + esc(t.branch) + '</label><select id="' + uid + 'branch" name="branch"><option value="">' + esc(t.pick) + '</option><option value="rg">' + esc(t.rg) + '</option><option value="jlm">' + esc(t.jlm) + '</option><option value="ph">' + esc(t.ph) + '</option><option value="kt">' + esc(t.kt) + '</option><option value="md">' + esc(t.md) + '</option></select><small class="err" aria-live="polite"></small></div>' : '') +
       '</div><div class="hp" aria-hidden="true"><label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>' +
       '<div class="chk"><input type="checkbox" id="' + uid + 'consent" name="consent"><label for="' + uid + 'consent">' + consentText + '</label></div><small class="err cerr" aria-live="polite"></small>' +
       '<button type="submit" class="sbm">' + esc(t.send) + '</button><p class="frm-msg" role="status" aria-live="polite"></p></form>';
