@@ -18,7 +18,7 @@ nav a.dd:after{content:"";display:inline-block;width:5px;height:5px;border-left:
 .donate{background:var(--plum);color:#fff;border-radius:10px;padding:11px 20px;font-size:15px;font-weight:600;display:flex;gap:8px;align-items:center;direction:rtl}
 .donate svg{stroke:#fff;width:15px;height:15px}
 .hero{height:893px;position:relative;overflow:hidden;background:var(--cream)}
-.hero .photo{position:absolute;left:0;top:96px;width:66%;height:calc(100% - 96px);background:url(./photos/hero.jpg) 6% 40%/cover}
+.hero .photo{position:absolute;left:0;top:96px;width:66%;height:calc(100% - 96px);background:url(./photos/hero-wave-bg.jpg) 6% 40%/cover}
 .hero .photo:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(60,30,30,.0),rgba(233,183,166,.12))}
 .hero .leaf1{position:absolute;left:0;bottom:-8px;width:350px}
 .hero .leaf2{position:absolute;left:55%;bottom:20px;width:260px}
@@ -90,7 +90,7 @@ footer .links{display:flex;gap:26px}
 footer .soc{display:flex;gap:18px;direction:ltr}
 footer .soc svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:1.6}
 .hero{height:790px}
-.hero .photo{clip-path:none!important;top:96px;left:0;width:1000px;height:667px;background:url(./photos/hero.jpg) center/100% 100%}
+.hero .photo{clip-path:none!important;top:96px;left:0;width:1000px;height:667px;background:url(./photos/hero-wave-bg.jpg) center/100% 100%}
 .hero .leaf2{display:none}
 .hero .txt{top:190px;width:380px}
 .hero h1{font-size:64px}
