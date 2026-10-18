@@ -685,3 +685,11 @@ header .tools > svg[role=button]{cursor:pointer}
 .frm textarea{width:100%;min-height:130px;border-radius:14px;border:1.5px solid #e8d6cc;background:var(--cream);padding:14px 18px;font-size:16px;font-family:inherit;color:var(--plum2);box-sizing:border-box;resize:vertical}
 .frm textarea:focus{outline:2px solid var(--plum);outline-offset:1px}
 .frm .f.full{grid-column:1/-1}
+.vid{margin:0 0 28px}
+.vfac{position:relative;display:block;width:100%;max-width:720px;aspect-ratio:16/9;padding:0;border:0;border-radius:18px;overflow:hidden;cursor:pointer;background:#000}
+.vfac img{width:100%;height:100%;object-fit:cover;display:block}
+.vfac .play{position:absolute;inset:0;margin:auto;width:72px;height:72px;border-radius:50%;background:rgba(75,32,56,.88)}
+.vfac .play:after{content:"";position:absolute;top:50%;left:50%;transform:translate(-35%,-50%);border-left:22px solid #fff;border-top:13px solid transparent;border-bottom:13px solid transparent}
+.vfac:focus-visible{outline:3px solid var(--plum);outline-offset:3px}
+.vid iframe{display:block;width:100%;max-width:720px;aspect-ratio:16/9;border:0;border-radius:18px}
+.vlink{margin:8px 0 0;font-size:15px}
