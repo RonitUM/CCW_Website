@@ -12,6 +12,7 @@ const T = {
     req: 'יש למלא את השדה', needOne: 'יש למלא טלפון או אימייל', badEmail: 'כתובת אימייל לא תקינה', badPhone: 'מספר טלפון לא תקין', consent: 'יש לאשר את מדיניות הפרטיות',
     ok: 'תודה, ההודעה נשלחה. נחזור אליך בהקדם.', fail: 'השליחה נכשלה. אפשר לנסות שוב או ליצור קשר בטלפון.',
     off: 'הטופס עדיין לא מחובר לשליחה, ולכן לא נשלח דבר. אפשר ליצור קשר בטלפון או במייל המופיעים בעמוד.',
+    a11yBtn: 'כלי נגישות', a11yBig: 'הגדל טקסט', a11ySmall: 'הקטן טקסט', a11yGray: 'גווני אפור', a11yHc: 'ניגודיות גבוהה', a11yLinks: 'הדגשת קישורים', a11yFont: 'פונט קריא', a11yReset: 'איפוס',
   },
   en: {
     searchPh: 'Search the site', searchBtn: 'Search', close: 'Close', none: 'No results found', hint: 'Type at least 2 characters',
@@ -20,6 +21,7 @@ const T = {
     req: 'Please fill in this field', needOne: 'Please enter a phone number or an email', badEmail: 'Invalid email address', badPhone: 'Invalid phone number', consent: 'Please accept the privacy policy',
     ok: 'Thank you, your message was sent. We will get back to you shortly.', fail: 'Sending failed. Please try again or contact us by phone.',
     off: 'This form is not connected to sending yet, so nothing was sent. Please use the phone or email shown on the page.',
+    a11yBtn: 'Accessibility Tools', a11yBig: 'Increase Text', a11ySmall: 'Decrease Text', a11yGray: 'Grayscale', a11yHc: 'High Contrast', a11yLinks: 'Highlight Links', a11yFont: 'Readable Font', a11yReset: 'Reset',
   },
 } as const;
 
@@ -157,6 +159,52 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
     form.addEventListener('submit', submit);
     cleanups.push(() => form.removeEventListener('submit', submit));
   });
+
+  // ---------- Accessibility toolbar (in-house, no third party; persists in localStorage) ----------
+  const AKEY = 'ccwA11y';
+  const ASTEPS = [1, 1.15, 1.3];
+  const readA = () => { try { const o = JSON.parse(localStorage.getItem(AKEY) || '{}'); return { fs: ASTEPS.indexOf(o.fs) >= 0 ? o.fs : 1, hc: !!o.hc, gray: !!o.gray, links: !!o.links, font: !!o.font }; } catch (e) { return { fs: 1, hc: false, gray: false, links: false, font: false }; } };
+  let st = readA();
+  const bar = document.createElement('div');
+  bar.className = 'a11y';
+  bar.innerHTML =
+    '<button type="button" class="a11y-t" aria-expanded="false" aria-label="' + esc(t.a11yBtn) + '"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="2.2"/><path d="M4 9.5c2.7.8 5.3 1.2 8 1.2s5.3-.4 8-1.2"/><path d="M12 10.7V15l-2.6 6"/><path d="M12 15l2.6 6"/></svg></button>' +
+    '<div class="a11y-p" role="group" aria-label="' + esc(t.a11yBtn) + '" hidden>' +
+    '<b>' + esc(t.a11yBtn) + '</b>' +
+    '<button type="button" data-a="big">' + esc(t.a11yBig) + '</button>' +
+    '<button type="button" data-a="small">' + esc(t.a11ySmall) + '</button>' +
+    '<button type="button" data-a="gray">' + esc(t.a11yGray) + '</button>' +
+    '<button type="button" data-a="hc">' + esc(t.a11yHc) + '</button>' +
+    '<button type="button" data-a="links">' + esc(t.a11yLinks) + '</button>' +
+    '<button type="button" data-a="font">' + esc(t.a11yFont) + '</button>' +
+    '<button type="button" data-a="reset" class="a11y-reset">' + esc(t.a11yReset) + '</button></div>';
+  root.appendChild(bar);
+  const panel = bar.querySelector('.a11y-p') as HTMLElement;
+  const tgl = bar.querySelector('.a11y-t') as HTMLButtonElement;
+  const applyA = () => {
+    (document.body.style as any).zoom = st.fs === 1 ? '' : String(st.fs);
+    root.classList.toggle('a11y-zoom', st.fs > 1);
+    root.classList.toggle('a11y-hc', st.hc);
+    root.classList.toggle('a11y-gray', st.gray);
+    root.classList.toggle('a11y-links', st.links);
+    root.classList.toggle('a11y-font', st.font);
+    panel.querySelectorAll('[data-a]').forEach((b) => { const k = b.getAttribute('data-a')!; b.classList.toggle('on', k === 'big' || k === 'small' ? st.fs > 1 : (st as any)[k] === true); });
+    try { localStorage.setItem(AKEY, JSON.stringify(st)); } catch (e) { /* ignore */ }
+  };
+  const onTglA = () => { const open = panel.hidden; panel.hidden = !open; tgl.setAttribute('aria-expanded', String(open)); };
+  tgl.addEventListener('click', onTglA);
+  const onA = (e: Event) => {
+    const k = (e.currentTarget as HTMLElement).getAttribute('data-a')!;
+    const i = ASTEPS.indexOf(st.fs);
+    if (k === 'reset') st = { fs: 1, hc: false, gray: false, links: false, font: false };
+    else if (k === 'big') st.fs = ASTEPS[Math.min(i + 1, ASTEPS.length - 1)];
+    else if (k === 'small') st.fs = ASTEPS[Math.max(i - 1, 0)];
+    else (st as any)[k] = !(st as any)[k];
+    applyA();
+  };
+  panel.querySelectorAll('[data-a]').forEach((b) => b.addEventListener('click', onA));
+  applyA();
+  cleanups.push(() => { tgl.removeEventListener('click', onTglA); panel.querySelectorAll('[data-a]').forEach((b) => b.removeEventListener('click', onA)); (document.body.style as any).zoom = ''; bar.remove(); });
 
   return () => cleanups.forEach((f) => f());
 }
