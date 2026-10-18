@@ -106,6 +106,24 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
   }
   cleanups.push(() => { document.removeEventListener('keydown', onKey); ov.remove(); });
 
+
+  // ---------- Legacy video (click to load, privacy-enhanced domain, no third-party request before play) ----------
+  Array.from(root.querySelectorAll('.vfac')).forEach((b) => {
+    const btn = b as HTMLButtonElement;
+    const go = () => {
+      const id = btn.getAttribute('data-yt') || '', st = Number(btn.getAttribute('data-start') || 0);
+      const f = document.createElement('iframe');
+      f.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(id) + '?autoplay=1&rel=0' + (st ? '&start=' + st : '');
+      f.title = btn.getAttribute('aria-label') || 'Video';
+      f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+      f.setAttribute('allowfullscreen', '');
+      f.referrerPolicy = 'strict-origin-when-cross-origin';
+      btn.replaceWith(f);
+      f.focus();
+    };
+    btn.addEventListener('click', go);
+  });
+
   // ---------- Forms ----------
   const endpoint = ((import.meta as any).env && (import.meta as any).env.VITE_FORM_ENDPOINT) || '';
   const frms = Array.from(root.querySelectorAll('.page .frm')) as HTMLElement[];
