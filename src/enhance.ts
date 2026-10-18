@@ -125,12 +125,44 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
   });
 
 
+
+  // ---------- Safari hero clip: WebKit ignores clip-path:url(#ref) on HTML elements; compute an equivalent px path() ----------
+  const HERO_CLIP_OBB = 'M0,0 H0.80 C0.84,0.06 0.90,0.08 0.95,0.07 C1,0.07 1,0.12 0.97,0.18 C0.93,0.30 0.99,0.42 0.97,0.55 C0.95,0.68 0.98,0.80 0.99,0.88 C0.99,0.95 0.95,0.99 0.92,1 H0 Z';
+  const obbToPx = (d: string, w: number, h: number): string => {
+    const t = d.match(/[A-Za-z]|-?\d*\.?\d+(?:e-?\d+)?/g) || [];
+    let out = '', i = 0, cx = 0, cy = 0;
+    const num = () => parseFloat(t[i++]);
+    while (i < t.length) {
+      const c = t[i++];
+      if (c === 'M' || c === 'L') { const x = num() * w, y = num() * h; out += `${c}${x.toFixed(1)},${y.toFixed(1)} `; cx = x; cy = y; }
+      else if (c === 'H') { const x = num() * w; out += `L${x.toFixed(1)},${cy.toFixed(1)} `; cx = x; }
+      else if (c === 'V') { const y = num() * h; out += `L${cx.toFixed(1)},${y.toFixed(1)} `; cy = y; }
+      else if (c === 'C') { const pp: number[] = []; for (let k = 0; k < 6; k += 2) { pp.push(num() * w, num() * h); } out += `C${pp.map((n) => n.toFixed(1)).join(',')} `; cx = pp[4]; cy = pp[5]; }
+      else if (c === 'Z' || c === 'z') { out += 'Z'; }
+    }
+    return out.trim();
+  };
+  const fixHeroClip = (v: HTMLVideoElement) => {
+    if (!/url\(\s*["']?#heroclip/.test(v.style.clipPath || '')) { return; }
+    const apply = () => {
+      if (window.innerWidth <= 1100) { v.style.clipPath = 'none'; return; }
+      const r = v.getBoundingClientRect();
+      if (r.width < 2 || r.height < 2) { return; }
+      v.style.clipPath = `path("${obbToPx(HERO_CLIP_OBB, r.width, r.height)}")`;
+    };
+    apply();
+    window.addEventListener('resize', apply);
+    if (typeof ResizeObserver !== 'undefined') { new ResizeObserver(apply).observe(v); }
+  };
+
   // ---------- Feature line animation: pause control, respects reduced motion ----------
   Array.from(root.querySelectorAll('.feature .ph, .hero')).forEach((sec) => {
     const v = sec.querySelector('video') as HTMLVideoElement | null, b = sec.querySelector('.mpb') as HTMLButtonElement | null;
     if (!v || !b) return;
     const sync = () => { const paused = v.paused; b.classList.toggle('is-paused', paused); b.setAttribute('aria-label', b.getAttribute(paused ? 'data-play' : 'data-pause') || ''); };
+    fixHeroClip(v);
     if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) { v.removeAttribute('autoplay'); v.pause(); }
+    else { const pr = v.play(); if (pr && typeof pr.catch === 'function') { pr.catch(() => {}); } }
     b.addEventListener('click', () => { if (v.paused) { void v.play(); } else { v.pause(); } });
     v.addEventListener('play', sync); v.addEventListener('pause', sync); sync();
   });
