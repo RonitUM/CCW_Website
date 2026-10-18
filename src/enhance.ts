@@ -144,13 +144,20 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
   };
   const fixHeroClip = (v: HTMLVideoElement) => {
     if (!/url\(\s*["']?#heroclip/.test(v.style.clipPath || '')) { return; }
+    let shown = false;
     const apply = () => {
-      if (window.innerWidth <= 1100) { v.style.clipPath = 'none'; return; }
+      if (window.innerWidth <= 1100) { v.style.clipPath = 'none'; if (!shown) { shown = true; v.style.visibility = ''; } return; }
       const r = v.getBoundingClientRect();
       if (r.width < 2 || r.height < 2) { return; }
       v.style.clipPath = `path("${obbToPx(HERO_CLIP_OBB, r.width, r.height)}")`;
+      if (!shown) { shown = true; v.style.visibility = ''; }
     };
+    // Hide until the first settled-layout measurement, so no wrong-shape frame can paint (Safari flicker).
+    v.style.visibility = 'hidden';
     apply();
+    requestAnimationFrame(() => requestAnimationFrame(apply));
+    window.addEventListener('load', apply);
+    if (document.fonts && document.fonts.ready) { document.fonts.ready.then(apply).catch(() => {}); }
     window.addEventListener('resize', apply);
     if (typeof ResizeObserver !== 'undefined') { new ResizeObserver(apply).observe(v); }
   };
