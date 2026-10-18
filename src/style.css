@@ -645,3 +645,25 @@ header .tools > svg[role=button]{cursor:pointer}
 .srch-m svg{width:22px;height:22px;stroke:var(--plum);fill:none;stroke-width:1.8}
 @media (max-width:1100px){.srch-m{display:flex}}
 @media (max-width:420px){.ccw header .in{gap:6px}.ccw .tools{gap:8px}.burger{width:38px;padding:0 6px}}
+/* belief section redesign */
+.belief{background:radial-gradient(circle at 88% 12%,#7c3558 0,rgba(124,53,88,0) 42%),radial-gradient(circle at 8% 100%,#6a2c4c 0,rgba(106,44,76,0) 45%),linear-gradient(135deg,#34142a,#4a2237 55%,#5a2a45);height:auto;min-height:546px}
+.belief:before{background:none;inset:auto;width:520px;height:520px;right:-140px;top:-180px;border-radius:50%;border:2px solid rgba(233,160,140,.28);box-shadow:0 0 0 46px rgba(233,160,140,.07),0 0 0 100px rgba(169,183,154,.06)}
+.belief:after{content:"";position:absolute;left:-120px;bottom:-160px;width:380px;height:380px;border-radius:50%;background:rgba(169,183,154,.12)}
+.belief .in{padding-top:70px;padding-bottom:70px;z-index:1;gap:60px;justify-content:space-between}
+.belief h2{font-weight:600;letter-spacing:-1.5px}
+.belief h2:after{content:"";display:block;width:72px;height:5px;border-radius:3px;background:#e9a08c;margin-top:22px}
+.books{position:relative!important;right:auto!important;bottom:auto!important;width:460px!important;height:auto!important;flex:none}
+.books .shelf{display:none}
+.books .stack{position:static!important;width:100%!important;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.books .b{width:auto!important;margin:0!important;height:150px!important;font-size:30px!important;font-weight:600;border-radius:80px 80px 80px 18px!important;box-shadow:0 14px 30px rgba(0,0,0,.28)!important;transition:transform .25s;background:#e9a08c!important;color:#4a2237!important}
+.books .b:nth-child(2){background:#b3c1a3!important;border-radius:80px 18px 80px 80px!important;transform:translateY(34px)}
+.books .b:nth-child(3){background:#f4ece4!important;border-radius:80px 80px 18px 80px!important}
+.books .b:nth-child(4){background:#f0c3a8!important;border-radius:18px 80px 80px 80px!important;transform:translateY(34px)}
+.books .b:hover{transform:translateY(-6px)!important}
+.books .stack{padding-bottom:34px}
+@media (max-width:1100px){.belief .in{flex-direction:column;align-items:stretch;gap:36px;padding:56px 24px}
+.books{display:block!important;width:100%!important}
+.books .b{height:84px!important;font-size:22px!important}
+.books .b:nth-child(2),.books .b:nth-child(4){transform:translateY(16px)}
+.books .stack{padding-bottom:16px;gap:12px}}
+.belief .btn{white-space:nowrap}
