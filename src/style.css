@@ -704,3 +704,11 @@ header .tools > svg[role=button]{cursor:pointer}
 @media(max-width:900px){.mpb{inset-inline-start:auto;inset-inline-end:14px;top:auto;bottom:14px}}
 @media(min-width:901px){.ccw[dir="ltr"] .stats{height:auto;min-height:300px;padding-bottom:50px}.ccw[dir="ltr"] .feature{height:auto;min-height:465px}.ccw[dir="ltr"] .feature .t{top:56px;width:480px}.ccw[dir="ltr"] .feature h2{font-size:40px}}
 @media(max-width:1100px){.ccw{padding-top:0}.ccw header,.ccw.sp header{top:0}}
+.mp-g{list-style:none;margin:0 0 28px;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:22px;align-items:start}
+.mp-i a{display:block;border-radius:10px;overflow:hidden;box-shadow:0 2px 14px rgba(60,20,50,.14)}
+.mp-i a:focus-visible{outline:3px solid var(--plum);outline-offset:3px}
+.mp-i img{display:block;width:100%;height:auto}
+.mp-h{font-size:26px;margin:8px 0 18px;color:var(--plum)}
+.mp-g+.mp-h{margin-top:36px}
+.mp-i:before,.mp-i:after,.mp-g li:before,.mp-g li:after{display:none!important;content:none!important}
+.mp-g{grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr))}
