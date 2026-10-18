@@ -124,6 +124,17 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
     btn.addEventListener('click', go);
   });
 
+
+  // ---------- Home illustration video: pause control, respects reduced motion ----------
+  Array.from(root.querySelectorAll('.mot')).forEach((sec) => {
+    const v = sec.querySelector('video') as HTMLVideoElement | null, b = sec.querySelector('.mpb') as HTMLButtonElement | null;
+    if (!v || !b) return;
+    const sync = () => { const paused = v.paused; b.classList.toggle('is-paused', paused); const l = b.getAttribute(paused ? 'data-play' : 'data-pause') || ''; b.setAttribute('aria-label', l); };
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) { v.removeAttribute('autoplay'); v.pause(); }
+    b.addEventListener('click', () => { if (v.paused) { void v.play(); } else { v.pause(); } });
+    v.addEventListener('play', sync); v.addEventListener('pause', sync); sync();
+  });
+
   // ---------- Forms ----------
   const endpoint = ((import.meta as any).env && (import.meta as any).env.VITE_FORM_ENDPOINT) || '';
   const frms = Array.from(root.querySelectorAll('.page .frm')) as HTMLElement[];
