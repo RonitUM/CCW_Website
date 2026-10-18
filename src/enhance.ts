@@ -127,7 +127,7 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
 
 
   // ---------- Safari hero clip: WebKit ignores clip-path:url(#ref) on HTML elements; compute an equivalent px path() ----------
-  const HERO_CLIP_OBB = 'M0,0 H0.80 C0.84,0.06 0.90,0.08 0.95,0.07 C1,0.07 1,0.12 0.97,0.18 C0.93,0.30 0.99,0.42 0.97,0.55 C0.95,0.68 0.98,0.80 0.99,0.88 C0.99,0.95 0.95,0.99 0.92,1 H0 Z';
+  const HERO_CLIP_OBB = 'M0,0 H0.95 C1,0.02 1,0.07 0.98,0.12 C0.88,0.38 0.55,0.68 0.10,0.97 C0.06,0.99 0.03,1 0,1 Z'; // big wave (Shai's pick, 23:33)
   const obbToPx = (d: string, w: number, h: number): string => {
     const t = d.match(/[A-Za-z]|-?\d*\.?\d+(?:e-?\d+)?/g) || [];
     let out = '', i = 0, cx = 0, cy = 0;
