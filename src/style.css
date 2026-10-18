@@ -712,3 +712,6 @@ header .tools > svg[role=button]{cursor:pointer}
 .mp-g+.mp-h{margin-top:36px}
 .mp-i:before,.mp-i:after,.mp-g li:before,.mp-g li:after{display:none!important;content:none!important}
 .mp-g{grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr))}
+.soc a{display:inline-flex;align-items:center;justify-content:center;min-width:24px;min-height:24px;color:#fff}
+.soc a:focus-visible{outline:2px solid #fff;outline-offset:3px;border-radius:4px}
+.soc a:hover svg{opacity:.75}
