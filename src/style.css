@@ -681,3 +681,4 @@ header .tools > svg[role=button]{cursor:pointer}
 @media (min-width:1101px) and (max-width:1300px){.hero .txt{top:170px}.hero h1.herolead{font-size:32px}.ccw[dir="ltr"] .hero h1.herolead{font-size:26px}}
 .ccw .tm .tc .ph{width:150px!important;height:150px!important;aspect-ratio:auto!important;margin:18px auto 0;border-radius:16px!important;background-size:cover;background-position:center}
 @media (max-width:700px){.ccw .tm .tc .ph{width:96px!important;height:96px!important;margin:0}}
+@media (min-width:901px){.ccw #pg-jlm .tm{grid-template-columns:repeat(3,1fr)!important;gap:22px}}

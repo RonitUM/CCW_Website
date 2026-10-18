@@ -120,7 +120,7 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
       '<div class="f"><label for="' + id + '">' + esc(label) + '</label><input id="' + id + '" name="' + id + '" type="' + type + '" autocomplete="' + (id.endsWith('name') ? 'name' : type === 'tel' ? 'tel' : type === 'email' ? 'email' : 'off') + '" maxlength="200"><small class="err" aria-live="polite"></small></div>';
     const uid = pageId + '-';
     box.innerHTML =
-      '<form novalidate class="frm-real"><div class="g">' +
+      '<form novalidate method="post" action="#" onsubmit="return false" class="frm-real"><div class="g">' +
       field(uid + 'name', t.name, 'text') + field(uid + 'phone', t.phone, 'tel') + field(uid + 'email', t.email, 'email') +
       (hasBranch ? '<div class="f"><label for="' + uid + 'branch">' + esc(t.branch) + '</label><select id="' + uid + 'branch" name="branch"><option value="">' + esc(t.pick) + '</option><option value="rg">' + esc(t.rg) + '</option><option value="jlm">' + esc(t.jlm) + '</option><option value="ph">' + esc(t.ph) + '</option><option value="kt">' + esc(t.kt) + '</option><option value="md">' + esc(t.md) + '</option></select><small class="err" aria-live="polite"></small></div>' : '') +
       '</div><div class="hp" aria-hidden="true"><label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>' +
