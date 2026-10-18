@@ -693,3 +693,12 @@ header .tools > svg[role=button]{cursor:pointer}
 .vfac:focus-visible{outline:3px solid var(--plum);outline-offset:3px}
 .vid iframe{display:block;width:100%;max-width:720px;aspect-ratio:16/9;border:0;border-radius:18px}
 .vlink{margin:8px 0 0;font-size:15px}
+
+.feature .ph video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.mpb{position:absolute;top:16px;inset-inline-start:84px;width:42px;height:42px;border-radius:50%;border:0;background:rgba(75,32,56,.85);cursor:pointer;z-index:2}
+.mpb:before,.mpb:after{content:"";position:absolute;top:13px;width:4px;height:16px;background:#fff;border-radius:2px}
+.mpb:before{left:14px}.mpb:after{right:14px}
+.mpb.is-paused:before{left:16px;top:12px;width:0;height:0;background:none;border-left:14px solid #fff;border-top:9px solid transparent;border-bottom:9px solid transparent;border-radius:0}
+.mpb.is-paused:after{display:none}
+.mpb:focus-visible{outline:3px solid #fff;outline-offset:2px;box-shadow:0 0 0 5px var(--plum)}
+@media(max-width:900px){.mpb{inset-inline-start:auto;inset-inline-end:14px;top:auto;bottom:14px}}
