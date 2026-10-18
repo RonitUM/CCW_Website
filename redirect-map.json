@@ -108,11 +108,11 @@
   "invitation-to-counseling-center-for-women-webinar"
  ],
  "pdf": {
-  "wp-content/uploads/2016/01/תקנון-מרכז-יעוץ-לאשה.pdf": "#/docs",
+  "wp-content/uploads/2016/01/תקנון-מרכז-יעוץ-לאשה.pdf": "docs/takanon-1999.pdf",
   "wp-content/uploads/2023/08/2024-2025-אישור-ניהול-תקין.pdf": "docs/nihul-takin-2026.pdf",
   "wp-content/uploads/2023/08/אישור-לצורך-ניכוי-מס.pdf": "docs/nihui-mas-2027.pdf",
   "wp-content/uploads/2023/09/דוח-כספי-חתום-2022.pdf": "docs/dohot-kaspiyim-2025.pdf",
   "wp-content/uploads/2024/03/אישור-ניהול-תקין-2024.pdf": "docs/nihul-takin-2026.pdf",
-  "wp-content/uploads/2024/11/תעודת-מלכר-מעודכנת.pdf": "#/docs"
+  "wp-content/uploads/2024/11/תעודת-מלכר-מעודכנת.pdf": "docs/malcar-certificate-2020.pdf"
  }
 }
