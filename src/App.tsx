@@ -1,0 +1,87 @@
+import React, { useEffect, useRef, useState } from 'react';
+import './style.css';
+import heroLoop from './photos/hero-loop.mp4';
+import { PDF_PAGES } from './docs/pdf-pages';
+import { html } from './body';
+import { htmlEn } from './body-en';
+
+export function App() {
+    const ref = useRef<HTMLDivElement>(null);
+    const [lang, setLang] = useState<'he' | 'en'>(() => { try { return localStorage.getItem('ccwLang') === 'en' ? 'en' : 'he'; } catch (e) { return 'he'; } });
+    useEffect(() => {
+        const isEn = lang === 'en';
+        const root = ref.current!;
+        const fit = () => { const w = window.innerWidth; (root.style as any).zoom = String(w > 1100 ? Math.min(1, w / 1440) : 1); };
+        fit(); window.addEventListener('resize', fit);
+                const show = (id: string, push: boolean) => {
+            let el = root.querySelector('#pg-' + id);
+            if (!el) { id = 'home'; el = root.querySelector('#pg-home'); }
+            root.querySelectorAll('.page').forEach((p) => p.classList.remove('on'));
+            el!.classList.add('on'); root.classList.remove('menu');
+            if (id === 'home') root.classList.remove('sp'); else root.classList.add('sp');
+            root.querySelectorAll('.ni.open').forEach((n) => n.classList.remove('open'));
+            if (push) { try { history.pushState({ p: id }, '', '#/' + id); } catch (e) { /* ignore */ } }
+            try { root.scrollIntoView({ block: 'start' }); window.scrollTo(0, 0); } catch (e) { /* ignore */ } try { setTimeout(() => { (root.querySelectorAll('video[data-hero]') as NodeListOf<HTMLVideoElement>).forEach((vd) => { if (vd.offsetParent !== null && vd.src && vd.paused && !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) { vd.muted = true; const pl = vd.play(); if (pl && pl.catch) pl.catch(() => { /* poster stays */ }); } }); }, 60); } catch (e) { /* ignore */ }
+        };
+        const onClick = (e: MouseEvent) => {
+            if ((e.target as HTMLElement).closest('.burger')) { root.classList.toggle('menu'); return; }
+            const a = (e.target as HTMLElement).closest('a');
+            if (!a || !root.contains(a)) return;
+            if (a.hasAttribute('data-ext')) { e.preventDefault(); return; }
+            const langTo = a.getAttribute('data-lang');
+            if (langTo === 'en' || langTo === 'he') { e.preventDefault(); try { localStorage.setItem('ccwLang', langTo); } catch (err) { /* ignore */ } setLang(langTo); return; }
+            const id = a.getAttribute('data-go');
+            if (!id) { if (a.getAttribute('href') === '#') e.preventDefault(); return; }
+            e.preventDefault();
+            const ni = a.closest('.ni');
+            if (ni && a.classList.contains('dd') && window.matchMedia('(hover: none), (max-width: 1100px)').matches) {
+                const was = ni.classList.contains('open');
+                root.querySelectorAll('.ni.open').forEach((n) => n.classList.remove('open'));
+                if (!was) { ni.classList.add('open'); return; }
+            }
+            show(id, true);
+        };
+        let cur = 'home';
+        const heroVids = Array.from(root.querySelectorAll('video[data-hero]')) as HTMLVideoElement[];
+        const reduceMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+        const playVis = () => { if (reduceMotion) return; heroVids.forEach((vd) => { if (vd.offsetParent === null || !vd.src) return; vd.muted = true; const pl = vd.play(); if (pl && pl.catch) pl.catch(() => { /* poster stays */ }); }); };
+        const setSrc = (u: string) => { heroVids.forEach((vd) => { vd.muted = true; vd.defaultMuted = true; vd.playsInline = true; vd.setAttribute('playsinline', ''); vd.setAttribute('webkit-playsinline', ''); vd.src = u; vd.load(); }); playVis(); };
+        heroVids.forEach((vd) => { vd.muted = true; vd.defaultMuted = true; vd.playsInline = true; vd.setAttribute('playsinline', ''); vd.setAttribute('webkit-playsinline', ''); if (reduceMotion) vd.removeAttribute('autoplay'); vd.addEventListener('canplay', playVis); });
+        setSrc(heroLoop);
+        const closeDoc = () => { const ov = root.querySelector('.docov'); if (ov) ov.remove(); };
+        const openDocViewer = (key: string, title: string) => {
+          closeDoc();
+          const pages = PDF_PAGES[key];
+          if (!pages || !pages.length) return;
+          const ov = document.createElement('div');
+          ov.className = 'docov';
+          const imgs = pages.map((p) => '<img class="docov-pg" src="data:image/jpeg;base64,' + p + '" alt="' + title + '" />').join('');
+          ov.innerHTML = '<div class="docov-box"><div class="docov-bar"><div class="docov-title">' + title + '</div><button type="button" class="docov-x" aria-label="' + (isEn ? 'Close' : 'סגירה') + '">✕</button></div><div class="docov-pages">' + imgs + '</div></div>';
+          ov.addEventListener('click', (e) => { if (e.target === ov) closeDoc(); });
+          const x = ov.querySelector('.docov-x'); if (x) x.addEventListener('click', closeDoc);
+          root.appendChild(ov);
+        };
+        root.querySelectorAll('a[data-doc]').forEach((el) => { el.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); const a = el as HTMLAnchorElement; const t = (a.querySelector('.t') || {}).textContent || (isEn ? 'Document' : 'מסמך'); openDocViewer(a.getAttribute('data-doc') || '', t); }); });
+        // Safari: the bundled video can arrive as an untyped blob, which it will not play. Re-wrap it as video/mp4.
+        try { fetch(heroLoop).then((r) => r.arrayBuffer()).then((buf) => { setSrc(URL.createObjectURL(new Blob([buf], { type: 'video/mp4' }))); }).catch(() => { /* keep original src */ }); } catch (e) { /* ignore */ }
+        // Safari / low-power mode: retry on first touch or tap, and when the tab becomes visible again.
+        const kick = () => playVis();
+        window.addEventListener('touchstart', kick, { passive: true });
+        window.addEventListener('click', kick);
+        document.addEventListener('visibilitychange', kick);
+        const onTgl = (e: MouseEvent) => {
+            const t = e.target as HTMLElement;
+            const sc = t.closest('[data-scrollto]'); if (sc) { e.preventDefault(); const te = root.querySelector('#' + sc.getAttribute('data-scrollto')); if (te) te.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; } const q = t.closest('[data-tq]'); if (q) { const ts = root.querySelectorAll('.tq'); let k = 0; ts.forEach((x, i) => { if (x.classList.contains('on')) k = i; }); ts[k].classList.remove('on'); k = (k + Number(q.getAttribute('data-tq')) + ts.length) % ts.length; ts[k].classList.add('on'); root.querySelector('.cnt')!.textContent = (k + 1) + ' / ' + ts.length; }
+        };
+        root.addEventListener('click', onTgl);
+        const onPop = (e: PopStateEvent) => {
+            const id = (e.state && e.state.p) || (location.hash.indexOf('#/') === 0 ? location.hash.slice(2) : 'home');
+            show(id, false);
+        };
+        root.addEventListener('click', onClick);
+        window.addEventListener('popstate', onPop);
+        if (location.hash.indexOf('#/') === 0) show(location.hash.slice(2), false); else show('home', false);
+        return () => { window.removeEventListener('touchstart', kick); window.removeEventListener('click', kick); document.removeEventListener('visibilitychange', kick); window.removeEventListener('resize', fit); root.removeEventListener('click', onClick); window.removeEventListener('popstate', onPop); };
+    }, [lang]);
+    return <div className="ccw" id="ccw" dir={lang === 'en' ? 'ltr' : 'rtl'} lang={lang} ref={ref} dangerouslySetInnerHTML={{ __html: lang === 'en' ? htmlEn : html }} />;
+}
