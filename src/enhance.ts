@@ -178,7 +178,9 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
     // Safari autoplay needs the muted ATTRIBUTE present; property alone is not enough.
     v.setAttribute('muted', ''); v.defaultMuted = true; v.muted = true;
     v.setAttribute('playsinline', ''); v.setAttribute('webkit-playsinline', '');
-    v.setAttribute('loop', ''); v.loop = true;
+    // iOS Safari can freeze after the 2nd native loop on some encodes (paused stays false, no
+    // 'ended' fires), so loop is owned by JS: 'ended' restarts below, revive() unsticks freezes.
+    v.removeAttribute('loop'); v.loop = false;
     const reduceMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
     let userPaused = false;
     const tryPlay = () => {
@@ -195,7 +197,20 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
     v.addEventListener('loadeddata', tryPlay);
     document.addEventListener('visibilitychange', tryPlay);
     window.addEventListener('pageshow', tryPlay);
-    window.setInterval(tryPlay, 2000);
+    // Watchdog: catches Safari self-pausing mid-loop and frozen playback; hard-restarts at the end.
+    let lastCT = -1, still = 0;
+    const revive = () => {
+      if (reduceMotion || userPaused || (!v.src && !v.currentSrc) || v.offsetParent === null) return;
+      if (document.visibilityState && document.visibilityState !== 'visible') return;
+      const dur = v.duration || 0;
+      if (!v.paused && v.currentTime !== lastCT) { still = 0; lastCT = v.currentTime; return; }
+      still += 1;
+      if (v.ended || (dur > 0 && dur - v.currentTime < 0.4)) { try { v.currentTime = 0; } catch (e) { /* ignore */ } }
+      if (!v.paused && still >= 2) { try { v.currentTime = 0; } catch (e) { /* ignore */ } } // frozen-not-paused (iOS loop freeze): hard restart
+      if (v.paused || still >= 2) { const pr = v.play(); if (pr && typeof pr.catch === 'function') { pr.catch(() => {}); } }
+      lastCT = v.currentTime;
+    };
+    window.setInterval(revive, 1000);
     v.addEventListener('play', sync); v.addEventListener('pause', sync); sync();
   });
 
