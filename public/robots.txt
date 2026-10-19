@@ -1,0 +1,11 @@
+# Staging/test deployment (GitHub Pages preview): do not index this copy.
+# At cutover to the production domain, replace this file with the commented
+# production block below and deploy public/sitemap.xml (see
+# sitemap.production.xml.example in the repo root).
+User-agent: *
+Disallow: /
+
+# --- Production block (final domain, e.g. https://ccw.org.il) ---
+# User-agent: *
+# Allow: /
+# Sitemap: https://ccw.org.il/sitemap.xml
