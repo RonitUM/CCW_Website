@@ -74,7 +74,11 @@ export function App() {
         };
         root.querySelectorAll('a[data-doc]').forEach((el) => { el.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); const a = el as HTMLAnchorElement; const t = (a.querySelector('.t') || {}).textContent || (isEn ? 'Document' : 'מסמך'); openDocViewer(a.getAttribute('data-doc') || '', t); }); });
         // Safari: the bundled video can arrive as an untyped blob, which it will not play. Re-wrap it as video/mp4.
-        try { fetch(heroLoop).then((r) => r.arrayBuffer()).then((buf) => { heroVids.forEach((vd) => { if (vd.readyState >= 3 || !vd.paused) { return; } }); if (heroVids.some((vd) => vd.readyState >= 3 || !vd.paused)) { return; } setSrc(URL.createObjectURL(new Blob([buf], { type: 'video/mp4' }))); }).catch(() => { /* keep original src */ }); } catch (e) { /* ignore */ }
+        // Pages serves the mp4 with a proper video/mp4 type and Range support; the blob re-wrap is only
+        // a fallback for a real load failure. (Blob sources break Safari's native loop.)
+        let heroSrcFailed = false;
+        heroVids.forEach((vd) => { const sc = vd.querySelector('source'); (sc || vd).addEventListener('error', () => { heroSrcFailed = true; }); vd.addEventListener('error', () => { heroSrcFailed = true; }); });
+        if (heroVids.length > 0) { try { fetch(heroLoop).then((r) => r.arrayBuffer()).then((buf) => { if (!heroSrcFailed) { return; } heroVids.forEach((vd) => { if (vd.readyState >= 3 || !vd.paused) { return; } }); if (heroVids.some((vd) => vd.readyState >= 3 || !vd.paused)) { return; } setSrc(URL.createObjectURL(new Blob([buf], { type: 'video/mp4' }))); }).catch(() => { /* keep original src */ }); } catch (e) { /* ignore */ } }
         // Safari / low-power mode: retry on first touch or tap, and when the tab becomes visible again.
         const kick = () => playVis();
         window.addEventListener('touchstart', kick, { passive: true });
