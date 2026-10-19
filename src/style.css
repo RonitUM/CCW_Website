@@ -19,7 +19,6 @@ nav a.dd:after{content:"";display:inline-block;width:5px;height:5px;border-left:
 .donate svg{stroke:#fff;width:15px;height:15px}
 .hero{height:893px;position:relative;overflow:hidden;background:var(--cream)}
 .hero .photo{position:absolute;left:0;top:96px;width:66%;height:calc(100% - 96px);background:url(./photos/hero-wave-bg.jpg) 6% 40%/cover}
-.hero .photo:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(60,30,30,.0),rgba(233,183,166,.12))}
 .hero .leaf1{position:absolute;left:0;bottom:-8px;width:350px}
 .hero .leaf2{position:absolute;left:55%;bottom:20px;width:260px}
 .hero .txt{position:absolute;right:56px;top:240px;width:450px;text-align:right}
