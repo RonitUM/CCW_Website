@@ -190,7 +190,7 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
     };
     if (reduceMotion) { v.removeAttribute('autoplay'); v.pause(); }
     else { tryPlay(); }
-    b.addEventListener('click', () => { if (v.paused) { userPaused = false; tryPlay(); } else { userPaused = true; v.pause(); } });
+    b.addEventListener('click', () => { if (v.paused) { userPaused = false; v.removeAttribute('data-up'); tryPlay(); } else { userPaused = true; v.setAttribute('data-up', '1'); v.pause(); } });
     // Safari can drop loop on blob/short sources: restart on ended as a fallback.
     v.addEventListener('ended', () => { if (userPaused) return; try { v.currentTime = 0; } catch (e) { /* ignore */ } const pr = v.play(); if (pr && typeof pr.catch === 'function') { pr.catch(() => {}); } });
     v.addEventListener('canplay', tryPlay);
@@ -259,10 +259,15 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
     pp.addEventListener('click', () => { playing = !playing; sync(); start(); });
     prev.addEventListener('click', () => { step(-1); });
     next.addEventListener('click', () => { step(1); });
-    sec.addEventListener('mouseenter', () => { hover = true; start(); });
-    sec.addEventListener('mouseleave', () => { hover = false; start(); });
-    sec.addEventListener('focusin', () => { hover = true; start(); });
-    sec.addEventListener('focusout', () => { hover = false; start(); });
+    // Pause-on-hover/focus only where hover exists: on touch, a tap inside the section fires a
+    // sticky mouseenter/focusin with no leave (iOS :hover sticks), which silently stopped rotation.
+    const canHover = !!(window.matchMedia && window.matchMedia('(hover: hover)').matches);
+    if (canHover) {
+      sec.addEventListener('mouseenter', () => { hover = true; start(); });
+      sec.addEventListener('mouseleave', () => { hover = false; start(); });
+      sec.addEventListener('focusin', () => { hover = true; start(); });
+      sec.addEventListener('focusout', () => { hover = false; start(); });
+    }
     sync(); start();
   });
 
