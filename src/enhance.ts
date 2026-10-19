@@ -199,6 +199,34 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
     v.addEventListener('play', sync); v.addEventListener('pause', sync); sync();
   });
 
+  // ---------- Home: social posts slideshow (auto-advance, pausable, respects reduced motion) ----------
+  Array.from(root.querySelectorAll('.mps')).forEach((sec) => {
+    const track = sec.querySelector('.mps-t') as HTMLElement | null;
+    const pp = sec.querySelector('.mps-pp') as HTMLButtonElement | null;
+    const prev = sec.querySelector('.mps-prev') as HTMLButtonElement | null;
+    const next = sec.querySelector('.mps-next') as HTMLButtonElement | null;
+    if (!track || !pp || !prev || !next) return;
+    const rtl = () => getComputedStyle(track).direction === 'rtl';
+    const slides = () => Array.from(track.children) as HTMLElement[];
+    const reduceMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    let playing = !reduceMotion, hover = false, timer = 0;
+    const idx = () => { const tr = track.getBoundingClientRect(); const s = slides(); let best = 0, bd = 1e9; s.forEach((el, i) => { const r = el.getBoundingClientRect(); const d = Math.abs(rtl() ? tr.right - r.right : r.left - tr.left); if (d < bd) { bd = d; best = i; } }); return best; };
+    const go = (i: number) => { const s = slides(); const n = ((i % s.length) + s.length) % s.length; const el = s[n]; const tr = track.getBoundingClientRect(); const r = el.getBoundingClientRect(); const delta = rtl() ? r.right - tr.right : r.left - tr.left; track.scrollTo({ left: track.scrollLeft + delta, behavior: reduceMotion ? 'auto' : 'smooth' }); };
+    const atEnd = () => Math.abs(track.scrollLeft) + track.clientWidth >= track.scrollWidth - 4;
+    const step = (d: number) => { if (d > 0 && atEnd()) { go(0); } else { go(idx() + d); } };
+    const sync = () => { pp.classList.toggle('is-paused', !playing); pp.setAttribute('aria-label', pp.getAttribute(playing ? 'data-pause' : 'data-play') || ''); };
+    const stop = () => { if (timer) { window.clearInterval(timer); timer = 0; } };
+    const start = () => { stop(); if (playing && !hover && !reduceMotion) { timer = window.setInterval(() => { if (document.visibilityState === 'visible' && (track as HTMLElement).offsetParent !== null) step(1); }, 4500); } };
+    pp.addEventListener('click', () => { playing = !playing; sync(); start(); });
+    prev.addEventListener('click', () => { step(-1); });
+    next.addEventListener('click', () => { step(1); });
+    sec.addEventListener('mouseenter', () => { hover = true; start(); });
+    sec.addEventListener('mouseleave', () => { hover = false; start(); });
+    sec.addEventListener('focusin', () => { hover = true; start(); });
+    sec.addEventListener('focusout', () => { hover = false; start(); });
+    sync(); start();
+  });
+
   // ---------- Forms ----------
   const endpoint = ((import.meta as any).env && (import.meta as any).env.VITE_FORM_ENDPOINT) || '';
   const frms = Array.from(root.querySelectorAll('.page .frm')) as HTMLElement[];
