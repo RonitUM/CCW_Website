@@ -59,9 +59,9 @@ h1{font-size:72px;line-height:1.12;font-weight:500;color:var(--plum);letter-spac
 .stat svg{width:42px;height:42px;stroke:var(--plum2);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;margin-bottom:14px}
 .stat b{display:block;font-size:56px;font-weight:600;color:var(--plum);line-height:1;margin-bottom:12px}
 .stat span{font-size:17px;color:var(--ink);line-height:1.45;display:block}
-.feature{height:465px;position:relative;margin:0 auto;max-width:1440px;overflow:hidden}
+.feature{height:465px;position:relative;margin:0 auto;max-width:1440px;overflow:visible}
 .feature .ph{position:absolute;left:56px;top:0;width:790px;height:100%;background:url(./photos/feature.jpg) 50% 38%/cover}
-.feature .blob{position:absolute;left:30px;bottom:30px;width:110px;height:210px;background:var(--rose);border-radius:0 120px 120px 0;opacity:.9}
+.feature .blob{position:absolute;left:min(0px,(1440px - 100vw)/2);bottom:30px;width:110px;height:210px;background:var(--rose);border-radius:0 120px 120px 0;opacity:.9}
 .feature .leaf{position:absolute;left:700px;bottom:20px;width:160px}
 .feature .t{position:absolute;right:56px;top:70px;width:520px;text-align:right}
 .feature .t small{display:block;color:var(--muted);font-size:21px;margin-bottom:6px}
