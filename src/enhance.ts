@@ -1,6 +1,8 @@
 // Working search and working contact forms, added on top of the static page markup.
-// Forms post to the address in VITE_FORM_ENDPOINT. When it is not set, the form says it is not connected
-// and sends nothing. The receiving inbox is chosen on the server, never in the browser.
+// Forms post to Web3Forms (https://web3forms.com), one access key per recipient inbox (free plan: 1 recipient
+// per key, 250 submissions/month). VITE_FORM_ENDPOINT can override the endpoint for testing. When the matching
+// key is still a placeholder, the form says it is not connected and sends nothing. The receiving inbox is
+// chosen by the access key picked from the branch selector; keys are public by design (send-only aliases).
 
 type Lang = 'he' | 'en';
 
@@ -267,7 +269,19 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
   });
 
   // ---------- Forms ----------
-  const endpoint = ((import.meta as any).env && (import.meta as any).env.VITE_FORM_ENDPOINT) || '';
+  const endpoint = ((import.meta as any).env && (import.meta as any).env.VITE_FORM_ENDPOINT) || 'https://api.web3forms.com/submit';
+  // Web3Forms access keys, one per recipient inbox. Keys are emailed to each inbox when created at
+  // web3forms.com/#start and are public by design (they can only send email to that inbox).
+  // PLACEHOLDERS until the real keys arrive from the branch offices.
+  const W3F_KEYS: Record<string, string> = {
+    office: 'REPLACE_WITH_WEB3FORMS_KEY_office_at_ccw.org.il', // Ramat Gan + center; also general inquiries (no branch selector)
+    officeJer: 'REPLACE_WITH_WEB3FORMS_KEY_office-jer_at_ccw.org.il', // Jerusalem + area
+    fallback: 'REPLACE_WITH_WEB3FORMS_KEY_fallback', // Pardes Hanna / Kiryat Tivon / Modi'in - recipient TBD
+  };
+  const keyFor = (branch: string) =>
+    branch === 'jlm' ? W3F_KEYS.officeJer
+      : branch === 'ph' || branch === 'kt' || branch === 'md' ? W3F_KEYS.fallback
+        : W3F_KEYS.office; // 'rg' and forms without a branch selector go to the main office inbox
   const frms = Array.from(root.querySelectorAll('.page .frm')) as HTMLElement[];
   frms.forEach((box) => {
     const pageId = (box.closest('.page') as HTMLElement).id.slice(3);
@@ -308,11 +322,16 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
       msg.textContent = ''; msg.className = 'frm-msg';
       if (!ok) return;
       if (g('website')) { msg.textContent = t.ok; msg.classList.add('ok'); form.reset(); return; } // spam trap: pretend success, send nothing
-      if (!endpoint) { msg.textContent = t.off; msg.classList.add('warn'); return; }
+      const accessKey = keyFor(br ? br.value : '');
+      if (!endpoint || !accessKey || accessKey.indexOf('REPLACE_WITH_') === 0) { msg.textContent = t.off; msg.classList.add('warn'); return; }
       const btn = form.querySelector('.sbm') as HTMLButtonElement; btn.disabled = true; btn.textContent = t.sending;
       try {
         const r = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ form: pageId, name: nm.value.trim(), phone: ph.value.trim(), email: em.value.trim(), branch: br ? br.value : '', message: g('message'), lang, consent: true, page: location.href }) });
+          body: JSON.stringify({
+            access_key: accessKey,
+            subject: (lang === 'en' ? 'Website inquiry' : 'פנייה מהאתר') + (br && br.value ? ' - ' + (((t as any)[br.value] as string) || br.value) : ''),
+            from_name: 'CCW Website',
+            form: pageId, name: nm.value.trim(), phone: ph.value.trim(), email: em.value.trim(), branch: br ? br.value : '', message: g('message'), lang, consent: true, page: location.href }) });
         if (!r.ok) throw new Error(String(r.status));
         msg.textContent = t.ok; msg.classList.add('ok'); form.reset();
       } catch (e) { msg.textContent = t.fail; msg.classList.add('bad'); }
