@@ -745,3 +745,8 @@ header .tools > svg[role=button]{cursor:pointer}
 .flyers .fig:focus-visible{outline:3px solid #8a4a96;outline-offset:3px}
 .mps-s a.mps-cr{position:relative;overflow:hidden;aspect-ratio:var(--ar)}
 .mps-s a.mps-cr img{position:absolute;height:calc(100% / (1 - var(--t) - var(--b)));width:auto;max-width:none;top:calc(-100% * var(--t) / (1 - var(--t) - var(--b)));left:calc(-100% * var(--l) / (1 - var(--l) - var(--r)))}
+
+/* Safari: never show the native start-playback overlay on decorative loops */
+video[data-loop]::-webkit-media-controls,
+video[data-loop]::-webkit-media-controls-start-playback-button,
+video[data-loop]::-webkit-media-controls-overlay-play-button{display:none!important;-webkit-appearance:none}
