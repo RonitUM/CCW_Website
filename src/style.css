@@ -750,3 +750,9 @@ header .tools > svg[role=button]{cursor:pointer}
 video[data-loop]::-webkit-media-controls,
 video[data-loop]::-webkit-media-controls-start-playback-button,
 video[data-loop]::-webkit-media-controls-overlay-play-button{display:none!important;-webkit-appearance:none}
+.mpp{display:grid;gap:26px;max-width:620px;margin:0 auto}
+.mpp figure{margin:0}
+.mpp figure>a{display:block}
+.mpp img{display:block;width:100%;height:auto;border-radius:18px;box-shadow:0 10px 30px rgba(74,34,55,.10);background:#fff}
+.mpp figcaption{text-align:center;font-size:14px;color:var(--ink);opacity:.55;margin-top:10px}
+.mpp-back{text-align:center;margin:34px 0 0}
