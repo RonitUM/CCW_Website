@@ -87,7 +87,7 @@ Error generating stack: `+U.message+`
  <div class="stat"><svg viewBox="0 0 48 48"><circle cx="24" cy="16" r="6"/><circle cx="11" cy="21" r="4"/><circle cx="37" cy="21" r="4"/><path d="M13 40c0-7 5-11 11-11s11 4 11 11z"/></svg><b>1988</b><span>מקדמות בריאות נפשית<br>וזכויות נשים</span></div>
  <div class="stat"><svg viewBox="0 0 48 48"><path d="M24 40s-16-9-16-21a9 9 0 0116-5 9 9 0 0116 5c0 12-16 21-16 21z"/></svg><b>אלפי</b><span>נשים שטופלו<br>ולמדו בחדרים יותר</span></div>
  <div class="stat"><svg viewBox="0 0 48 48"><path d="M6 10c6-2 13-2 18 3 5-5 12-5 18-3v26c-6-2-13-2-18 3-5-5-12-5-18-3z"/><path d="M24 13v26"/></svg><b>מאות</b><span>בוגרות הכשרות<br>ומקצועניות</span></div>
- <div class="stat"><svg viewBox="0 0 48 48"><path d="M24 42C23 30 23 20 26 6"/><path d="M23 33c-9-1-14-7-15-15 9 0 14 6 15 15z"/><path d="M24 25c7-2 13-6 14-14-8 1-13 6-14 14z"/></svg><b style="font-size:34px;line-height:56px;margin-bottom:12px">שינוי</b><span>השפעה בקהילה<br>וברמת המדיניות</span></div>
+ <div class="stat"><svg viewBox="0 0 48 48"><path d="M24 42C23 30 23 20 26 6"/><path d="M23 33c-9-1-14-7-15-15 9 0 14 6 15 15z"/><path d="M24 25c7-2 13-6 14-14-8 1-13 6-14 14z"/></svg><b>שינוי</b><span>השפעה בקהילה<br>וברמת המדיניות</span></div>
 </section>
 
 <section class="feature">
@@ -155,7 +155,7 @@ Error generating stack: `+U.message+`
  <div class="stat"><svg viewBox="0 0 48 48"><circle cx="24" cy="16" r="6"/><circle cx="11" cy="21" r="4"/><circle cx="37" cy="21" r="4"/><path d="M13 40c0-7 5-11 11-11s11 4 11 11z"/></svg><b>1988</b><span>Promoting mental health<br>and women's rights</span></div>
  <div class="stat"><svg viewBox="0 0 48 48"><path d="M24 40s-16-9-16-21a9 9 0 0116-5 9 9 0 0116 5c0 12-16 21-16 21z"/></svg><b>Thousands of</b><span>women treated<br>and taught in our classrooms</span></div>
  <div class="stat"><svg viewBox="0 0 48 48"><path d="M6 10c6-2 13-2 18 3 5-5 12-5 18-3v26c-6-2-13-2-18 3-5-5-12-5-18-3z"/><path d="M24 13v26"/></svg><b>Hundreds of</b><span>training graduates<br>and professionals</span></div>
- <div class="stat"><svg viewBox="0 0 48 48"><path d="M24 42C23 30 23 20 26 6"/><path d="M23 33c-9-1-14-7-15-15 9 0 14 6 15 15z"/><path d="M24 25c7-2 13-6 14-14-8 1-13 6-14 14z"/></svg><b style="font-size:34px;line-height:56px;margin-bottom:12px">Change</b><span>Community impact<br>and policy change</span></div>
+ <div class="stat"><svg viewBox="0 0 48 48"><path d="M24 42C23 30 23 20 26 6"/><path d="M23 33c-9-1-14-7-15-15 9 0 14 6 15 15z"/><path d="M24 25c7-2 13-6 14-14-8 1-13 6-14 14z"/></svg><b>Change</b><span>Community impact<br>and policy change</span></div>
 </section>
 
 <section class="feature">
