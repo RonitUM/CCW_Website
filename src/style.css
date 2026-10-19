@@ -718,3 +718,21 @@ header .tools > svg[role=button]{cursor:pointer}
 .soc a{display:inline-flex;align-items:center;justify-content:center;min-width:24px;min-height:24px;color:#fff}
 .soc a:focus-visible{outline:2px solid #fff;outline-offset:3px;border-radius:4px}
 .soc a:hover svg{opacity:.75}
+/* Home: social posts slideshow (replaces events cards) */
+.events.mps{height:auto;padding-bottom:56px}
+.mps-w{position:relative}
+.mps-t{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;list-style:none;margin:0;padding:6px 4px 14px;-webkit-overflow-scrolling:touch}
+.mps-t li::before,.mps-t li::marker{content:none}
+.mps-s{flex:0 0 auto;scroll-snap-align:start;height:360px;border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 4px 18px rgba(74,34,55,.08)}
+.mps-s a{display:block;height:100%}
+.mps-s img{height:100%;width:auto;display:block}
+.mps-t:focus-visible{outline:2px solid var(--plum);outline-offset:3px;border-radius:10px}
+.mps-c{display:flex;gap:12px;justify-content:center;align-items:center;margin-top:10px}
+.mps-b{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--plum);background:#fff;color:var(--plum);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
+.mps-b svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.mps-b:focus-visible{outline:2px solid var(--plum);outline-offset:3px}
+.mps-pp::before{content:"";width:12px;height:14px;border-left:4px solid currentColor;border-right:4px solid currentColor;box-sizing:border-box}
+.mps-pp.is-paused::before{border:0;border-left:12px solid currentColor;border-top:8px solid transparent;border-bottom:8px solid transparent;width:0;height:0;margin-inline-start:3px}
+@media (max-width:700px){.mps-s{height:300px}.events.mps{padding:30px 20px 48px}}
+.ccw[dir="ltr"] .mps-prev svg,.ccw[dir="ltr"] .mps-next svg{transform:scaleX(-1)}
+@media(max-width:600px){.events.mps .ev-h{flex-direction:column;align-items:flex-start;gap:10px}.events.mps .ev-h a{white-space:nowrap}}
