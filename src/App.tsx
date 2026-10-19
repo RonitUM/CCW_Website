@@ -65,7 +65,6 @@ export function App() {
         setTimeout(loopKick, 100); setTimeout(loopKick, 1000);
         ['touchstart', 'pointerdown', 'click', 'scroll', 'keydown'].forEach((ev) => window.addEventListener(ev, loopKick, { once: true, passive: true }));
         document.addEventListener('visibilitychange', () => { if (!document.hidden) loopKick(); });
-        setSrc(heroLoop);
         const closeDoc = () => { const ov = root.querySelector('.docov'); if (ov) ov.remove(); };
         const openDocViewer = (key: string, title: string) => {
           closeDoc();
