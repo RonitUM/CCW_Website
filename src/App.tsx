@@ -58,6 +58,13 @@ export function App() {
         const playVis = () => { if (reduceMotion) return; heroVids.forEach((vd) => { if (vd.offsetParent === null || !(vd.currentSrc || vd.src)) return; vd.muted = true; const pl = vd.play(); if (pl && pl.catch) pl.catch(() => { /* poster stays */ }); }); };
         const setSrc = (u: string) => { heroVids.forEach((vd) => { vd.muted = true; vd.defaultMuted = true; vd.playsInline = true; vd.setAttribute('playsinline', ''); vd.setAttribute('webkit-playsinline', ''); vd.src = u; vd.load(); }); playVis(); };
         heroVids.forEach((vd) => { vd.muted = true; vd.defaultMuted = true; vd.playsInline = true; vd.setAttribute('playsinline', ''); vd.setAttribute('webkit-playsinline', ''); if (reduceMotion) vd.removeAttribute('autoplay'); vd.addEventListener('canplay', playVis); });
+        // Safari: decorative loops (data-loop) must retry play() when autoplay is refused, and on the first user gesture.
+        const loopVids = Array.from(root.querySelectorAll('video[data-loop]')) as HTMLVideoElement[];
+        const loopKick = () => { if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return; loopVids.forEach((vd) => { if (vd.paused && vd.offsetParent !== null) { vd.muted = true; const pl = vd.play(); if (pl && pl.catch) pl.catch(() => { /* poster stays */ }); } }); };
+        loopVids.forEach((vd) => { vd.muted = true; vd.defaultMuted = true; vd.playsInline = true; vd.setAttribute('playsinline', ''); vd.setAttribute('webkit-playsinline', ''); vd.controls = false; vd.addEventListener('canplay', loopKick); });
+        setTimeout(loopKick, 100); setTimeout(loopKick, 1000);
+        ['touchstart', 'pointerdown', 'click', 'scroll', 'keydown'].forEach((ev) => window.addEventListener(ev, loopKick, { once: true, passive: true }));
+        document.addEventListener('visibilitychange', () => { if (!document.hidden) loopKick(); });
         setSrc(heroLoop);
         const closeDoc = () => { const ov = root.querySelector('.docov'); if (ov) ov.remove(); };
         const openDocViewer = (key: string, title: string) => {
