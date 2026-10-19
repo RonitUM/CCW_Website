@@ -1,0 +1,40 @@
+/* Accessibility toolbar (enhance.ts) */
+.a11y{position:fixed;left:14px;top:45%;z-index:70;display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.a11y-t{width:44px;height:44px;border-radius:50%;border:none;background:#8a4a96;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 14px rgba(60,20,60,.25)}
+.a11y-t svg{width:26px;height:26px}
+.a11y-t:focus-visible{outline:3px solid #6b2a45;outline-offset:2px}
+.a11y-p{background:#fff;border-radius:18px;box-shadow:0 10px 30px rgba(60,20,60,.22);padding:14px;display:flex;flex-direction:column;gap:6px;min-width:170px}
+.a11y-p b{color:#5a2d63;font-size:15px;margin-bottom:2px}
+.a11y-p button{border:1px solid #e6d4ec;background:#faf6fb;color:#5a2d63;border-radius:12px;padding:8px 10px;font-size:14px;cursor:pointer;text-align:start;font-family:inherit}
+.a11y-p button:hover{background:#f0e4f4}
+.a11y-p button.on{background:#8a4a96;color:#fff;border-color:#8a4a96}
+.a11y-p .a11y-reset{border-style:dashed;color:#8a6a92}
+.a11y-p[hidden]{display:none}
+@media (max-width:600px){.a11y{top:auto;bottom:70px;left:10px}.a11y-t{width:40px;height:40px}}
+
+/* Accessibility effect classes */
+.ccw.a11y-hc header,.ccw.a11y-hc .page,.ccw.a11y-hc footer,.ccw.a11y-hc .nlw{filter:contrast(1.4)}
+.ccw.a11y-gray header,.ccw.a11y-gray .page,.ccw.a11y-gray footer,.ccw.a11y-gray .nlw{filter:grayscale(1)}
+.ccw.a11y-hc.a11y-gray header,.ccw.a11y-hc.a11y-gray .page,.ccw.a11y-hc.a11y-gray footer,.ccw.a11y-hc.a11y-gray .nlw{filter:contrast(1.4) grayscale(1)}
+.ccw.a11y-links a{text-decoration:underline!important}
+.ccw.a11y-font,.ccw.a11y-font *{font-family:Arial,Helvetica,sans-serif!important}
+
+/* Larger-text mode: stack the hero so zoomed px-sized text can never overlap the percentage-sized photo */
+.ccw.a11y-zoom .hero{height:auto!important;display:flex;flex-direction:column;padding:34px 0 0}
+.ccw.a11y-zoom .hero .txt{position:static!important;width:auto!important;max-width:640px;padding:8px 40px 34px}
+.ccw.a11y-zoom .hero .photo{position:relative!important;top:auto!important;left:auto!important;width:100%!important;height:auto!important;aspect-ratio:3/2;clip-path:none!important;background-size:cover!important;background-position:center!important}
+.ccw.a11y-zoom .hero .leaf2{display:none!important}
+@media (max-width:600px){.ccw.a11y-zoom .hero .photo{height:auto!important}.ccw.a11y-zoom .hero .txt{padding:28px 24px 28px}}
+
+/* Larger-text mode on phones: keep the whole header (logo, language, search, menu button) on screen */
+@media (max-width:700px){.ccw.a11y-zoom header .in{padding:0 10px;gap:4px}.ccw.a11y-zoom .logo{width:84px;height:46px}.ccw.a11y-zoom .donate{font-size:0;gap:0;padding:10px}.ccw.a11y-zoom .donate svg{width:16px;height:16px}.ccw.a11y-zoom .tools{gap:2px}.ccw.a11y-zoom .burger{width:38px;padding:0 7px}}
+
+/* Larger-text mode on desktop widths: tighter header spacing so every item (including the language switch) stays on screen */
+@media (min-width:701px){.ccw.a11y-zoom header .in{gap:14px;padding:0 24px}.ccw.a11y-zoom .mn{gap:2px}.ccw.a11y-zoom .tools{gap:10px}.ccw.a11y-zoom .donate{padding:9px 14px}}
+
+/* Skip link, focus ring */
+.ccw .skip{position:absolute;top:-60px;inset-inline-start:12px;z-index:100;background:#4a2237;color:#fff;padding:10px 16px;border-radius:10px;font-weight:600;text-decoration:none}
+.ccw .skip:focus{top:10px}
+.ccw .page:focus{outline:none}
+.ccw a:focus-visible,.ccw button:focus-visible,.ccw select:focus-visible,.ccw input:focus-visible,.ccw [role=button]:focus-visible{outline:3px solid #6b2a45;outline-offset:3px;border-radius:4px}
+.ccw .donate:focus-visible,.ccw .btn:focus-visible{outline-color:#8a4a96}
