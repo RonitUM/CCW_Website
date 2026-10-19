@@ -259,10 +259,15 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
     pp.addEventListener('click', () => { playing = !playing; sync(); start(); });
     prev.addEventListener('click', () => { step(-1); });
     next.addEventListener('click', () => { step(1); });
-    sec.addEventListener('mouseenter', () => { hover = true; start(); });
-    sec.addEventListener('mouseleave', () => { hover = false; start(); });
-    sec.addEventListener('focusin', () => { hover = true; start(); });
-    sec.addEventListener('focusout', () => { hover = false; start(); });
+    // Pause-on-hover/focus only where hover exists: on touch, a tap inside the section fires a
+    // sticky mouseenter/focusin with no leave (iOS :hover sticks), which silently stopped rotation.
+    const canHover = !!(window.matchMedia && window.matchMedia('(hover: hover)').matches);
+    if (canHover) {
+      sec.addEventListener('mouseenter', () => { hover = true; start(); });
+      sec.addEventListener('mouseleave', () => { hover = false; start(); });
+      sec.addEventListener('focusin', () => { hover = true; start(); });
+      sec.addEventListener('focusout', () => { hover = false; start(); });
+    }
     sync(); start();
   });
 
