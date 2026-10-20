@@ -596,8 +596,9 @@ footer .links{gap:10px 20px;font-size:14px}
 .tc .bd{padding:0!important;flex:1;text-align:right!important;border-top:0!important;margin-top:0!important}
 .tc h3{font-size:17px!important}
 .tc p{font-size:13px!important;line-height:1.55!important}}
+.pop-ov[hidden]{display:none}
 .pop-ov{position:fixed;inset:0;z-index:900;background:rgba(30,20,40,.55);display:flex;align-items:center;justify-content:center;padding:20px}
-.pop-box{position:relative;background:var(--cream);border-radius:26px;box-shadow:0 24px 60px rgba(0,0,0,.3);width:min(480px,100%);max-height:92vh;overflow-y:auto;padding:32px 30px 22px}
+.pop-box{position:relative;background:var(--cream);border-radius:26px;box-shadow:0 24px 60px rgba(0,0,0,.3);width:min(480px,100%);max-height:92vh;overflow-y:auto;overflow-x:hidden;padding:32px 30px 22px}
 .pop-box h2{font-size:29px;color:var(--plum);margin:0 0 8px;text-align:center}
 .pop-sub{color:var(--muted);font-size:16px;margin:0 0 16px;text-align:center}
 .pop-x{position:absolute;top:10px;inset-inline-end:10px;background:none;border:0;font-size:19px;color:var(--plum);cursor:pointer;padding:6px 10px;font-family:inherit}
