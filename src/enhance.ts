@@ -12,6 +12,7 @@ const T = {
     req: 'יש למלא את השדה', needOne: 'יש למלא טלפון או אימייל', badEmail: 'כתובת אימייל לא תקינה', badPhone: 'מספר טלפון לא תקין', consent: 'יש לאשר את מדיניות הפרטיות',
     ok: 'תודה, ההודעה נשלחה. נחזור אליך בהקדם.', fail: 'השליחה נכשלה. אפשר לנסות שוב או ליצור קשר בטלפון.',
     off: 'הטופס עדיין לא מחובר לשליחה, ולכן לא נשלח דבר. אפשר ליצור קשר בטלפון או במייל המופיעים בעמוד.',
+    popTitle: 'מעוניינת בטיפול?', popSub: 'השאירי שם וטלפון, ונחזור אלייך לתיאום שיחת היכרות.', popLater: 'לא עכשיו', popClose: 'סגירת החלונית', popConsent: 'אני מאשרת את <a href="#/privacy" data-go="privacy">מדיניות הפרטיות של מרכז יעוץ לאישה</a>',
     a11yBtn: 'כלי נגישות', a11yBig: 'הגדל טקסט', a11ySmall: 'הקטן טקסט', a11yGray: 'גווני אפור', a11yHc: 'ניגודיות גבוהה', a11yLinks: 'הדגשת קישורים', a11yFont: 'פונט קריא', a11yReset: 'איפוס',
   },
   en: {
@@ -21,6 +22,7 @@ const T = {
     req: 'Please fill in this field', needOne: 'Please enter a phone number or an email', badEmail: 'Invalid email address', badPhone: 'Invalid phone number', consent: 'Please accept the privacy policy',
     ok: 'Thank you, your message was sent. We will get back to you shortly.', fail: 'Sending failed. Please try again or contact us by phone.',
     off: 'This form is not connected to sending yet, so nothing was sent. Please use the phone or email shown on the page.',
+    popTitle: 'Interested in therapy?', popSub: 'Leave your name and phone number and we will call you back to schedule an introductory call.', popLater: 'Not now', popClose: 'Close popup', popConsent: 'I agree to the <a href="#/privacy" data-go="privacy">Counseling Center for Women Privacy Policy</a>',
     a11yBtn: 'Accessibility Tools', a11yBig: 'Increase Text', a11ySmall: 'Decrease Text', a11yGray: 'Grayscale', a11yHc: 'High Contrast', a11yLinks: 'Highlight Links', a11yFont: 'Readable Font', a11yReset: 'Reset',
   },
 } as const;
@@ -273,11 +275,9 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
 
   // ---------- Forms ----------
   const endpoint = ((import.meta as any).env && (import.meta as any).env.VITE_FORM_ENDPOINT) || '';
-  const frms = Array.from(root.querySelectorAll('.page .frm')) as HTMLElement[];
-  frms.forEach((box) => {
-    const pageId = (box.closest('.page') as HTMLElement).id.slice(3);
-    const hasMsg = !!box.querySelector('.f.full');
-    const hasBranch = !hasMsg && box.querySelectorAll('.f').length >= 4;
+  const buildForm = (box: HTMLElement, pageId: string, opts?: { hasMsg?: boolean; hasBranch?: boolean; fields?: Array<'name' | 'phone' | 'email'> }) => {
+    const hasMsg = opts && opts.hasMsg !== undefined ? opts.hasMsg : !!box.querySelector('.f.full');
+    const hasBranch = opts && opts.hasBranch !== undefined ? opts.hasBranch : (!hasMsg && box.querySelectorAll('.f').length >= 4);
     const olab = Array.from(box.querySelectorAll('.f label')).map((l) => (l.textContent || '').trim());
     const privacy = box.querySelector('.chk a') as HTMLAnchorElement | null;
     const privHtml = privacy ? privacy.outerHTML : '';
@@ -288,7 +288,7 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
     const uid = pageId + '-';
     box.innerHTML =
       '<form novalidate method="post" action="#" onsubmit="return false" class="frm-real"><div class="g">' +
-      (hasMsg ? field(uid + 'name', olab[0] || t.name, 'text') + field(uid + 'email', olab[1] || t.email, 'email') + field(uid + 'phone', olab[2] || t.phone, 'tel') + '<div class="f full"><label for="' + uid + 'message">' + esc(olab[3] || '') + '</label><textarea id="' + uid + 'message" name="message" rows="4" maxlength="2000"></textarea><small class="err" aria-live="polite"></small></div>' : field(uid + 'name', t.name, 'text') + field(uid + 'phone', t.phone, 'tel') + field(uid + 'email', t.email, 'email')) +
+      (hasMsg ? field(uid + 'name', olab[0] || t.name, 'text') + field(uid + 'email', olab[1] || t.email, 'email') + field(uid + 'phone', olab[2] || t.phone, 'tel') + '<div class="f full"><label for="' + uid + 'message">' + esc(olab[3] || '') + '</label><textarea id="' + uid + 'message" name="message" rows="4" maxlength="2000"></textarea><small class="err" aria-live="polite"></small></div>' : (opts && opts.fields ? opts.fields : (['name', 'phone', 'email'] as Array<'name' | 'phone' | 'email'>)).map((fn) => field(uid + fn, fn === 'name' ? t.name : fn === 'phone' ? t.phone : t.email, fn === 'email' ? 'email' : fn === 'phone' ? 'tel' : 'text')).join('')) +
       (hasBranch ? '<div class="f"><label for="' + uid + 'branch">' + esc(t.branch) + '</label><select id="' + uid + 'branch" name="branch"><option value="">' + esc(t.pick) + '</option><option value="rg">' + esc(t.rg) + '</option><option value="jlm">' + esc(t.jlm) + '</option><option value="ph">' + esc(t.ph) + '</option><option value="kt">' + esc(t.kt) + '</option><option value="md">' + esc(t.md) + '</option></select><small class="err" aria-live="polite"></small></div>' : '') +
       '</div><div class="hp" aria-hidden="true"><label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>' +
       '<div class="chk"><input type="checkbox" id="' + uid + 'consent" name="consent"><label for="' + uid + 'consent">' + consentText + '</label></div><small class="err cerr" aria-live="polite"></small>' +
@@ -299,15 +299,15 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
     const submit = async (ev: Event) => {
       ev.preventDefault();
       const g = (n: string) => ((form.elements.namedItem(n) as HTMLInputElement | null)?.value || '').trim();
-      const nm = form.elements.namedItem(uid + 'name') as HTMLInputElement, ph = form.elements.namedItem(uid + 'phone') as HTMLInputElement, em = form.elements.namedItem(uid + 'email') as HTMLInputElement;
+      const nm = form.elements.namedItem(uid + 'name') as HTMLInputElement, ph = form.elements.namedItem(uid + 'phone') as HTMLInputElement | null, em = form.elements.namedItem(uid + 'email') as HTMLInputElement | null;
       const br = form.elements.namedItem('branch') as HTMLSelectElement | null, cs = form.elements.namedItem('consent') as HTMLInputElement;
       let ok = true;
       form.querySelectorAll('.err').forEach((s) => (s.textContent = ''));
       if (!nm.value.trim()) { setErr(nm, t.req); ok = false; }
-      const digits = ph.value.replace(/\D/g, '');
-      if (!ph.value.trim() && !em.value.trim()) { setErr(ph, t.needOne); ok = false; }
-      if (ph.value.trim() && (digits.length < 7 || digits.length > 15)) { setErr(ph, t.badPhone); ok = false; }
-      if (em.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em.value.trim())) { setErr(em, t.badEmail); ok = false; }
+      const digits = ph ? ph.value.replace(/\D/g, '') : '';
+      if (ph && !ph.value.trim() && (!em || !em.value.trim())) { setErr(ph, t.needOne); ok = false; }
+      if (ph && ph.value.trim() && (digits.length < 7 || digits.length > 15)) { setErr(ph, t.badPhone); ok = false; }
+      if (em && em.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em.value.trim())) { setErr(em, t.badEmail); ok = false; }
       if (br && !br.value) { setErr(br, t.req); ok = false; }
       if (!cs.checked) { (form.querySelector('.cerr') as HTMLElement).textContent = t.consent; ok = false; }
       msg.textContent = ''; msg.className = 'frm-msg';
@@ -317,7 +317,7 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
       const btn = form.querySelector('.sbm') as HTMLButtonElement; btn.disabled = true; btn.textContent = t.sending;
       try {
         const r = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ form: pageId, name: nm.value.trim(), phone: ph.value.trim(), email: em.value.trim(), branch: br ? br.value : '', message: g('message'), lang, consent: true, page: location.href }) });
+          body: JSON.stringify({ form: pageId, name: nm.value.trim(), phone: ph ? ph.value.trim() : '', email: em ? em.value.trim() : '', branch: br ? br.value : '', message: g('message'), lang, consent: true, page: location.href }) });
         if (!r.ok) throw new Error(String(r.status));
         msg.textContent = t.ok; msg.classList.add('ok'); form.reset();
       } catch (e) { msg.textContent = t.fail; msg.classList.add('bad'); }
@@ -325,7 +325,62 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
     };
     form.addEventListener('submit', submit);
     cleanups.push(() => form.removeEventListener('submit', submit));
-  });
+  };
+  const frms = Array.from(root.querySelectorAll('.page .frm')) as HTMLElement[];
+  frms.forEach((box) => buildForm(box, (box.closest('.page') as HTMLElement).id.slice(3)));
+
+  // ---------- Entry popup ----------
+  // Shown on the homepage only when form sending is connected (VITE_FORM_ENDPOINT set) or the
+  // popup is explicitly enabled (VITE_ENTRY_POPUP=1). ?popup=1 forces a preview. Shown once per
+  // browser; any dismissal or a successful send is remembered in localStorage.
+  const popFlag = ((import.meta as any).env && (import.meta as any).env.VITE_ENTRY_POPUP) || '';
+  const popupOn = !!endpoint || popFlag === '1' || /[?&]popup=1/.test(location.search);
+  const POPKEY = 'ccwEntryPopupDone';
+  const onHome = location.hash.indexOf('#/') !== 0 || location.hash === '#/' || location.hash.slice(2) === 'home';
+  let popSeen = false;
+  try { popSeen = !!localStorage.getItem(POPKEY); } catch (e) { /* ignore */ }
+  if (popupOn && !popSeen && onHome) {
+    const pov = document.createElement('div');
+    pov.className = 'pop-ov';
+    pov.hidden = true;
+    pov.innerHTML =
+      '<div class="pop-box" role="dialog" aria-modal="true" aria-labelledby="pop-t">' +
+      '<button type="button" class="pop-x" aria-label="' + esc(t.popClose) + '">\u2715</button>' +
+      '<h2 id="pop-t">' + esc(t.popTitle) + '</h2><p class="pop-sub">' + esc(t.popSub) + '</p>' +
+      '<div class="frm pop-frm"><div class="g">' +
+      '<div class="f"><label>' + esc(t.name) + '</label><div class="inp"></div></div>' +
+      '<div class="f"><label>' + esc(t.phone) + '</label><div class="inp"></div></div>' +
+      '<div class="f"><label>' + esc(t.branch) + '</label><div class="inp"></div></div>' +
+      '</div><div class="chk"><i></i><span>' + t.popConsent + '</span></div><span class="sbm">' + esc(t.send) + '</span></div>' +
+      '<button type="button" class="pop-later">' + esc(t.popLater) + '</button></div>';
+    root.appendChild(pov);
+    buildForm(pov.querySelector('.pop-frm') as HTMLElement, 'popup', { hasMsg: false, hasBranch: true, fields: ['name', 'phone'] });
+    const closeP = () => {
+      pov.hidden = true;
+      try { localStorage.setItem(POPKEY, '1'); } catch (e) { /* ignore */ }
+    };
+    window.setTimeout(() => {
+      if (!pov.hidden) return;
+      pov.hidden = false;
+      const first = pov.querySelector('input') as HTMLInputElement | null;
+      if (first) first.focus();
+    }, 1200);
+    (pov.querySelector('.pop-x') as HTMLButtonElement).addEventListener('click', closeP);
+    (pov.querySelector('.pop-later') as HTMLButtonElement).addEventListener('click', closeP);
+    pov.addEventListener('click', (e) => {
+      if (e.target === pov) { closeP(); return; }
+      const a = (e.target as HTMLElement).closest('a[data-go]');
+      if (a) closeP();
+    });
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape' && !pov.hidden) closeP(); };
+    document.addEventListener('keydown', onKey);
+    const moP = new MutationObserver(() => {
+      const m = pov.querySelector('.frm-msg');
+      if (m && m.classList.contains('ok')) window.setTimeout(closeP, 1600);
+    });
+    moP.observe(pov, { attributes: true, subtree: true, attributeFilter: ['class'] });
+    cleanups.push(() => { document.removeEventListener('keydown', onKey); moP.disconnect(); pov.remove(); });
+  }
 
   // ---------- Structure for assistive tech (skip link, heading levels, decorative icons, menu state) ----------
   root.querySelectorAll('svg').forEach((sv) => { if (!sv.hasAttribute('role') && !sv.hasAttribute('aria-label') && !sv.hasAttribute('aria-labelledby')) { sv.setAttribute('aria-hidden', 'true'); sv.setAttribute('focusable', 'false'); } });
