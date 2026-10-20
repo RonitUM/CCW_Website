@@ -9,7 +9,7 @@ const T = {
     searchPh: 'חיפוש באתר', searchBtn: 'חיפוש', close: 'סגירה', none: 'לא נמצאו תוצאות', hint: 'יש להקליד לפחות 2 תווים',
     name: 'שם', phone: 'טלפון', email: 'אימייל', branch: 'הפניה לסניף', pick: 'יש לבחור את הסניף הרצוי מהרשימה',
     rg: 'סניף רמת גן והמרכז', jlm: 'סניף ירושלים והסביבה', ph: 'פרדס חנה', kt: 'קריית טבעון', md: 'מודיעין', send: 'שליחה', sending: 'שולח...',
-    req: 'יש למלא את השדה', needOne: 'יש למלא טלפון או אימייל', badEmail: 'כתובת אימייל לא תקינה', badPhone: 'מספר טלפון לא תקין', consent: 'יש לאשר את מדיניות הפרטיות',
+    req: 'יש למלא את השדה', needOne: 'יש למלא טלפון או אימייל', needPhone: 'יש למלא מספר טלפון', badEmail: 'כתובת אימייל לא תקינה', badPhone: 'מספר טלפון לא תקין', consent: 'יש לאשר את מדיניות הפרטיות',
     ok: 'תודה, ההודעה נשלחה. נחזור אליך בהקדם.', fail: 'השליחה נכשלה. אפשר לנסות שוב או ליצור קשר בטלפון.',
     off: 'הטופס עדיין לא מחובר לשליחה, ולכן לא נשלח דבר. אפשר ליצור קשר בטלפון או במייל המופיעים בעמוד.',
     popTitle: 'מעוניינת בטיפול?', popSub: 'השאירי שם וטלפון, ונחזור אלייך לתיאום שיחת היכרות.', popLater: 'לא עכשיו', popClose: 'סגירת החלונית', popConsent: 'אני מאשרת את <a href="#/privacy" data-go="privacy">מדיניות הפרטיות של מרכז יעוץ לאישה</a>',
@@ -19,7 +19,7 @@ const T = {
     searchPh: 'Search the site', searchBtn: 'Search', close: 'Close', none: 'No results found', hint: 'Type at least 2 characters',
     name: 'Name', phone: 'Phone', email: 'Email', branch: 'Referral to branch', pick: 'Please select the desired branch from the list',
     rg: 'Ramat Gan and the Area', jlm: 'Jerusalem and the Area', ph: 'Pardes Hanna, Hadera and the Area', kt: 'Kiryat Tivon', md: 'Modiin and the Area', send: 'Send', sending: 'Sending...',
-    req: 'Please fill in this field', needOne: 'Please enter a phone number or an email', badEmail: 'Invalid email address', badPhone: 'Invalid phone number', consent: 'Please accept the privacy policy',
+    req: 'Please fill in this field', needOne: 'Please enter a phone number or an email', needPhone: 'Please enter a phone number', badEmail: 'Invalid email address', badPhone: 'Invalid phone number', consent: 'Please accept the privacy policy',
     ok: 'Thank you, your message was sent. We will get back to you shortly.', fail: 'Sending failed. Please try again or contact us by phone.',
     off: 'This form is not connected to sending yet, so nothing was sent. Please use the phone or email shown on the page.',
     popTitle: 'Interested in therapy?', popSub: 'Leave your name and phone number and we will call you back to schedule an introductory call.', popLater: 'Not now', popClose: 'Close popup', popConsent: 'I agree to the <a href="#/privacy" data-go="privacy">Counseling Center for Women Privacy Policy</a>',
@@ -305,7 +305,7 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
       form.querySelectorAll('.err').forEach((s) => (s.textContent = ''));
       if (!nm.value.trim()) { setErr(nm, t.req); ok = false; }
       const digits = ph ? ph.value.replace(/\D/g, '') : '';
-      if (ph && !ph.value.trim() && (!em || !em.value.trim())) { setErr(ph, t.needOne); ok = false; }
+      if (ph && !ph.value.trim() && (!em || !em.value.trim())) { setErr(ph, em ? t.needOne : t.needPhone); ok = false; }
       if (ph && ph.value.trim() && (digits.length < 7 || digits.length > 15)) { setErr(ph, t.badPhone); ok = false; }
       if (em && em.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em.value.trim())) { setErr(em, t.badEmail); ok = false; }
       if (br && !br.value) { setErr(br, t.req); ok = false; }
