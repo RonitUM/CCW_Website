@@ -603,6 +603,7 @@ footer .links{gap:10px 20px;font-size:14px}
 .pop-x{position:absolute;top:10px;inset-inline-end:10px;background:none;border:0;font-size:19px;color:var(--plum);cursor:pointer;padding:6px 10px;font-family:inherit}
 .pop-later{display:block;margin:12px auto 0;background:none;border:0;color:var(--muted);font-size:14.5px;text-decoration:underline;cursor:pointer;font-family:inherit}
 .pop-frm{padding:24px 22px;margin:0}
+.pop-box .frm .hp{left:0;top:0;clip-path:inset(50%)}
 .pop-frm .g{grid-template-columns:1fr}
 .pop-frm .sbm{display:flex;justify-content:center;width:100%}
 @media (max-width:520px){.pop-box{padding:26px 18px 18px}.pop-box h2{font-size:24px}}
