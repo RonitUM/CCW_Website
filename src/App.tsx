@@ -72,7 +72,7 @@ export function App() {
           if (!pages || !pages.length) return;
           const ov = document.createElement('div');
           ov.className = 'docov';
-          const imgs = pages.map((p) => '<img class="docov-pg" src="data:image/jpeg;base64,' + p + '" alt="' + title + '" />').join('');
+          const imgs = pages.map((p) => '<img class="docov-pg" src="' + p + '" alt="' + title + '" loading="lazy" />').join('');
           ov.innerHTML = '<div class="docov-box"><div class="docov-bar"><div class="docov-title">' + title + '</div><button type="button" class="docov-x" aria-label="' + (isEn ? 'Close' : 'סגירה') + '">✕</button></div><div class="docov-pages">' + imgs + '</div></div>';
           ov.addEventListener('click', (e) => { if (e.target === ov) closeDoc(); });
           const x = ov.querySelector('.docov-x'); if (x) x.addEventListener('click', closeDoc);
