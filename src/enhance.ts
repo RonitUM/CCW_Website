@@ -275,7 +275,8 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
 
   // ---------- Forms ----------
   const endpoint = ((import.meta as any).env && (import.meta as any).env.VITE_FORM_ENDPOINT) || '';
-  const buildForm = (box: HTMLElement, pageId: string, opts?: { hasMsg?: boolean; hasBranch?: boolean; fields?: Array<'name' | 'phone' | 'email'> }) => {
+  const buildForm = (box: HTMLElement, pageId: string, opts?: { hasMsg?: boolean; hasBranch?: boolean; fields?: Array<'name' | 'phone' | 'email'>; dryRun?: boolean }) => {
+    const dryRun = !!(opts && opts.dryRun);
     const hasMsg = opts && opts.hasMsg !== undefined ? opts.hasMsg : !!box.querySelector('.f.full');
     const hasBranch = opts && opts.hasBranch !== undefined ? opts.hasBranch : (!hasMsg && box.querySelectorAll('.f').length >= 4);
     const olab = Array.from(box.querySelectorAll('.f label')).map((l) => (l.textContent || '').trim());
@@ -313,7 +314,7 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
       msg.textContent = ''; msg.className = 'frm-msg';
       if (!ok) return;
       if (g('website')) { msg.textContent = t.ok; msg.classList.add('ok'); form.reset(); return; } // spam trap: pretend success, send nothing
-      if (!endpoint) { msg.textContent = t.off; msg.classList.add('warn'); return; }
+      if (!endpoint || dryRun) { msg.textContent = t.off; msg.classList.add('warn'); return; }
       const btn = form.querySelector('.sbm') as HTMLButtonElement; btn.disabled = true; btn.textContent = t.sending;
       try {
         const r = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -330,11 +331,16 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
   frms.forEach((box) => buildForm(box, (box.closest('.page') as HTMLElement).id.slice(3)));
 
   // ---------- Entry popup ----------
-  // Shown on the homepage only when form sending is connected (VITE_FORM_ENDPOINT set) or the
-  // popup is explicitly enabled (VITE_ENTRY_POPUP=1). ?popup=1 forces a preview. Shown once per
-  // browser; any dismissal or a successful send is remembered in localStorage.
+  // Inactive by default. Live mode requires BOTH an explicit opt-in (VITE_ENTRY_POPUP=1) and a
+  // connected endpoint (VITE_FORM_ENDPOINT): setting the endpoint alone never activates the popup,
+  // and the flag alone never shows visitors a form that cannot send. ?popup=1 (or
+  // VITE_ENTRY_POPUP=preview) forces an isolated preview that renders the UI but never sends
+  // anything, even on a build where live mode is configured.
+  // Shown once per browser; any dismissal or a successful send is remembered in localStorage.
   const popFlag = ((import.meta as any).env && (import.meta as any).env.VITE_ENTRY_POPUP) || '';
-  const popupOn = !!endpoint || popFlag === '1' || /[?&]popup=1/.test(location.search);
+  const popPreview = popFlag === 'preview' || /[?&]popup=1/.test(location.search);
+  const popLive = popFlag === '1' && !!endpoint && !popPreview;
+  const popupOn = popLive || popPreview;
   const POPKEY = 'ccwEntryPopupDone';
   const onHome = location.hash.indexOf('#/') !== 0 || location.hash === '#/' || location.hash.slice(2) === 'home';
   let popSeen = false;
@@ -354,7 +360,7 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
       '</div><div class="chk"><i></i><span>' + t.popConsent + '</span></div><span class="sbm">' + esc(t.send) + '</span></div>' +
       '<button type="button" class="pop-later">' + esc(t.popLater) + '</button></div>';
     root.appendChild(pov);
-    buildForm(pov.querySelector('.pop-frm') as HTMLElement, 'popup', { hasMsg: false, hasBranch: true, fields: ['name', 'phone'] });
+    buildForm(pov.querySelector('.pop-frm') as HTMLElement, 'popup', { hasMsg: false, hasBranch: true, fields: ['name', 'phone'], dryRun: !popLive });
     const closeP = () => {
       pov.hidden = true;
       try { localStorage.setItem(POPKEY, '1'); } catch (e) { /* ignore */ }
