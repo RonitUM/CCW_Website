@@ -27,7 +27,7 @@
 @media (max-width:600px){.ccw.a11y-zoom .hero .photo{height:auto!important}.ccw.a11y-zoom .hero .txt{padding:28px 24px 28px}}
 
 /* Larger-text mode on phones: keep the whole header (logo, language, search, menu button) on screen */
-@media (max-width:700px){.ccw.a11y-zoom header .in{padding:0 10px;gap:4px}.ccw.a11y-zoom .logo{width:84px;height:46px}.ccw.a11y-zoom .donate{font-size:0;gap:0;padding:10px}.ccw.a11y-zoom .donate svg{width:16px;height:16px}.ccw.a11y-zoom .tools{gap:2px}.ccw.a11y-zoom .burger{width:38px;padding:0 7px}}
+@media (max-width:700px){.ccw.a11y-zoom header .in{padding:0 10px;gap:4px}.ccw.a11y-zoom .logo{width:92px;height:48px}.ccw.a11y-zoom .donate{font-size:0;gap:0;padding:10px}.ccw.a11y-zoom .donate svg{width:16px;height:16px}.ccw.a11y-zoom .tools{gap:2px}.ccw.a11y-zoom .burger{width:38px;padding:0 7px}}
 
 /* Larger-text mode on desktop widths: tighter header spacing so every item (including the language switch) stays on screen */
 @media (min-width:701px){.ccw.a11y-zoom header .in{gap:14px;padding:0 24px}.ccw.a11y-zoom .mn{gap:2px}.ccw.a11y-zoom .tools{gap:10px}.ccw.a11y-zoom .donate{padding:9px 14px}}
