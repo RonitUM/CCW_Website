@@ -17,7 +17,7 @@ export function App() {
         fit(); window.addEventListener('resize', fit);
                 const show = (id: string, push: boolean) => {
             let el = root.querySelector('#pg-' + id);
-            if (!el) { id = 'home'; el = root.querySelector('#pg-home'); }
+            if (!el) { if (!id || id === 'home') { id = 'home'; el = root.querySelector('#pg-home'); } else { el = root.querySelector('#pg-404'); } }
             root.querySelectorAll('.page').forEach((p) => p.classList.remove('on'));
             el!.classList.add('on'); root.classList.remove('menu'); root.querySelectorAll('.page').forEach((p) => p.removeAttribute('role')); el!.setAttribute('role', 'main'); el!.setAttribute('tabindex', '-1');
             if (id === 'home') root.classList.remove('sp'); else root.classList.add('sp');

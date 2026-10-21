@@ -838,3 +838,8 @@ header .hsoc{display:none}
 /* Long-form measure: the activity/memorial page runs text at 1180px full width (~130+ chars/line).
    Cap paragraph measure at a readable ~72ch; container layout unchanged. */
 .pg-b .col.wide p{max-width:72ch}
+
+/* 404 state for unknown routes */
+.nf{max-width:640px;margin:0 auto;padding:120px 24px;text-align:center}
+.nf h1{font-size:44px;font-weight:700;color:var(--plum);margin-bottom:16px}
+.nf p{color:var(--muted);font-size:18px;line-height:1.6;margin-bottom:20px}
