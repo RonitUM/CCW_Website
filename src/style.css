@@ -30,7 +30,7 @@ h1{font-size:72px;line-height:1.12;font-weight:500;color:var(--plum);letter-spac
 .btn.fill{background:var(--plum);color:#fff}
 .btn.line{border:1.5px solid var(--plum);color:var(--plum);background:transparent}
 .btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2}
-.services{padding:70px 56px 64px;display:grid;grid-template-columns:repeat(4,1fr);gap:20px;max-width:1440px;margin:0 auto}
+.services{padding:70px 56px 64px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1440px;margin:0 auto}
 .card{text-align:center;padding:0 24px;position:relative}
 .ic{width:104px;height:104px;margin:0 auto 20px;position:relative;display:grid;place-items:center}
 .ic .blob{position:absolute;inset:0;border-radius:58% 42% 55% 45%/50% 55% 45% 50%}
@@ -274,7 +274,7 @@ footer .links a:hover{color:var(--rose2)}
 .hero .photo{position:relative!important;top:auto!important;left:auto;width:100%!important;height:340px!important;background-size:cover!important;background-position:center!important;clip-path:none!important}
 .hero .photo{background-position:right bottom!important}
 .hero .leaf1, .hero .leaf2, .feature .blob, .feature .leaf, .books{display:none!important}
-.services{grid-template-columns:repeat(2,1fr);padding:48px 24px;gap:36px 16px}
+.services{grid-template-columns:repeat(3,1fr);padding:48px 24px;gap:36px 16px}
 .card{padding:0 6px}
 .card+.card:before{display:none}
 .card p{min-height:0}
@@ -767,3 +767,25 @@ video[data-loop]::-webkit-media-controls-overlay-play-button{display:none!import
 .mpp img{display:block;width:100%;height:auto;border-radius:18px;box-shadow:0 10px 30px rgba(74,34,55,.10);background:#fff}
 .mpp figcaption{text-align:center;font-size:14px;color:var(--ink);opacity:.55;margin-top:10px}
 .mpp-back{text-align:center;margin:34px 0 0}
+
+/* Social icons moved from footer to header (desktop) and into the mobile menu */
+header .hsoc{display:flex;gap:14px;direction:ltr;align-items:center}
+header .hsoc a{display:inline-flex;align-items:center;justify-content:center}
+header .hsoc svg{width:24px;height:24px;transition:opacity .15s}
+.hsoc a:hover svg, .msoc a:hover svg{opacity:.7}
+.hsoc a:focus-visible, .msoc a:focus-visible{outline:2px solid var(--plum);outline-offset:3px;border-radius:4px}
+.mn .msoc{display:none;gap:20px;direction:ltr;align-items:center;padding:16px 6px 6px;border-top:1px solid #ecdcd2;margin-top:12px}
+.mn .msoc a{display:inline-flex;align-items:center;justify-content:center}
+.mn .msoc svg{width:28px;height:28px}
+@media (max-width:1100px){
+header .hsoc{display:none}
+.ccw.menu .mn .msoc{display:flex}
+}
+
+/* EN header is wider than HE: tighten only LTR desktop so all tools + social icons fit */
+@media (min-width:1101px) and (max-width:1500px){
+:root[dir="ltr"] header .in{gap:16px;padding:0 28px}
+:root[dir="ltr"] .mn{gap:2px;font-size:14px}
+:root[dir="ltr"] .tools{gap:12px}
+:root[dir="ltr"] header .hsoc{gap:10px}
+}
