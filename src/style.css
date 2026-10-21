@@ -834,3 +834,7 @@ header .hsoc{display:none}
 /* EN: "Thousands of" (345px at 56px font) wraps to two lines inside its 254-332px stat column.
    Scale the EN stat numbers down just enough to keep one line at every desktop width. */
 @media (min-width:1101px){.ccw[lang="en"] .stat b{white-space:nowrap;font-size:clamp(40px,3.6vw,52px)}}
+
+/* Long-form measure: the activity/memorial page runs text at 1180px full width (~130+ chars/line).
+   Cap paragraph measure at a readable ~72ch; container layout unchanged. */
+.pg-b .col.wide p{max-width:72ch}
