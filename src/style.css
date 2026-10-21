@@ -806,3 +806,18 @@ header .hsoc{display:none}
 .books .stack.five .b:hover{transform:translateY(-6px)!important}
 @media (max-width:1100px){.books .stack.five .b{height:88px!important;font-size:22px!important}}
 @media (max-width:700px){.books .stack.five .b{height:70px!important;font-size:19px!important}}
+
+/* feature section text enlargement + vertical centering (HE only) */
+@media (min-width:1101px){
+  :root[dir="rtl"] .feature .t{top:50%;transform:translateY(-50%)}
+  :root[dir="rtl"] .feature .t small{font-size:26px}
+  :root[dir="rtl"] .feature h2{font-size:62px;margin-bottom:0}
+}
+@media (max-width:1100px){
+  :root[dir="rtl"] .feature .t small{font-size:23px}
+  :root[dir="rtl"] .feature h2{font-size:42px;margin-bottom:0}
+}
+@media (max-width:700px){
+  :root[dir="rtl"] .feature .t small{font-size:20px!important}
+  :root[dir="rtl"] .feature h2{font-size:34px}
+}
