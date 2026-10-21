@@ -794,3 +794,15 @@ header .hsoc{display:none}
 .ccw .belief p{font-size:23px}
 @media (max-width:1100px){.ccw .belief p{font-size:20px}}
 @media (max-width:700px){.ccw .belief p{font-size:19px}}
+
+/* five-word tile cluster (HE): נשים centered, טיפול/ידע/קהילה/שינוי around it */
+.books .stack.five{grid-template-columns:repeat(3,1fr);padding-bottom:0}
+.books .stack.five .b{height:110px!important;font-size:26px!important;transform:none!important}
+.books .stack.five .b:nth-child(1){grid-column:2;grid-row:2;background:#e9a08c!important;border-radius:70px 90px 70px 90px!important}
+.books .stack.five .b:nth-child(2){grid-column:2;grid-row:1;background:#cf9fb9!important;border-radius:80px 80px 18px 80px!important}
+.books .stack.five .b:nth-child(3){grid-column:1;grid-row:2;background:#b3c1a3!important;border-radius:80px 18px 80px 80px!important}
+.books .stack.five .b:nth-child(4){grid-column:3;grid-row:2;background:#f4ece4!important;border-radius:18px 80px 80px 80px!important}
+.books .stack.five .b:nth-child(5){grid-column:2;grid-row:3;background:#f0c3a8!important;border-radius:80px 80px 80px 18px!important}
+.books .stack.five .b:hover{transform:translateY(-6px)!important}
+@media (max-width:1100px){.books .stack.five .b{height:88px!important;font-size:22px!important}}
+@media (max-width:700px){.books .stack.five .b{height:70px!important;font-size:19px!important}}
