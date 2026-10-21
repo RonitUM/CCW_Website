@@ -213,6 +213,7 @@ footer .soc svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:1.6}
 .cb .ln:first-of-type{border-top:0}
 .cb .ln svg{width:22px;height:22px;stroke:var(--rose);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none;margin-top:3px}
 .cb .ln small{display:block;font-size:14px;color:var(--muted)}
+a[href^="tel:"]{color:inherit;text-decoration:none}
 .cb .ln b{font-weight:600;color:var(--plum);direction:ltr;unicode-bidi:embed}
 .rows{margin:18px 0}
 .rw{display:flex;align-items:center;gap:20px;background:#fff;border-radius:18px;padding:20px 26px;margin-bottom:12px;box-shadow:0 3px 14px rgba(74,34,55,.06)}
