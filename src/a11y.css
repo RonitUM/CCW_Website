@@ -3,7 +3,7 @@
 .a11y-t{width:44px;height:44px;border-radius:50%;border:none;background:#8a4a96;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 14px rgba(60,20,60,.25)}
 .a11y-t svg{width:26px;height:26px}
 .a11y-t:focus-visible{outline:3px solid #6b2a45;outline-offset:2px}
-.a11y-p{background:#fff;border-radius:18px;box-shadow:0 10px 30px rgba(60,20,60,.22);padding:14px;display:flex;flex-direction:column;gap:6px;min-width:170px}
+.a11y-p{position:relative;background:#fff;border-radius:18px;box-shadow:0 10px 30px rgba(60,20,60,.22);padding:14px;display:flex;flex-direction:column;gap:6px;min-width:170px}
 .a11y-p b{color:#5a2d63;font-size:15px;margin-bottom:2px}
 .a11y-p button{border:1px solid #e6d4ec;background:#faf6fb;color:#5a2d63;border-radius:12px;padding:8px 10px;font-size:14px;cursor:pointer;text-align:start;font-family:inherit}
 .a11y-p button:hover{background:#f0e4f4}
@@ -38,3 +38,5 @@
 .ccw .page:focus{outline:none}
 .ccw a:focus-visible,.ccw button:focus-visible,.ccw select:focus-visible,.ccw input:focus-visible,.ccw [role=button]:focus-visible{outline:3px solid #6b2a45;outline-offset:3px;border-radius:4px}
 .ccw .donate:focus-visible,.ccw .btn:focus-visible{outline-color:#8a4a96}
+.a11y-p .a11y-x{position:absolute;top:6px;inset-inline-end:6px;width:26px;height:26px;padding:0;border:none;background:transparent;color:#8a6a92;font-size:14px;line-height:1;display:flex;align-items:center;justify-content:center;text-align:center}
+.a11y-p .a11y-x:hover{background:#f0e4f4}
