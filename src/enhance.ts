@@ -13,7 +13,7 @@ const T = {
     ok: 'תודה, ההודעה נשלחה. נחזור אליך בהקדם.', fail: 'השליחה נכשלה. אפשר לנסות שוב או ליצור קשר בטלפון.',
     off: 'הטופס עדיין לא מחובר לשליחה, ולכן לא נשלח דבר. אפשר ליצור קשר בטלפון או במייל המופיעים בעמוד.',
     popTitle: 'מעוניינת בטיפול?', popSub: 'השאירי שם וטלפון, ונחזור אלייך לתיאום שיחת היכרות.', popLater: 'לא עכשיו', popClose: 'סגירת החלונית', popConsent: 'אני מאשרת את <a href="#/privacy" data-go="privacy">מדיניות הפרטיות של מרכז יעוץ לאישה</a>',
-    a11yBtn: 'כלי נגישות', a11yBig: 'הגדל טקסט', a11ySmall: 'הקטן טקסט', a11yGray: 'גווני אפור', a11yHc: 'ניגודיות גבוהה', a11yLinks: 'הדגשת קישורים', a11yFont: 'פונט קריא', a11yReset: 'איפוס',
+    a11yBtn: 'כלי נגישות', a11yBig: 'הגדל טקסט', a11ySmall: 'הקטן טקסט', a11yGray: 'גווני אפור', a11yHc: 'ניגודיות גבוהה', a11yLinks: 'הדגשת קישורים', a11yFont: 'פונט קריא', a11yReset: 'איפוס', a11yClose: 'סגירה',
   },
   en: {
     searchPh: 'Search the site', searchBtn: 'Search', close: 'Close', none: 'No results found', hint: 'Type at least 2 characters',
@@ -23,7 +23,7 @@ const T = {
     ok: 'Thank you, your message was sent. We will get back to you shortly.', fail: 'Sending failed. Please try again or contact us by phone.',
     off: 'This form is not connected to sending yet, so nothing was sent. Please use the phone or email shown on the page.',
     popTitle: 'Interested in therapy?', popSub: 'Leave your name and phone number and we will call you back to schedule an introductory call.', popLater: 'Not now', popClose: 'Close popup', popConsent: 'I agree to the <a href="#/privacy" data-go="privacy">Counseling Center for Women Privacy Policy</a>',
-    a11yBtn: 'Accessibility Tools', a11yBig: 'Increase Text', a11ySmall: 'Decrease Text', a11yGray: 'Grayscale', a11yHc: 'High Contrast', a11yLinks: 'Highlight Links', a11yFont: 'Readable Font', a11yReset: 'Reset',
+    a11yBtn: 'Accessibility Tools', a11yBig: 'Increase Text', a11ySmall: 'Decrease Text', a11yGray: 'Grayscale', a11yHc: 'High Contrast', a11yLinks: 'Highlight Links', a11yFont: 'Readable Font', a11yReset: 'Reset', a11yClose: 'Close',
   },
 } as const;
 
@@ -431,7 +431,8 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
     '<button type="button" data-a="hc">' + esc(t.a11yHc) + '</button>' +
     '<button type="button" data-a="links">' + esc(t.a11yLinks) + '</button>' +
     '<button type="button" data-a="font">' + esc(t.a11yFont) + '</button>' +
-    '<button type="button" data-a="reset" class="a11y-reset">' + esc(t.a11yReset) + '</button></div>';
+    '<button type="button" data-a="reset" class="a11y-reset">' + esc(t.a11yReset) + '</button>' +
+    '<button type="button" class="a11y-x" aria-label="' + esc(t.a11yClose) + '">✕</button></div>';
   root.appendChild(bar);
   const panel = bar.querySelector('.a11y-p') as HTMLElement;
   const tgl = bar.querySelector('.a11y-t') as HTMLButtonElement;
@@ -445,8 +446,16 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
     panel.querySelectorAll('[data-a]').forEach((b) => { const k = b.getAttribute('data-a')!; b.classList.toggle('on', k === 'big' || k === 'small' ? st.fs > 1 : (st as any)[k] === true); });
     try { localStorage.setItem(AKEY, JSON.stringify(st)); } catch (e) { /* ignore */ }
   };
-  const onTglA = () => { const open = panel.hidden; panel.hidden = !open; tgl.setAttribute('aria-expanded', String(open)); };
+  const setPanel = (open: boolean) => { panel.hidden = !open; tgl.setAttribute('aria-expanded', String(open)); };
+  const onTglA = () => setPanel(panel.hidden);
   tgl.addEventListener('click', onTglA);
+  const closeBtn = panel.querySelector('.a11y-x') as HTMLButtonElement;
+  const onCloseA = () => { setPanel(false); tgl.focus(); };
+  closeBtn.addEventListener('click', onCloseA);
+  const onPanelKey = (e: KeyboardEvent) => { if (e.key === 'Escape') { e.stopPropagation(); onCloseA(); } };
+  panel.addEventListener('keydown', onPanelKey);
+  const moRoute = new MutationObserver(() => setPanel(false));
+  root.querySelectorAll('.page').forEach((pg) => moRoute.observe(pg, { attributes: true, attributeFilter: ['class'] }));
   const onA = (e: Event) => {
     const k = (e.currentTarget as HTMLElement).getAttribute('data-a')!;
     const i = ASTEPS.indexOf(st.fs);
@@ -458,7 +467,7 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
   };
   panel.querySelectorAll('[data-a]').forEach((b) => b.addEventListener('click', onA));
   applyA();
-  cleanups.push(() => { tgl.removeEventListener('click', onTglA); panel.querySelectorAll('[data-a]').forEach((b) => b.removeEventListener('click', onA)); (document.body.style as any).zoom = ''; bar.remove(); });
+  cleanups.push(() => { tgl.removeEventListener('click', onTglA); closeBtn.removeEventListener('click', onCloseA); panel.removeEventListener('keydown', onPanelKey); moRoute.disconnect(); panel.querySelectorAll('[data-a]').forEach((b) => b.removeEventListener('click', onA)); (document.body.style as any).zoom = ''; bar.remove(); });
 
   return () => cleanups.forEach((f) => f());
 }
