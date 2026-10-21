@@ -784,3 +784,11 @@ video[data-loop]::-webkit-media-controls-overlay-play-button{display:none!import
 .tools .hsoc{display:none}
 .ccw.menu .mn .msoc{display:flex}
 }
+
+/* EN header is wider than HE: tighten only LTR desktop so all tools + social icons fit */
+@media (min-width:1101px) and (max-width:1500px){
+:root[dir="ltr"] header .in{gap:16px;padding:0 28px}
+:root[dir="ltr"] .mn{gap:2px;font-size:14px}
+:root[dir="ltr"] .tools{gap:12px}
+:root[dir="ltr"] .tools .hsoc{gap:10px}
+}
