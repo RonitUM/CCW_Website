@@ -401,7 +401,9 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
     });
   });
   const skip = document.createElement('a');
-  skip.className = 'skip'; skip.href = '#'; skip.textContent = lang === 'en' ? 'Skip to content' : 'דלג לתוכן';
+  skip.className = 'skip'; skip.textContent = lang === 'en' ? 'Skip to content' : 'דלג לתוכן';
+  const syncSkip = () => { const m = root.querySelector('.page.on') as HTMLElement | null; skip.setAttribute('href', '#' + ((m && m.id) || 'pg-home')); };
+  syncSkip();
   const onSkip = (e: Event) => { e.preventDefault(); const m = root.querySelector('.page.on') as HTMLElement | null; if (m) { m.focus({ preventScroll: false }); } };
   skip.addEventListener('click', onSkip);
   root.insertBefore(skip, root.firstChild);
@@ -412,7 +414,9 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
   syncMenu();
   const mo = new MutationObserver(syncMenu);
   mo.observe(root, { attributes: true, attributeFilter: ['class'] });
-  cleanups.push(() => { mo.disconnect(); skip.removeEventListener('click', onSkip); skip.remove(); });
+  const moSkip = new MutationObserver(syncSkip);
+  root.querySelectorAll('.page').forEach((pg) => moSkip.observe(pg, { attributes: true, attributeFilter: ['class'] }));
+  cleanups.push(() => { mo.disconnect(); moSkip.disconnect(); skip.removeEventListener('click', onSkip); skip.remove(); });
 
   // ---------- Accessibility toolbar (in-house, no third party; persists in localStorage) ----------
   const AKEY = 'ccwA11y';
