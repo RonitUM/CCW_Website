@@ -829,3 +829,7 @@ header .hsoc{display:none}
   #pg-about .pg-h .row{flex-direction:row;align-items:center;gap:20px}
   #pg-about .pg-h .pimg{width:130px;max-width:38vw;margin:0}
 }
+
+/* Long-form measure: the activity/memorial page runs text at 1180px full width (~130+ chars/line).
+   Cap paragraph measure at a readable ~72ch; container layout unchanged. */
+.pg-b .col.wide p{max-width:72ch}
