@@ -6,7 +6,9 @@ function load(): Promise<void> {
   if (!loading) loading = new Promise((resolve, reject) => {
     const script = document.createElement('script');
     script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
-    script.async = true; script.onload = () => resolve(); script.onerror = () => reject(new Error('Bot check unavailable'));
+    script.async = true; script.onload = () => resolve(); script.onerror = () => {
+      script.remove(); loading = undefined; reject(new Error('Bot check unavailable'));
+    };
     document.head.appendChild(script);
   });
   return loading;
