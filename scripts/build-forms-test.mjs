@@ -3,6 +3,7 @@ import { spawnSync } from 'node:child_process';
 const result = spawnSync(process.execPath, ['node_modules/vite/bin/vite.js', 'build'], {
  stdio: 'inherit', env: { ...process.env,
  VITE_FORM_TEST_ONLY: '1',
+ VITE_ENTRY_POPUP: '0',
  VITE_FORM_ENDPOINT: 'https://ccw-forms-test.nitkarm.workers.dev/',
  VITE_TURNSTILE_SITE_KEY: '0x4AAAAAAFwxACd5xXPAwvi7'
  }

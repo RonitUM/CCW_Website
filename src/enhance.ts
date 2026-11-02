@@ -333,7 +333,7 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
       const btn = form.querySelector('.sbm') as HTMLButtonElement; btn.disabled = true; btn.textContent = t.sending;
       try {
         const r = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ turnstileToken: token, form: pageId, name: testOnly ? 'CCW DUMMY TEST' : nm.value.trim(), phone: testOnly ? '' : ph ? ph.value.trim() : '', email: testOnly ? 'dummy@example.test' : em ? em.value.trim() : '', branch: br ? br.value : '', message: testOnly ? 'Dummy data only. No real inquiry.' : g('message'), lang, consent: true, page: location.href }) });
+          body: JSON.stringify({ turnstileToken: token, form: pageId, name: testOnly ? 'CCW DUMMY TEST' : nm.value.trim(), phone: testOnly ? '' : ph ? ph.value.trim() : '', email: testOnly ? 'dummy@example.test' : em ? em.value.trim() : '', branch: br ? br.value : '', message: testOnly ? 'Dummy data only. No real inquiry.' : g('message'), lang, consent: true, page: 'https://ronitum.github.io/CCW_Website/' }) });
         if (!r.ok || (await r.json()).ok !== true) throw new Error('Form not accepted');
         msg.textContent = testOnly ? (lang === 'he' ? 'הבדיקה התקבלה לשליחה. יש לבדוק קבלה בתיבת הדואר.' : 'Test accepted for sending. Check the test inbox for receipt.') : t.ok; msg.classList.add('ok'); if (!testOnly) form.reset();
       } catch (e) { msg.textContent = t.fail; msg.classList.add('bad'); }
@@ -353,8 +353,8 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
   // VITE_ENTRY_POPUP=preview) forces an isolated preview that renders the UI but never sends
   // anything, even on a build where live mode is configured.
   // Shown once per browser; any dismissal or a successful send is remembered in localStorage.
-  const popFlag = ((import.meta as any).env && (import.meta as any).env.VITE_ENTRY_POPUP) || '';
-  const popPreview = popFlag === 'preview' || /[?&]popup=1/.test(location.search);
+  const popFlag = testOnly ? '' : (((import.meta as any).env && (import.meta as any).env.VITE_ENTRY_POPUP) || '');
+  const popPreview = !testOnly && (popFlag === 'preview' || /[?&]popup=1/.test(location.search));
   const popLive = popFlag === '1' && !!endpoint && !popPreview;
   const popupOn = popLive || popPreview;
   const POPKEY = 'ccwEntryPopupDone';
