@@ -1,3 +1,4 @@
+import { attachTurnstile } from './form-security';
 // Working search and working contact forms, added on top of the static page markup.
 // Forms post to the address in VITE_FORM_ENDPOINT. When it is not set, the form says it is not connected
 // and sends nothing. The receiving inbox is chosen on the server, never in the browser.
@@ -274,7 +275,9 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
   });
 
   // ---------- Forms ----------
-  const endpoint = ((import.meta as any).env && (import.meta as any).env.VITE_FORM_ENDPOINT) || '';
+  const testOnly = (import.meta as any).env.VITE_FORM_TEST_ONLY === '1';
+  // This review is dummy-only. An endpoint alone must never enable real inquiries.
+  const endpoint = testOnly ? ((import.meta as any).env.VITE_FORM_ENDPOINT || '') : '';
   const buildForm = (box: HTMLElement, pageId: string, opts?: { hasMsg?: boolean; hasBranch?: boolean; fields?: Array<'name' | 'phone' | 'email'>; dryRun?: boolean }) => {
     const dryRun = !!(opts && opts.dryRun);
     const hasMsg = opts && opts.hasMsg !== undefined ? opts.hasMsg : !!box.querySelector('.f.full');
@@ -296,6 +299,16 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
       '<button type="submit" class="sbm">' + esc(t.send) + '</button><p class="frm-msg" role="status" aria-live="polite"></p></form>';
     const form = box.querySelector('form') as HTMLFormElement;
     const msg = form.querySelector('.frm-msg') as HTMLElement;
+    if (testOnly && endpoint && !dryRun) {
+      const notice = document.createElement('p'); notice.className = 'frm-test-notice'; notice.setAttribute('role', 'note');
+      notice.textContent = lang === 'he' ? 'מצב בדיקה בלבד. נשלחים נתוני דמה, לא פנייה אמיתית. אין להזין מידע אישי.' : 'TEST ONLY. Sends fixed dummy data, not a real inquiry. Do not enter personal information.';
+      notice.style.cssText = 'padding:12px;border:2px solid #9b5d20;border-radius:8px;background:#fff6e8;color:#492b10;line-height:1.5';
+      form.prepend(notice);
+      const inputs = form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input:not([type=checkbox]),textarea');
+      inputs.forEach(el => { if (el.name === 'website') return; el.value = el.name.endsWith('-name') ? 'CCW DUMMY TEST' : el.name.endsWith('-email') ? 'dummy@example.test' : el.name === 'message' ? 'Dummy data only. No real inquiry.' : ''; el.readOnly = true; el.autocomplete = 'off'; });
+    }
+    const bot = endpoint && !dryRun ? attachTurnstile(form, (import.meta as any).env.VITE_TURNSTILE_SITE_KEY || '') : null;
+    if (bot) cleanups.push(() => bot.dispose());
     const setErr = (el: Element | null, m: string) => { const s = el && (el.closest('.f') || el.parentElement)?.querySelector('.err'); if (s) s.textContent = m; };
     const submit = async (ev: Event) => {
       ev.preventDefault();
@@ -306,7 +319,7 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
       form.querySelectorAll('.err').forEach((s) => (s.textContent = ''));
       if (!nm.value.trim()) { setErr(nm, t.req); ok = false; }
       const digits = ph ? ph.value.replace(/\D/g, '') : '';
-      if (ph && !ph.value.trim() && (!em || !em.value.trim())) { setErr(ph, em ? t.needOne : t.needPhone); ok = false; }
+      if (!testOnly && ph && !ph.value.trim() && (!em || !em.value.trim())) { setErr(ph, em ? t.needOne : t.needPhone); ok = false; }
       if (ph && ph.value.trim() && (digits.length < 7 || digits.length > 15)) { setErr(ph, t.badPhone); ok = false; }
       if (em && em.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em.value.trim())) { setErr(em, t.badEmail); ok = false; }
       if (br && !br.value) { setErr(br, t.req); ok = false; }
@@ -315,13 +328,16 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
       if (!ok) return;
       if (g('website')) { msg.textContent = t.ok; msg.classList.add('ok'); form.reset(); return; } // spam trap: pretend success, send nothing
       if (!endpoint || dryRun) { msg.textContent = t.off; msg.classList.add('warn'); return; }
+      const token = bot?.token() || '';
+      if (!token) { msg.textContent = t.fail; msg.classList.add('bad'); return; }
       const btn = form.querySelector('.sbm') as HTMLButtonElement; btn.disabled = true; btn.textContent = t.sending;
       try {
         const r = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ form: pageId, name: nm.value.trim(), phone: ph ? ph.value.trim() : '', email: em ? em.value.trim() : '', branch: br ? br.value : '', message: g('message'), lang, consent: true, page: location.href }) });
-        if (!r.ok) throw new Error(String(r.status));
-        msg.textContent = t.ok; msg.classList.add('ok'); form.reset();
+          body: JSON.stringify({ turnstileToken: token, form: pageId, name: testOnly ? 'CCW DUMMY TEST' : nm.value.trim(), phone: testOnly ? '' : ph ? ph.value.trim() : '', email: testOnly ? 'dummy@example.test' : em ? em.value.trim() : '', branch: br ? br.value : '', message: testOnly ? 'Dummy data only. No real inquiry.' : g('message'), lang, consent: true, page: 'https://ronitum.github.io/CCW_Website/' }) });
+        if (!r.ok || (await r.json()).ok !== true) throw new Error('Form not accepted');
+        msg.textContent = testOnly ? (lang === 'he' ? 'הבדיקה התקבלה לשליחה. יש לבדוק קבלה בתיבת הדואר.' : 'Test accepted for sending. Check the test inbox for receipt.') : t.ok; msg.classList.add('ok'); if (!testOnly) form.reset();
       } catch (e) { msg.textContent = t.fail; msg.classList.add('bad'); }
+      bot?.reset();
       btn.disabled = false; btn.textContent = t.send;
     };
     form.addEventListener('submit', submit);
@@ -337,8 +353,8 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
   // VITE_ENTRY_POPUP=preview) forces an isolated preview that renders the UI but never sends
   // anything, even on a build where live mode is configured.
   // Shown once per browser; any dismissal or a successful send is remembered in localStorage.
-  const popFlag = ((import.meta as any).env && (import.meta as any).env.VITE_ENTRY_POPUP) || '';
-  const popPreview = popFlag === 'preview' || /[?&]popup=1/.test(location.search);
+  const popFlag = testOnly ? '' : (((import.meta as any).env && (import.meta as any).env.VITE_ENTRY_POPUP) || '');
+  const popPreview = !testOnly && (popFlag === 'preview' || /[?&]popup=1/.test(location.search));
   const popLive = popFlag === '1' && !!endpoint && !popPreview;
   const popupOn = popLive || popPreview;
   const POPKEY = 'ccwEntryPopupDone';
