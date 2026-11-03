@@ -12,6 +12,7 @@ const T = {
     req: 'יש למלא את השדה', needOne: 'יש למלא טלפון או אימייל', needPhone: 'יש למלא מספר טלפון', badEmail: 'כתובת אימייל לא תקינה', badPhone: 'מספר טלפון לא תקין', consent: 'יש לאשר את מדיניות הפרטיות',
     ok: 'תודה, ההודעה נשלחה. נחזור אליך בהקדם.', fail: 'השליחה נכשלה. אפשר לנסות שוב או ליצור קשר בטלפון.',
     off: 'הטופס עדיין לא מחובר לשליחה, ולכן לא נשלח דבר. אפשר ליצור קשר בטלפון או במייל המופיעים בעמוד.',
+    topic: 'נושא הפנייה', pickTopic: 'יש לבחור נושא מהרשימה', general: 'כללי',
     popTitle: 'מעוניינת בטיפול?', popSub: 'השאירי שם וטלפון, ונחזור אלייך לתיאום שיחת היכרות.', popLater: 'לא עכשיו', popClose: 'סגירת החלונית', popConsent: 'אני מאשרת את <a href="#/privacy" data-go="privacy">מדיניות הפרטיות של מרכז יעוץ לאישה</a>',
     a11yBtn: 'כלי נגישות', a11yBig: 'הגדל טקסט', a11ySmall: 'הקטן טקסט', a11yGray: 'גווני אפור', a11yHc: 'ניגודיות גבוהה', a11yLinks: 'הדגשת קישורים', a11yFont: 'פונט קריא', a11yReset: 'איפוס', a11yClose: 'סגירה',
   },
@@ -22,6 +23,7 @@ const T = {
     req: 'Please fill in this field', needOne: 'Please enter a phone number or an email', needPhone: 'Please enter a phone number', badEmail: 'Invalid email address', badPhone: 'Invalid phone number', consent: 'Please accept the privacy policy',
     ok: 'Thank you, your message was sent. We will get back to you shortly.', fail: 'Sending failed. Please try again or contact us by phone.',
     off: 'This form is not connected to sending yet, so nothing was sent. Please use the phone or email shown on the page.',
+    topic: 'Subject', pickTopic: 'Please choose a topic', general: 'General',
     popTitle: 'Interested in therapy?', popSub: 'Leave your name and phone number and we will call you back to schedule an introductory call.', popLater: 'Not now', popClose: 'Close popup', popConsent: 'I agree to the <a href="#/privacy" data-go="privacy">Counseling Center for Women Privacy Policy</a>',
     a11yBtn: 'Accessibility Tools', a11yBig: 'Increase Text', a11ySmall: 'Decrease Text', a11yGray: 'Grayscale', a11yHc: 'High Contrast', a11yLinks: 'Highlight Links', a11yFont: 'Readable Font', a11yReset: 'Reset', a11yClose: 'Close',
   },
@@ -289,7 +291,7 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
     const uid = pageId + '-';
     box.innerHTML =
       '<form novalidate method="post" action="#" onsubmit="return false" class="frm-real"><div class="g">' +
-      (hasMsg ? field(uid + 'name', olab[0] || t.name, 'text') + field(uid + 'email', olab[1] || t.email, 'email') + field(uid + 'phone', olab[2] || t.phone, 'tel') + '<div class="f full"><label for="' + uid + 'message">' + esc(olab[3] || '') + '</label><textarea id="' + uid + 'message" name="message" rows="4" maxlength="2000"></textarea><small class="err" aria-live="polite"></small></div>' : (opts && opts.fields ? opts.fields : (['name', 'phone', 'email'] as Array<'name' | 'phone' | 'email'>)).map((fn) => field(uid + fn, fn === 'name' ? t.name : fn === 'phone' ? t.phone : t.email, fn === 'email' ? 'email' : fn === 'phone' ? 'tel' : 'text')).join('')) +
+      (hasMsg ? field(uid + 'name', olab[0] || t.name, 'text') + field(uid + 'email', olab[1] || t.email, 'email') + field(uid + 'phone', olab[2] || t.phone, 'tel') + '<div class="f full"><label for="' + uid + 'message">' + esc(t.topic) + '</label><select id="' + uid + 'message" name="message"><option value="">' + esc(t.pickTopic) + '</option>' + Array.from((box.closest('.page') as HTMLElement).querySelectorAll('h3')).map((h) => (h.textContent || '').trim()).filter(Boolean).concat([t.general]).map((o) => '<option value="' + esc(o) + '">' + esc(o) + '</option>').join('') + '</select><small class="err" aria-live="polite"></small></div>' : (opts && opts.fields ? opts.fields : (['name', 'phone', 'email'] as Array<'name' | 'phone' | 'email'>)).map((fn) => field(uid + fn, fn === 'name' ? t.name : fn === 'phone' ? t.phone : t.email, fn === 'email' ? 'email' : fn === 'phone' ? 'tel' : 'text')).join('')) +
       (hasBranch ? '<div class="f"><label for="' + uid + 'branch">' + esc(t.branch) + '</label><select id="' + uid + 'branch" name="branch"><option value="">' + esc(t.pick) + '</option><option value="rg">' + esc(t.rg) + '</option><option value="jlm">' + esc(t.jlm) + '</option><option value="ph">' + esc(t.ph) + '</option><option value="kt">' + esc(t.kt) + '</option><option value="md">' + esc(t.md) + '</option></select><small class="err" aria-live="polite"></small></div>' : '') +
       '</div><div class="hp" aria-hidden="true"><label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>' +
       '<div class="chk"><input type="checkbox" id="' + uid + 'consent" name="consent"><label for="' + uid + 'consent">' + consentText + '</label></div><small class="err cerr" aria-live="polite"></small>' +
@@ -310,6 +312,8 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
       if (ph && ph.value.trim() && (digits.length < 7 || digits.length > 15)) { setErr(ph, t.badPhone); ok = false; }
       if (em && em.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em.value.trim())) { setErr(em, t.badEmail); ok = false; }
       if (br && !br.value) { setErr(br, t.req); ok = false; }
+      const ms = form.elements.namedItem(uid + 'message') as HTMLSelectElement | null;
+      if (ms && ms.tagName === 'SELECT' && !ms.value) { setErr(ms, t.req); ok = false; }
       if (!cs.checked) { (form.querySelector('.cerr') as HTMLElement).textContent = t.consent; ok = false; }
       msg.textContent = ''; msg.className = 'frm-msg';
       if (!ok) return;
