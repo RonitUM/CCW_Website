@@ -843,3 +843,6 @@ header .hsoc{display:none}
 .nf{max-width:640px;margin:0 auto;padding:120px 24px;text-align:center}
 .nf h1{font-size:44px;font-weight:700;color:var(--plum);margin-bottom:16px}
 .nf p{color:var(--muted);font-size:18px;line-height:1.6;margin-bottom:20px}
+
+.figrow .fcap{margin:0;display:flex;flex-direction:column;gap:12px}
+.figrow .fcap figcaption{font-size:17px;line-height:1.8}
