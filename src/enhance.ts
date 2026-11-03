@@ -291,13 +291,21 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
     const uid = pageId + '-';
     box.innerHTML =
       '<form novalidate method="post" action="#" onsubmit="return false" class="frm-real"><div class="g">' +
-      (hasMsg ? field(uid + 'name', olab[0] || t.name, 'text') + field(uid + 'email', olab[1] || t.email, 'email') + field(uid + 'phone', olab[2] || t.phone, 'tel') + '<div class="f full"><label for="' + uid + 'message">' + esc(t.topic) + '</label><select id="' + uid + 'message" name="message"><option value="">' + esc(t.pickTopic) + '</option>' + Array.from((box.closest('.page') as HTMLElement).querySelectorAll('h3')).map((h) => (h.textContent || '').trim()).filter(Boolean).concat([t.general]).map((o) => '<option value="' + esc(o) + '">' + esc(o) + '</option>').join('') + '</select><small class="err" aria-live="polite"></small></div>' : (opts && opts.fields ? opts.fields : (['name', 'phone', 'email'] as Array<'name' | 'phone' | 'email'>)).map((fn) => field(uid + fn, fn === 'name' ? t.name : fn === 'phone' ? t.phone : t.email, fn === 'email' ? 'email' : fn === 'phone' ? 'tel' : 'text')).join('')) +
+      (hasMsg ? field(uid + 'name', olab[0] || t.name, 'text') + field(uid + 'email', olab[1] || t.email, 'email') + field(uid + 'phone', olab[2] || t.phone, 'tel') + (pageId === 'legacy' ? '<div class="f full"><label for="' + uid + 'message">' + esc(t.topic) + '</label><select id="' + uid + 'message" name="message"><option value="">' + esc(t.pickTopic) + '</option>' + Array.from((box.closest('.page') as HTMLElement).querySelectorAll('h3')).map((h) => (h.textContent || '').trim()).filter(Boolean).concat([t.general]).map((o) => '<option value="' + esc(o) + '">' + esc(o) + '</option>').join('') + '</select><p class="topic-selected" aria-hidden="true" style="margin:8px 0 0;line-height:1.5;overflow-wrap:anywhere"></p><small class="err" aria-live="polite"></small></div>' : '<div class="f full"><label for="' + uid + 'message">' + esc(olab[3] || '') + '</label><textarea id="' + uid + 'message" name="message" rows="4" maxlength="2000"></textarea><small class="err" aria-live="polite"></small></div>') : (opts && opts.fields ? opts.fields : (['name', 'phone', 'email'] as Array<'name' | 'phone' | 'email'>)).map((fn) => field(uid + fn, fn === 'name' ? t.name : fn === 'phone' ? t.phone : t.email, fn === 'email' ? 'email' : fn === 'phone' ? 'tel' : 'text')).join('')) +
       (hasBranch ? '<div class="f"><label for="' + uid + 'branch">' + esc(t.branch) + '</label><select id="' + uid + 'branch" name="branch"><option value="">' + esc(t.pick) + '</option><option value="rg">' + esc(t.rg) + '</option><option value="jlm">' + esc(t.jlm) + '</option><option value="ph">' + esc(t.ph) + '</option><option value="kt">' + esc(t.kt) + '</option><option value="md">' + esc(t.md) + '</option></select><small class="err" aria-live="polite"></small></div>' : '') +
       '</div><div class="hp" aria-hidden="true"><label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>' +
       '<div class="chk"><input type="checkbox" id="' + uid + 'consent" name="consent"><label for="' + uid + 'consent">' + consentText + '</label></div><small class="err cerr" aria-live="polite"></small>' +
       '<button type="submit" class="sbm">' + esc(t.send) + '</button><p class="frm-msg" role="status" aria-live="polite"></p></form>';
     const form = box.querySelector('form') as HTMLFormElement;
     const msg = form.querySelector('.frm-msg') as HTMLElement;
+    if (pageId === 'legacy') {
+      const topic = form.querySelector('select[name=message]') as HTMLSelectElement;
+      const selected = form.querySelector('.topic-selected') as HTMLElement;
+      const showTopic = () => { selected.textContent = topic.value; };
+      topic.addEventListener('change', showTopic);
+      form.addEventListener('reset', () => { selected.textContent = ''; });
+    }
+
     const setErr = (el: Element | null, m: string) => { const s = el && (el.closest('.f') || el.parentElement)?.querySelector('.err'); if (s) s.textContent = m; };
     const submit = async (ev: Event) => {
       ev.preventDefault();
@@ -313,7 +321,7 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
       if (em && em.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em.value.trim())) { setErr(em, t.badEmail); ok = false; }
       if (br && !br.value) { setErr(br, t.req); ok = false; }
       const ms = form.elements.namedItem(uid + 'message') as HTMLSelectElement | null;
-      if (ms && ms.tagName === 'SELECT' && !ms.value) { setErr(ms, t.req); ok = false; }
+      if (pageId === 'legacy' && ms && ms.tagName === 'SELECT' && !ms.value) { setErr(ms, t.req); ok = false; }
       if (!cs.checked) { (form.querySelector('.cerr') as HTMLElement).textContent = t.consent; ok = false; }
       msg.textContent = ''; msg.className = 'frm-msg';
       if (!ok) return;

@@ -849,3 +849,20 @@ header .hsoc{display:none}
 
 .figrow .fcap{margin:0;display:flex;flex-direction:column;gap:12px}
 .figrow .fcap figcaption{font-size:17px;line-height:1.8}
+
+/* Legacy's long heading choices must wrap inside the mobile dropdown.
+   Progressive enhancement: other browsers retain their native select picker. */
+@supports (appearance: base-select) {
+  #pg-legacy select[name="message"],
+  #pg-legacy select[name="message"]::picker(select) { appearance: base-select; }
+  #pg-legacy select[name="message"]::picker(select) {
+    width: min(350px, calc(100vw - 40px));
+    max-width: calc(100vw - 40px);
+    background: #f5eee7; color: #4e263e;
+    border: 1px solid #d7bfb2; border-radius: 12px;
+  }
+  #pg-legacy select[name="message"] option {
+    white-space: normal; overflow-wrap: anywhere;
+    padding: 10px; line-height: 1.45;
+  }
+}
