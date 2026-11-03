@@ -866,3 +866,10 @@ header .hsoc{display:none}
     padding: 10px; line-height: 1.45;
   }
 }
+@supports (appearance: base-select) {
+  #pg-legacy select[name="message"] {
+    height: auto; min-height: 52px; white-space: normal;
+    overflow-wrap: anywhere; line-height: 1.5;
+  }
+  #pg-legacy .topic-selected { display: none; }
+}
