@@ -146,6 +146,9 @@ footer .soc svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:1.6}
 .figrow .fig{margin:0;border-radius:18px}
 .flyers{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin:26px 0;align-items:start}
 .flyers .fig{margin:0;border-radius:16px;background-size:contain;background-repeat:no-repeat;background-color:#fff}
+/* uniform display frame: every flyer shown at the same size, full artwork kept (contain, never cropped or stretched) */
+.flyers .fig{aspect-ratio:636/900!important;max-width:none!important;width:100%;background-position:center;background-color:#f3ece6}
+@media(max-width:900px){.flyers .fig{max-width:460px!important;margin-inline:auto}}
 .btn2{display:inline-flex;align-items:center;gap:10px;background:var(--plum);color:#fff;border-radius:40px;padding:14px 28px;font-size:16px;font-weight:600;margin:6px 0 14px}
 .btn2.line{background:transparent;border:1.5px solid var(--plum);color:var(--plum)}
 .btn2 svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
