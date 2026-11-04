@@ -503,7 +503,7 @@ function privateTestHeader(endpoint: string): Record<string, string> {
   if (endpoint !== 'https://ccw-forms-microsoft.nitkarm.workers.dev') return {};
   try {
     const entry = JSON.parse(sessionStorage.getItem('ccw-test-session') || 'null');
-    const until = Date.parse('2026-11-04T20:43:26Z');
+    const until = Date.parse('2026-11-04T21:54:37Z');
     if (!entry || entry.until !== until || Date.now() >= until || !/^[A-Za-z0-9_-]{43}$/.test(entry.value)) {
       sessionStorage.removeItem('ccw-test-session'); return {};
     }
