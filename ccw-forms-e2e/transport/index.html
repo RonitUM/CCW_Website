@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>CCW forms synthetic test</title>
+<style>body{font:16px/1.5 system-ui,sans-serif;max-width:640px;margin:32px auto;padding:0 16px;color:#111}h1{font-size:26px}button{font:inherit;padding:10px 14px;margin:4px 4px 4px 0;border:1px solid #999;border-radius:8px;background:#f3f3f3;cursor:pointer}button.primary{background:#111;color:#fff}pre{background:#f3f3f3;padding:12px;border-radius:8px;white-space:pre-wrap}</style></head>
+<body><h1>CCW forms synthetic test</h1>
+<p>Sends fixed fake data only. The service rejects anything else.</p>
+<div id="ts"></div>
+<p><button class="primary" id="all">Send all 5</button> <button data-f="contact">contact</button><button data-f="treat">treat</button><button data-f="train">train</button><button data-f="donate">donate</button><button data-f="legacy">legacy</button></p>
+<pre id="out">Waiting for the check to finish...</pre>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
+<script>
+const BACKEND='https://ccw-forms-microsoft.nitkarm.workers.dev/',KEY='0x4AAAAAAFwxACd5xXPAwvi7';
+const out=document.getElementById('out');let wid,waiter=null,token=null;
+const base={name:'CCW SYNTHETIC TEST',phone:'+972 50 000 0000',email:'synthetic@example.com',lang:'en',consent:true,page:location.origin+location.pathname};
+const forms={contact:{branch:'rg',message:''},treat:{branch:'rg',message:''},train:{branch:'',message:''},donate:{branch:'',message:''},legacy:{branch:'',message:'General'}};
+function ready(){return new Promise(r=>{if(token)return r(token);waiter=r;})}
+const t0=setInterval(()=>{if(window.turnstile){clearInterval(t0);wid=turnstile.render('#ts',{sitekey:KEY,action:'ccw_form',callback:t=>{token=t;out.textContent='Check passed. Ready.';if(waiter){waiter(t);waiter=null}},'expired-callback':()=>{token=null},'error-callback':()=>{out.textContent='Check failed to load.'}})}},200);
+async function send(f){const t=await ready();token=null;let line;try{const r=await fetch(BACKEND,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({...base,form:f,...forms[f],turnstileToken:t})});line=f+': HTTP '+r.status+' '+(await r.text())}catch(e){line=f+': network error'}turnstile.reset(wid);return line}
+document.querySelectorAll('button[data-f]').forEach(b=>b.onclick=async()=>{out.textContent='Sending '+b.dataset.f+'...';out.textContent=await send(b.dataset.f)});
+document.getElementById('all').onclick=async()=>{const res=[];for(const f of Object.keys(forms)){out.textContent=res.join('\n')+'\nSending '+f+'...';res.push(await send(f))}out.textContent=res.join('\n')};
+</script></body></html>
