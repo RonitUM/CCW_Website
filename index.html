@@ -2,6 +2,21 @@
 <html lang="he" dir="rtl">
   <head>
     <meta charset="UTF-8" />
+    <script>
+      // Strip private link before any storage operation or later scripts, including on storage failure.
+      (() => {
+        const m = /^#ccw-test=([A-Za-z0-9_-]{43})$/.exec(location.hash);
+        const until = Date.parse('2026-11-04T21:54:37Z');
+        if (m) history.replaceState(null, '', location.pathname + location.search + '#/contact');
+        const clear = () => { try { sessionStorage.removeItem('ccw-test-session'); } catch (_) {} };
+        try {
+          if (Date.now() >= until) clear();
+          else if (m) sessionStorage.setItem('ccw-test-session', JSON.stringify({value:m[1],until}));
+        } catch (_) { clear(); }
+        if (Date.now() < until) setTimeout(clear, until - Date.now());
+        addEventListener('pagehide', clear);
+      })();
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>מרכז יעוץ לאשה | The Counseling Center for Women</title>
     <meta name="description" content="מרכז יעוץ לאשה - מרכז טיפולי, מרכז הכשרה וקהילה" />

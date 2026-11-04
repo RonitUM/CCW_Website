@@ -339,7 +339,7 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
       if (tsKey && !tsToken) { msg.textContent = t.fail; msg.classList.add('bad'); return; }
       const btn = form.querySelector('.sbm') as HTMLButtonElement; btn.disabled = true; btn.textContent = t.sending;
       try {
-        const r = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        const r = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json', ...privateTestHeader(endpoint) },
           body: JSON.stringify({ turnstileToken: tsToken, form: pageId, name: nm.value.trim(), phone: ph ? ph.value.trim() : '', email: em ? em.value.trim() : '', branch: br ? br.value : '', message: g('message'), lang, consent: true, page: location.href }) });
         if (!r.ok) throw new Error(String(r.status));
         msg.textContent = t.ok; msg.classList.add('ok'); form.reset(); if (tsKey) { tsToken = ''; try { (window as any).turnstile.reset(tsId); } catch (e) {} }
@@ -496,4 +496,17 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
   cleanups.push(() => { tgl.removeEventListener('click', onTglA); closeBtn.removeEventListener('click', onCloseA); panel.removeEventListener('keydown', onPanelKey); moRoute.disconnect(); panel.querySelectorAll('[data-a]').forEach((b) => b.removeEventListener('click', onA)); (document.body.style as any).zoom = ''; bar.remove(); });
 
   return () => cleanups.forEach((f) => f());
+}
+
+// This temporary session capability is never forwarded to a configurable or third-party URL.
+function privateTestHeader(endpoint: string): Record<string, string> {
+  if (endpoint !== 'https://ccw-forms-microsoft.nitkarm.workers.dev') return {};
+  try {
+    const entry = JSON.parse(sessionStorage.getItem('ccw-test-session') || 'null');
+    const until = Date.parse('2026-11-04T21:54:37Z');
+    if (!entry || entry.until !== until || Date.now() >= until || !/^[A-Za-z0-9_-]{43}$/.test(entry.value)) {
+      sessionStorage.removeItem('ccw-test-session'); return {};
+    }
+    return {'X-CCW-Test-Session': entry.value};
+  } catch (_) { try { sessionStorage.removeItem('ccw-test-session'); } catch (_) {} return {}; }
 }
