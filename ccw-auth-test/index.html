@@ -1,0 +1,10 @@
+<!doctype html><meta charset=utf-8><meta name=viewport content="width=device-width"><meta name=robots content="noindex"><meta name=referrer content="no-referrer"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src https://ccw-auth-test.nitkarm.workers.dev; base-uri 'none'; form-action 'none'"><title>CCW app auth test</title>
+<style>body{font:15px system-ui;max-width:640px;margin:2rem auto;padding:0 1rem}input,button{font:inherit;padding:.5rem;width:100%;box-sizing:border-box;margin:.3rem 0}pre{background:#f4f4f4;padding:1rem;white-space:pre-wrap}</style>
+<h1>CCW app auth test</h1><p>Tenant <code>760e00cb-f926-4101-845f-90fd0a72eebf</code><br>Client <code>4fcac966-8904-44ee-be82-9c26fdf23fd2</code></p>
+<p>The secret is sent once to a temporary test service, which asks Microsoft for a token and returns only the result. Nothing is stored.</p>
+<input id=s type=password autocomplete=off placeholder="Client secret Value"><button id=b>Test token</button><pre id=o></pre>
+<script>
+const BACKEND='https://ccw-auth-test.nitkarm.workers.dev/test'; // set at deploy
+const c=location.hash.slice(1);history.replaceState(null,'',location.pathname);
+b.onclick=async()=>{o.textContent='...';try{const body=JSON.stringify({secret:s.value});s.value='';const r=await fetch(BACKEND,{method:'POST',headers:{'content-type':'application/json','x-access':c},body});o.textContent=JSON.stringify(await r.json(),null,2)}catch(e){s.value='';o.textContent='Request failed (network or blocked)'}}
+</script>
