@@ -3,13 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <script>
-      // Capture the private, expiring test link before loading application or third-party code.
+      // Strip private link before any storage operation or later scripts, including on storage failure.
       (() => {
         const m = /^#ccw-test=([A-Za-z0-9_-]{43})$/.exec(location.hash);
-        if (m) {
-          sessionStorage.setItem('ccw-test-session', m[1]);
-          history.replaceState(null, '', location.pathname + location.search + '#/contact');
-        }
+        const until = Date.parse('2026-11-04T20:43:26Z');
+        if (m) history.replaceState(null, '', location.pathname + location.search + '#/contact');
+        const clear = () => { try { sessionStorage.removeItem('ccw-test-session'); } catch (_) {} };
+        try {
+          if (Date.now() >= until) clear();
+          else if (m) sessionStorage.setItem('ccw-test-session', JSON.stringify({value:m[1],until}));
+        } catch (_) { clear(); }
+        if (Date.now() < until) setTimeout(clear, until - Date.now());
+        addEventListener('pagehide', clear);
       })();
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
