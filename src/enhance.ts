@@ -339,7 +339,7 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
       if (tsKey && !tsToken) { msg.textContent = t.fail; msg.classList.add('bad'); return; }
       const btn = form.querySelector('.sbm') as HTMLButtonElement; btn.disabled = true; btn.textContent = t.sending;
       try {
-        const r = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        const r = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json', ...(sessionStorage.getItem('ccw-test-session') ? { 'X-CCW-Test-Session': sessionStorage.getItem('ccw-test-session')! } : {}) },
           body: JSON.stringify({ turnstileToken: tsToken, form: pageId, name: nm.value.trim(), phone: ph ? ph.value.trim() : '', email: em ? em.value.trim() : '', branch: br ? br.value : '', message: g('message'), lang, consent: true, page: location.href }) });
         if (!r.ok) throw new Error(String(r.status));
         msg.textContent = t.ok; msg.classList.add('ok'); form.reset(); if (tsKey) { tsToken = ''; try { (window as any).turnstile.reset(tsId); } catch (e) {} }

@@ -2,6 +2,16 @@
 <html lang="he" dir="rtl">
   <head>
     <meta charset="UTF-8" />
+    <script>
+      // Capture the private, expiring test link before loading application or third-party code.
+      (() => {
+        const m = /^#ccw-test=([A-Za-z0-9_-]{43})$/.exec(location.hash);
+        if (m) {
+          sessionStorage.setItem('ccw-test-session', m[1]);
+          history.replaceState(null, '', location.pathname + location.search + '#/contact');
+        }
+      })();
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>מרכז יעוץ לאשה | The Counseling Center for Women</title>
     <meta name="description" content="מרכז יעוץ לאשה - מרכז טיפולי, מרכז הכשרה וקהילה" />
