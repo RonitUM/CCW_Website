@@ -298,6 +298,15 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
       '<button type="submit" class="sbm">' + esc(t.send) + '</button><p class="frm-msg" role="status" aria-live="polite"></p></form>';
     const form = box.querySelector('form') as HTMLFormElement;
     const msg = form.querySelector('.frm-msg') as HTMLElement;
+    // E2E-ONLY (not part of PR75): Turnstile widget, active only when VITE_TURNSTILE_SITEKEY is set at build time.
+    const tsKey = ((import.meta as any).env && (import.meta as any).env.VITE_TURNSTILE_SITEKEY) || '';
+    let tsToken = '', tsId: any = null;
+    if (tsKey) {
+      const holder = document.createElement('div'); holder.className = 'ts-holder'; form.querySelector('.sbm')!.before(holder);
+      const mount = () => { const w = (window as any).turnstile; if (!w) { setTimeout(mount, 300); return; } tsId = w.render(holder, { sitekey: tsKey, action: 'ccw_form', callback: (tk: string) => { tsToken = tk; }, 'expired-callback': () => { tsToken = ''; try { w.reset(tsId); } catch (e) {} }, 'error-callback': () => { tsToken = ''; } }); };
+      if (!document.querySelector('script[data-ts]')) { const sc = document.createElement('script'); sc.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit'; sc.async = true; sc.setAttribute('data-ts', '1'); document.head.appendChild(sc); }
+      mount();
+    }
     if (pageId === 'legacy') {
       const topic = form.querySelector('select[name=message]') as HTMLSelectElement;
       const selected = form.querySelector('.topic-selected') as HTMLElement;
@@ -327,13 +336,14 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
       if (!ok) return;
       if (g('website')) { msg.textContent = t.ok; msg.classList.add('ok'); form.reset(); return; } // spam trap: pretend success, send nothing
       if (!endpoint || dryRun) { msg.textContent = t.off; msg.classList.add('warn'); return; }
+      if (tsKey && !tsToken) { msg.textContent = t.fail; msg.classList.add('bad'); return; }
       const btn = form.querySelector('.sbm') as HTMLButtonElement; btn.disabled = true; btn.textContent = t.sending;
       try {
         const r = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ form: pageId, name: nm.value.trim(), phone: ph ? ph.value.trim() : '', email: em ? em.value.trim() : '', branch: br ? br.value : '', message: g('message'), lang, consent: true, page: location.href }) });
+          body: JSON.stringify({ turnstileToken: tsToken, form: pageId, name: nm.value.trim(), phone: ph ? ph.value.trim() : '', email: em ? em.value.trim() : '', branch: br ? br.value : '', message: g('message'), lang, consent: true, page: location.href }) });
         if (!r.ok) throw new Error(String(r.status));
-        msg.textContent = t.ok; msg.classList.add('ok'); form.reset();
-      } catch (e) { msg.textContent = t.fail; msg.classList.add('bad'); }
+        msg.textContent = t.ok; msg.classList.add('ok'); form.reset(); if (tsKey) { tsToken = ''; try { (window as any).turnstile.reset(tsId); } catch (e) {} }
+      } catch (e) { msg.textContent = t.fail; msg.classList.add('bad'); if (tsKey) { tsToken = ''; try { (window as any).turnstile.reset(tsId); } catch (e2) {} } }
       btn.disabled = false; btn.textContent = t.send;
     };
     form.addEventListener('submit', submit);
