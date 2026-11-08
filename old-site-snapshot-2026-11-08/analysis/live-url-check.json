@@ -1,0 +1,1034 @@
+[
+ {
+  "old": "/חדש-במרכז/",
+  "listed_new": "—",
+  "listed_status": "הפניה ישירה קיימת אל #/story; התוכן לא הועתק — שמור לשחזור (החלטת תוכן)",
+  "http": 404,
+  "kind": "notfound",
+  "target": ""
+ },
+ {
+  "old": "/טיפול-פמיניסטי-אינטרסובייקטיבי/",
+  "listed_new": "—",
+  "listed_status": "אין הפניה; התוכן לא הועתק — שמור לשחזור (החלטת תוכן)",
+  "http": 404,
+  "kind": "notfound",
+  "target": ""
+ },
+ {
+  "old": "/מרכז-העשרה1/",
+  "listed_new": "—",
+  "listed_status": "אין הפניה; התוכן לא הועתק — שמור לשחזור (החלטת תוכן)",
+  "http": 404,
+  "kind": "notfound",
+  "target": ""
+ },
+ {
+  "old": "/en/dec-2018/",
+  "listed_new": "—",
+  "listed_status": "אין הפניה; התוכן לא הועתק — שמור לשחזור (החלטת תוכן)",
+  "http": 404,
+  "kind": "notfound",
+  "target": ""
+ },
+ {
+  "old": "/en/jan-2019-happy-new-year-2019/",
+  "listed_new": "—",
+  "listed_status": "אין הפניה; התוכן לא הועתק — שמור לשחזור (החלטת תוכן)",
+  "http": 404,
+  "kind": "notfound",
+  "target": ""
+ },
+ {
+  "old": "/en/january-2022-we-are-hiring/",
+  "listed_new": "—",
+  "listed_status": "הפניה ישירה קיימת אל #/treat; התוכן לא הועתק — שמור לשחזור (החלטת תוכן)",
+  "http": 404,
+  "kind": "notfound",
+  "target": ""
+ },
+ {
+  "old": "/en/may-2019/",
+  "listed_new": "—",
+  "listed_status": "אין הפניה; התוכן לא הועתק — שמור לשחזור (החלטת תוכן)",
+  "http": 404,
+  "kind": "notfound",
+  "target": ""
+ },
+ {
+  "old": "/מרכז-העשרה/",
+  "listed_new": "קובץ הפניה ייעודי (HTTP 200 + רענון)",
+  "listed_status": "תוקן חי (PR #97): מופנה לעמוד פעילות בקהילה; הטקסט זהה לישן פרט להבדלי פיסוק/מקפים בלבד",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/community"
+ },
+ {
+  "old": "/נויזלטר-דצמבר-2021/",
+  "listed_new": "קובץ הפניה ייעודי (HTTP 200 + רענון)",
+  "listed_status": "תוקן חי (PR #97): מופנה לעמוד דצמבר 2021; הטקסט זהה פרט לכותרת תבנית",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/post11"
+ },
+ {
+  "old": "/en/counseling-center-for-women-invites-you-to-a-zoom-gathering/",
+  "listed_new": "#/newsletter",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · מופנה לאינדקס הניוזלטר; תוכן הפוסט עצמו לא קיים באתר החדש — שמור לשחזור (החלטה)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/newsletter"
+ },
+ {
+  "old": "/en/happy-and-healthy-new-year-from-the-counseling-center-for-women/",
+  "listed_new": "#/newsletter",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · מופנה לאינדקס הניוזלטר; תוכן הפוסט עצמו לא קיים באתר החדש — שמור לשחזור (החלטה)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/newsletter"
+ },
+ {
+  "old": "/en/invitation-to-counseling-center-for-women-webinar/",
+  "listed_new": "#/newsletter",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · מופנה לאינדקס הניוזלטר; תוכן הפוסט עצמו לא קיים באתר החדש — שמור לשחזור (החלטה)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/newsletter"
+ },
+ {
+  "old": "/en/newsletter-july-2024/",
+  "listed_new": "#/newsletter",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · מופנה לאינדקס הניוזלטר; תוכן הפוסט עצמו לא קיים באתר החדש — שמור לשחזור (החלטה)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/newsletter"
+ },
+ {
+  "old": "/en/newsletter-march-2024/",
+  "listed_new": "#/newsletter",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · מופנה לאינדקס הניוזלטר; תוכן הפוסט עצמו לא קיים באתר החדש — שמור לשחזור (החלטה)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/newsletter"
+ },
+ {
+  "old": "/en/newsletter-october-2023/",
+  "listed_new": "#/newsletter",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · מופנה לאינדקס הניוזלטר; תוכן הפוסט עצמו לא קיים באתר החדש — שמור לשחזור (החלטה)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/newsletter"
+ },
+ {
+  "old": "/2177-2/",
+  "listed_new": "#/post17",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · שונה מהותית — הושמטו ~0 מילים, נוספו ~5; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/post17"
+ },
+ {
+  "old": "/2321-2/",
+  "listed_new": "#/post13",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · שונה מהותית — הושמטו ~0 מילים, נוספו ~5; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/post13"
+ },
+ {
+  "old": "/legacy-donation-program/",
+  "listed_new": "#/legacy",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · שונה מהותית — הושמטו ~652 מילים, נוספו ~464; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/legacy"
+ },
+ {
+  "old": "/אודות/",
+  "listed_new": "#/about",
+  "listed_status": "HTTP 200 עם עמוד 404 כללי; הסקריפט מפנה ליעד (אומת בדפדפן) · שונה מהותית — הושמטו ~27 מילים, נוספו ~92; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/about"
+ },
+ {
+  "old": "/הסיפור-שלנו/",
+  "listed_new": "#/story",
+  "listed_status": "HTTP 200 עם עמוד 404 כללי; הסקריפט מפנה ליעד (אומת בדפדפן) · שונה מהותית — הושמטו ~5 מילים, נוספו ~21; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/story"
+ },
+ {
+  "old": "/לזכרן/",
+  "listed_new": "#/memorial",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · שונה מהותית — הושמטו ~0 מילים, נוספו ~8; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/memorial"
+ },
+ {
+  "old": "/לתרומות/",
+  "listed_new": "#/donate",
+  "listed_status": "HTTP 200 עם עמוד 404 כללי; הסקריפט מפנה ליעד (אומת בדפדפן) · שונה מהותית — הושמטו ~0 מילים, נוספו ~31; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/donate"
+ },
+ {
+  "old": "/מאמרים-2/",
+  "listed_new": "#/media",
+  "listed_status": "HTTP 200 עם עמוד 404 כללי; הסקריפט מפנה ליעד (אומת בדפדפן) · שונה מהותית — הושמטו ~0 מילים, נוספו ~0; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/media"
+ },
+ {
+  "old": "/מדיניות-פרטיות/",
+  "listed_new": "#/privacy",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · שונה מהותית — הושמטו ~5 מילים, נוספו ~51; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/privacy"
+ },
+ {
+  "old": "/מסמכי-עמותה/",
+  "listed_new": "#/docs",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · שונה מהותית — הושמטו ~8 מילים, נוספו ~11; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/docs"
+ },
+ {
+  "old": "/מרכז-הכשרה/",
+  "listed_new": "#/train",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · שונה מהותית — הושמטו ~0 מילים, נוספו ~13; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/train"
+ },
+ {
+  "old": "/מרכז-טיפולי/",
+  "listed_new": "#/treat",
+  "listed_status": "HTTP 200 עם עמוד 404 כללי; הסקריפט מפנה ליעד (אומת בדפדפן) · שונה מהותית — הושמטו ~5 מילים, נוספו ~41; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/treat"
+ },
+ {
+  "old": "/ניוזלטר-אוגוסט-2024/",
+  "listed_new": "#/post2",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · שונה מהותית — הושמטו ~0 מילים, נוספו ~8; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/post2"
+ },
+ {
+  "old": "/ניוזלטר-דצמבר-2019/",
+  "listed_new": "#/post21",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · שונה מהותית — הושמטו ~0 מילים, נוספו ~5; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/post21"
+ },
+ {
+  "old": "/סניף-ירושלים/",
+  "listed_new": "#/jlm",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · שונה מהותית — הושמטו ~88 מילים, נוספו ~145; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/jlm"
+ },
+ {
+  "old": "/סניף-רמת-גן/",
+  "listed_new": "#/rg",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · שונה מהותית — הושמטו ~79 מילים, נוספו ~135; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/rg"
+ },
+ {
+  "old": "/צוות-מנהלה/",
+  "listed_new": "#/board",
+  "listed_status": "HTTP 200 עם עמוד 404 כללי; הסקריפט מפנה ליעד (אומת בדפדפן) · שונה מהותית — הושמטו ~25 מילים, נוספו ~23; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/board"
+ },
+ {
+  "old": "/צוות-ניהולי/",
+  "listed_new": "#/mgmt",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · שונה מהותית — הושמטו ~109 מילים, נוספו ~159; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/mgmt"
+ },
+ {
+  "old": "/צור-קשר/",
+  "listed_new": "#/contact",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · שונה מהותית — הושמטו ~0 מילים, נוספו ~30; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/contact"
+ },
+ {
+  "old": "/שאלות-ותשובות/",
+  "listed_new": "#/faq",
+  "listed_status": "HTTP 200 עם עמוד 404 כללי; הסקריפט מפנה ליעד (אומת בדפדפן) · שונה מהותית — הושמטו ~0 מילים, נוספו ~29; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/faq"
+ },
+ {
+  "old": "/en/1community-action-center/",
+  "listed_new": "#/community",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · בשרת הישן כיום placeholder; בחדש תוכן מלא (תוספת)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/community"
+ },
+ {
+  "old": "/en/about/",
+  "listed_new": "#/about",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · שונה מהותית — הושמטו ~68 מילים, נוספו ~82; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/about"
+ },
+ {
+  "old": "/en/activities/",
+  "listed_new": "#/activity",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · שונה מהותית — הושמטו ~27 מילים, נוספו ~12; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/activity"
+ },
+ {
+  "old": "/en/administrative-staff/",
+  "listed_new": "#/mgmt",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · שונה מהותית — הושמטו ~154 מילים, נוספו ~200; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/mgmt"
+ },
+ {
+  "old": "/en/ccw-founding-mother-judy-shotten-1924-2020/",
+  "listed_new": "#/post15",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · שונה מהותית — הושמטו ~0 מילים, נוספו ~16; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/post15"
+ },
+ {
+  "old": "/en/community-action-center/",
+  "listed_new": "#/community",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · בשרת הישן כיום placeholder; בחדש תוכן מלא (תוספת, לא איבוד)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/community"
+ },
+ {
+  "old": "/en/contact/",
+  "listed_new": "#/contact",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · שונה מהותית — הושמטו ~8 מילים, נוספו ~80; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/contact"
+ },
+ {
+  "old": "/en/dec-2021-a-clients-perspective/",
+  "listed_new": "#/post16",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · שונה מהותית — הושמטו ~0 מילים, נוספו ~15; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/post16"
+ },
+ {
+  "old": "/en/donations/",
+  "listed_new": "#/donate",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · שונה מהותית — הושמטו ~0 מילים, נוספו ~42; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/donate"
+ },
+ {
+  "old": "/en/legacy/",
+  "listed_new": "#/legacy",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · שונה מהותית — הושמטו ~746 מילים, נוספו ~634; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/legacy"
+ },
+ {
+  "old": "/en/march-2020-ccw-in-corona-times/",
+  "listed_new": "#/post20",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · שונה מהותית — הושמטו ~0 מילים, נוספו ~13; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/post20"
+ },
+ {
+  "old": "/en/news/",
+  "listed_new": "#/newsletter",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · שונה מהותית — הושמטו ~181 מילים, נוספו ~684; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/newsletter"
+ },
+ {
+  "old": "/en/newsletter-december-2023/",
+  "listed_new": "#/post1",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · שונה מהותית — הושמטו ~646 מילים, נוספו ~917; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/post1"
+ },
+ {
+  "old": "/en/non-profit-documents/",
+  "listed_new": "#/docs",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · שונה מהותית — הושמטו ~21 מילים, נוספו ~26; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/docs"
+ },
+ {
+  "old": "/en/our-clients-write/",
+  "listed_new": "#/patients",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · שונה מהותית — הושמטו ~13 מילים, נוספו ~12; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/patients"
+ },
+ {
+  "old": "/en/our-story/",
+  "listed_new": "#/story",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · שונה מהותית — הושמטו ~34 מילים, נוספו ~52; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/story"
+ },
+ {
+  "old": "/en/press-and-media/",
+  "listed_new": "#/media",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · שונה מהותית — הושמטו ~15 מילים, נוספו ~187; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/media"
+ },
+ {
+  "old": "/en/privacy-policy/",
+  "listed_new": "#/privacy",
+  "listed_status": "HTTP 200 עם עמוד 404 כללי; הסקריפט מפנה ליעד (אומת בדפדפן) · שונה מהותית — הושמטו ~48 מילים, נוספו ~97; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/privacy"
+ },
+ {
+  "old": "/en/questions-and-answers/",
+  "listed_new": "#/faq",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · שונה מהותית — הושמטו ~192 מילים, נוספו ~165; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/faq"
+ },
+ {
+  "old": "/en/ramat-gan-branch/",
+  "listed_new": "#/rg",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · שונה מהותית — הושמטו ~36 מילים, נוספו ~8; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/rg"
+ },
+ {
+  "old": "/en/remembrance/",
+  "listed_new": "#/memorial",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · שונה מהותית — הושמטו ~164 מילים, נוספו ~342; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/memorial"
+ },
+ {
+  "old": "/en/staff/",
+  "listed_new": "#/team",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · שונה מהותית — הושמטו ~4 מילים, נוספו ~12; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/team"
+ },
+ {
+  "old": "/en/supporting-women-in-the-midst-of-it-all/",
+  "listed_new": "#/post3",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · שונה מהותית — הושמטו ~0 מילים, נוספו ~24; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/post3"
+ },
+ {
+  "old": "/en/this-passover-we-yearn-for-liberation/",
+  "listed_new": "#/post4",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · שונה מהותית — הושמטו ~0 מילים, נוספו ~19; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/post4"
+ },
+ {
+  "old": "/en/training-center-for-professionals/",
+  "listed_new": "#/train",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · שונה מהותית — הושמטו ~24 מילים, נוספו ~41; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/train"
+ },
+ {
+  "old": "/en/treatment-center/",
+  "listed_new": "#/treat",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · שונה מהותית — הושמטו ~114 מילים, נוספו ~147; הקטעים המדויקים בנספח בקובץ הנתונים",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/treat"
+ },
+ {
+  "old": "/ועדת-ביקורת/",
+  "listed_new": "#/audit",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · אותו תוכן, סדר בלבד שונה",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/audit"
+ },
+ {
+  "old": "/2160-2/",
+  "listed_new": "#/post15",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · הועתק כמעט זהה — הבדל 3/2 מילים (תאריכים/תבנית)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/post15"
+ },
+ {
+  "old": "/בפסח-הזה-אנו-לא-רק-זוכרות-את-העבר-שלנו/",
+  "listed_new": "#/post4",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · הועתק כמעט זהה — הבדל 0/3 מילים (תאריכים/תבנית)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/post4"
+ },
+ {
+  "old": "/גם-בעין-הסערה-ממשיכות-לתמוך-בנשים/",
+  "listed_new": "#/post3",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · הועתק כמעט זהה — הבדל 0/3 מילים (תאריכים/תבנית)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/post3"
+ },
+ {
+  "old": "/מהו-טיפול-פמיניסטי/",
+  "listed_new": "#/whatis",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · הועתק כמעט זהה — הבדל 3/2 מילים (תאריכים/תבנית)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/whatis"
+ },
+ {
+  "old": "/מטופלות-כותבות/",
+  "listed_new": "#/patients",
+  "listed_status": "HTTP 200 עם עמוד 404 כללי; הסקריפט מפנה ליעד (אומת בדפדפן) · הועתק כמעט זהה — הבדל 1/7 מילים (תאריכים/תבנית)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/patients"
+ },
+ {
+  "old": "/ניוזלטר-אוקטור-2021/",
+  "listed_new": "#/post12",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · הועתק כמעט זהה — הבדל 1/6 מילים (תאריכים/תבנית)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/post12"
+ },
+ {
+  "old": "/ניוזלטר-דצמבר-2021/",
+  "listed_new": "#/post11",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · הועתק כמעט זהה — הבדל 0/5 מילים (תאריכים/תבנית)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/post11"
+ },
+ {
+  "old": "/ניוזלטר-יולי-2020/",
+  "listed_new": "#/post18",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · הועתק כמעט זהה — הבדל 2/7 מילים (תאריכים/תבנית)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/post18"
+ },
+ {
+  "old": "/ניוזלטר-יוני-2023/",
+  "listed_new": "#/post8",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · הועתק כמעט זהה — הבדל 0/8 מילים (תאריכים/תבנית)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/post8"
+ },
+ {
+  "old": "/ניוזלטר-מרץ-2023/",
+  "listed_new": "#/post9",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · הועתק כמעט זהה — הבדל 2/9 מילים (תאריכים/תבנית)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/post9"
+ },
+ {
+  "old": "/ניוזלטר-קורונה-מרץ-2020/",
+  "listed_new": "#/post20",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · הועתק כמעט זהה — הבדל 0/7 מילים (תאריכים/תבנית)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/post20"
+ },
+ {
+  "old": "/סוף-2020-ומבט-מחדר-טיפול/",
+  "listed_new": "#/post16",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · הועתק כמעט זהה — הבדל 0/11 מילים (תאריכים/תבנית)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/post16"
+ },
+ {
+  "old": "/עדכון-אמצע-שנה-2026/",
+  "listed_new": "#/post7",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · הועתק כמעט זהה — הבדל 4/5 מילים (תאריכים/תבנית)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/post7"
+ },
+ {
+  "old": "/עדכון-סוף-שנה-2025/",
+  "listed_new": "#/post5",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · הועתק כמעט זהה — הבדל 1/3 מילים (תאריכים/תבנית)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/post5"
+ },
+ {
+  "old": "/פברואר-2023/",
+  "listed_new": "#/post10",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · הועתק כמעט זהה — הבדל 2/4 מילים (תאריכים/תבנית)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/post10"
+ },
+ {
+  "old": "/פעילות/",
+  "listed_new": "#/activity",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · הועתק כמעט זהה — הבדל 4/6 מילים (תאריכים/תבנית)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/activity"
+ },
+ {
+  "old": "/צוות/",
+  "listed_new": "#/team",
+  "listed_status": "HTTP 200 עם עמוד 404 כללי; הסקריפט מפנה ליעד (אומת בדפדפן) · הועתק כמעט זהה — הבדל 2/6 מילים (תאריכים/תבנית)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/team"
+ },
+ {
+  "old": "/en/2019-december/",
+  "listed_new": "#/post21",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · הועתק כמעט זהה — הבדל 0/8 מילים (תאריכים/תבנית)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/post21"
+ },
+ {
+  "old": "/en/board-of-directors/",
+  "listed_new": "#/board",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · הועתק כמעט זהה — הבדל 0/2 מילים (תאריכים/תבנית)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/board"
+ },
+ {
+  "old": "/en/ccw-newsletter-november-2020/",
+  "listed_new": "#/post17",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · הועתק כמעט זהה — הבדל 0/5 מילים (תאריכים/תבנית)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/post17"
+ },
+ {
+  "old": "/en/february-2023/",
+  "listed_new": "#/post10",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · הועתק כמעט זהה — הבדל 0/3 מילים (תאריכים/תבנית)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/post10"
+ },
+ {
+  "old": "/en/happy-passover-2021/",
+  "listed_new": "#/post14",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · הועתק כמעט זהה — הבדל 0/11 מילים (תאריכים/תבנית)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/post14"
+ },
+ {
+  "old": "/en/in-review-2025/",
+  "listed_new": "#/post5",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · הועתק כמעט זהה — הבדל 2/3 מילים (תאריכים/תבנית)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/post5"
+ },
+ {
+  "old": "/en/jerusalem-branch/",
+  "listed_new": "#/jlm",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · הועתק כמעט זהה — הבדל 0/7 מילים (תאריכים/תבנית)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/jlm"
+ },
+ {
+  "old": "/en/july-2020-newsletter/",
+  "listed_new": "#/post18",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · הועתק כמעט זהה — הבדל 0/5 מילים (תאריכים/תבנית)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/post18"
+ },
+ {
+  "old": "/en/mid-year-snapshot-2026/",
+  "listed_new": "#/post7",
+  "listed_status": "HTTP 200 עם עמוד 404 כללי; הסקריפט מפנה ליעד (אומת בדפדפן) · הועתק כמעט זהה — הבדל 0/3 מילים (תאריכים/תבנית)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/post7"
+ },
+ {
+  "old": "/en/newsletter-03-2023/",
+  "listed_new": "#/post9",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · הועתק כמעט זהה — הבדל 0/8 מילים (תאריכים/תבנית)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/post9"
+ },
+ {
+  "old": "/en/newsletter-december-2021/",
+  "listed_new": "#/post11",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · הועתק כמעט זהה — הבדל 0/5 מילים (תאריכים/תבנית)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/post11"
+ },
+ {
+  "old": "/en/newsletter-june-2023/",
+  "listed_new": "#/post8",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · הועתק כמעט זהה — הבדל 0/8 מילים (תאריכים/תבנית)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/post8"
+ },
+ {
+  "old": "/en/newsletter-may-2021/",
+  "listed_new": "#/post13",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · הועתק כמעט זהה — הבדל 0/5 מילים (תאריכים/תבנית)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/post13"
+ },
+ {
+  "old": "/en/october-2021-newsletter/",
+  "listed_new": "#/post12",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · הועתק כמעט זהה — הבדל 0/5 מילים (תאריכים/תבנית)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/post12"
+ },
+ {
+  "old": "/en/pesach-2020/",
+  "listed_new": "#/post19",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · הועתק כמעט זהה — הבדל 0/9 מילים (תאריכים/תבנית)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/post19"
+ },
+ {
+  "old": "/en/professional-articles/",
+  "listed_new": "#/articles",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · פלייסהולדר גם בשרת הישן כיום. טיוטת שחזור מוכנה (PR #94, לא פורסם)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/articles"
+ },
+ {
+  "old": "/en/what-is-feminist-therapy/",
+  "listed_new": "#/whatis",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · הועתק כמעט זהה — הבדל 4/3 מילים (תאריכים/תבנית)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/whatis"
+ },
+ {
+  "old": "/ברכה-לפסח-2021/",
+  "listed_new": "#/post14",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · זהה לחלוטין (אומת גם בסדר המילים)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/post14"
+ },
+ {
+  "old": "/דרושות/",
+  "listed_new": "#/careers",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · מודעת תמונה בלבד. בישן: גיוס מנהל/ת פיתוח משאבים (ronit@); בחדש מודעה אחרת: גיוס מטפלות (yael@) — אומת חזותית. החלטת תוכן",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/careers"
+ },
+ {
+  "old": "/החלה-ההרשמה-לקבוצת-הצמיחה-2022-2023/",
+  "listed_new": "#/post0",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · זהה לחלוטין (אומת גם בסדר המילים)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/post0"
+ },
+ {
+  "old": "/יום-האישה-הבינלאומי-2026/",
+  "listed_new": "#/post6",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · תמונת ברכה זהה — אומתה חזותית. כותרת H1 בחדש ללא ״2026״ (בתמונה כן)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/post6"
+ },
+ {
+  "old": "/מאמרים/",
+  "listed_new": "#/articles",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · פלייסהולדר ״בבניה״ גם בשרת הישן כיום. טיוטת שחזור מהארכיון מוכנה (PR טיוטה #94, לא פורסם)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/articles"
+ },
+ {
+  "old": "/פסח-2020/",
+  "listed_new": "#/post19",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · זהה לחלוטין (אומת גם בסדר המילים)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/post19"
+ },
+ {
+  "old": "/en/audit-committee/",
+  "listed_new": "#/audit",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · זהה לחלוטין (אומת גם בסדר המילים)",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/audit"
+ },
+ {
+  "old": "/en/hiring/",
+  "listed_new": "#/careers",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · מודעת תמונה בלבד. בישן: גיוס מנהל/ת פיתוח משאבים (ronit@); בחדש מודעה אחרת: גיוס מטפלות (yael@) — אומת חזותית. החלטת תוכן",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/careers"
+ },
+ {
+  "old": "/en/international-womens-day/",
+  "listed_new": "#/post6",
+  "listed_status": "הפניה ישירה (קובץ הפניה ייעודי) · תמונת ברכה זהה — אומתה חזותית. כותרת H1 בחדש ללא ״2026״",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/post6"
+ },
+ {
+  "old": "/en/sample-page/",
+  "listed_new": "—",
+  "listed_status": "מציג ״לא נמצא״ — אין הפניה · דף דוגמה דיפולטיבי של וורדפרס — אין תוכן",
+  "http": 404,
+  "kind": "notfound",
+  "target": ""
+ },
+ {
+  "old": "/הבית/",
+  "listed_new": "#/home",
+  "listed_status": "תוקן 9.11 (PR #95): עד אז הוצג ״לא נמצא״ — לא הייתה הפניה; כעת מופנה לעמוד הבית, אומת חי · טקסט הפתיחה הישן (~200 מילה) לא הועתק — החלטת תוכן",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/home"
+ },
+ {
+  "old": "/en/home/",
+  "listed_new": "#/home",
+  "listed_status": "תוקן 9.11 (PR #95): עד אז הוצג ״לא נמצא״ — לא הייתה הפניה; כעת מופנה לעמוד הבית, אומת חי · טקסט הפתיחה הישן (~290 מילה EN) לא הועתק — החלטת תוכן",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/home"
+ },
+ {
+  "old": "/wp-content/uploads/2016/01/תקנון-מרכז-יעוץ-לאשה.pdf",
+  "listed_new": "/docs/takanon-1999.pdf",
+  "listed_status": "301 → עותק מקביל עדכני · הפניה ישירה",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/docs/takanon-1999.pdf"
+ },
+ {
+  "old": "/wp-content/uploads/2023/08/2024-2025-אישור-ניהול-תקין.pdf",
+  "listed_new": "/docs/nihul-takin-2026.pdf",
+  "listed_status": "301 → עותק מקביל · הפניה ישירה",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/docs/nihul-takin-2026.pdf"
+ },
+ {
+  "old": "/wp-content/uploads/2023/08/אישור-לצורך-ניכוי-מס.pdf",
+  "listed_new": "/docs/nihui-mas-2027.pdf",
+  "listed_status": "301 → עותק מקביל · הפניה ישירה",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/docs/nihui-mas-2027.pdf"
+ },
+ {
+  "old": "/wp-content/uploads/2023/09/דוח-כספי-חתום-2022.pdf",
+  "listed_new": "/docs/dohot-kaspiyim-2025.pdf",
+  "listed_status": "301 → עותק מקביל · הפניה ישירה",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/docs/dohot-kaspiyim-2025.pdf"
+ },
+ {
+  "old": "/wp-content/uploads/2024/03/אישור-ניהול-תקין-2024.pdf",
+  "listed_new": "/docs/nihul-takin-2026.pdf",
+  "listed_status": "301 → עותק מקביל · הפניה ישירה",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/docs/nihul-takin-2026.pdf"
+ },
+ {
+  "old": "/wp-content/uploads/2024/11/תעודת-מלכר-מעודכנת.pdf",
+  "listed_new": "/docs/malcar-certificate-2020.pdf",
+  "listed_status": "301 → עותק מקביל · הפניה ישירה",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/docs/malcar-certificate-2020.pdf"
+ },
+ {
+  "old": "/wp-content/uploads/2025/11/Article-by-Ruth-Elraz.pdf",
+  "listed_new": "—",
+  "listed_status": "404 חי · מקושר מעמודי לזכרן; בחדש ״מעבר לקריאת המאמר״ נשאר טקסט בלי קישור · עותק משוחזר ב-PR #94",
+  "http": 404,
+  "kind": "notfound",
+  "target": ""
+ },
+ {
+  "old": "/wp-content/uploads/2025/11/Article-by-Merlin-Zaslow.pdf",
+  "listed_new": "—",
+  "listed_status": "404 חי · כנ״ל · עותק משוחזר ב-PR #94",
+  "http": 404,
+  "kind": "notfound",
+  "target": ""
+ },
+ {
+  "old": "/wp-content/uploads/2022/05/דוח-כספי-2020-compressed.pdf",
+  "listed_new": "—",
+  "listed_status": "404 חי · מקושר מעמוד מסמכים EN; לא קיים בעמוד המסמכים החדש",
+  "http": 404,
+  "kind": "notfound",
+  "target": ""
+ },
+ {
+  "old": "/wp-content/uploads/2024/03/תעודת-מלכר.pdf",
+  "listed_new": "—",
+  "listed_status": "404 חי · גרסה ישנה של תעודת המלכ״ר (המעודכנת מופנית)",
+  "http": 404,
+  "kind": "notfound",
+  "target": ""
+ },
+ {
+  "old": "/wp-content/uploads/2022/01/Job-notice-in-English-1.pdf",
+  "listed_new": "—",
+  "listed_status": "404 חי · מקושר מעמוד news הישן; עותק Wayback זמין",
+  "http": 404,
+  "kind": "notfound",
+  "target": ""
+ },
+ {
+  "old": "/wp-content/uploads/2021/11/English-Flier-for-group-8-PDF.pdf",
+  "listed_new": "—",
+  "listed_status": "404 חי · מקושר מעמוד news הישן (פלייר 2021)",
+  "http": 404,
+  "kind": "notfound",
+  "target": ""
+ },
+ {
+  "old": "/wp-content/uploads/2021/11/Hebrew-flier-for-group-8-PDF.pdf",
+  "listed_new": "—",
+  "listed_status": "404 חי · מקושר מדף ״חדש במרכז״ (לא הועתק)",
+  "http": 404,
+  "kind": "notfound",
+  "target": ""
+ },
+ {
+  "old": "/wp-content/uploads/2023/09/Flyer-for-a-growth-group-for-women-in-their-fifties-and-sixties.pdf",
+  "listed_new": "—",
+  "listed_status": "404 חי · מקושר מדף ״חדש במרכז״ (לא הועתק)",
+  "http": 404,
+  "kind": "notfound",
+  "target": ""
+ },
+ {
+  "old": "/wp-content/uploads/2022/06/מודעה-מטפלות-יוני-2022.pdf",
+  "listed_new": "—",
+  "listed_status": "404 חי · מקושר מדף ״חדש במרכז״ (לא הועתק)",
+  "http": 404,
+  "kind": "notfound",
+  "target": ""
+ },
+ {
+  "old": "/author/ahiadmin/",
+  "listed_new": "—",
+  "listed_status": "אין הפניה · עמוד ארכיון-מחבר (11 פוסטים); אין עמודי מחבר באתר החדש — להחליט יעד",
+  "http": 404,
+  "kind": "notfound",
+  "target": ""
+ },
+ {
+  "old": "/author/dorit-shafir/",
+  "listed_new": "—",
+  "listed_status": "אין הפניה · עמוד ארכיון-מחבר (פוסטים); אין עמודי מחבר באתר החדש — להחליט יעד",
+  "http": 404,
+  "kind": "notfound",
+  "target": ""
+ },
+ {
+  "old": "/en/author/rosane-albert/",
+  "listed_new": "—",
+  "listed_status": "אין הפניה · עמוד ארכיון-מחבר (10 פוסטים); אין עמודי מחבר באתר החדש — להחליט יעד",
+  "http": 404,
+  "kind": "notfound",
+  "target": ""
+ },
+ {
+  "old": "/en/author/tamar/",
+  "listed_new": "—",
+  "listed_status": "אין הפניה · עמוד ארכיון-מחבר (פוסטים); אין עמודי מחבר באתר החדש — להחליט יעד",
+  "http": 404,
+  "kind": "notfound",
+  "target": ""
+ },
+ {
+  "old": "/category/newsletter/",
+  "listed_new": "#/newsletter",
+  "listed_status": "הפניה ישירה (stub) · עמוד אינדקס",
+  "http": 200,
+  "kind": "stub",
+  "target": "https://ccw.org.il/#/newsletter"
+ },
+ {
+  "old": "/en/category/newsletter-en/",
+  "listed_new": "#/newsletter",
+  "listed_status": "HTTP 200 עם 404 כללי + סקריפט מפנה (אומת בדפדפן) · באג: ה-stub נוצר ב-dist/category/ במקום dist/en/category/ · עמוד אינדקס",
+  "http": 404,
+  "kind": "notfound",
+  "target": ""
+ }
+]
