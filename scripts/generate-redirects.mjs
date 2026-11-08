@@ -25,7 +25,6 @@ function page(target, lang) {
 <meta http-equiv="refresh" content="0; url=${esc(target)}">
 <link rel="canonical" href="${esc(target)}">
 <title>${he ? 'הדף הועבר | מרכז יעוץ לאשה' : 'Page moved | The Counseling Center for Women'}</title>
-<meta name="robots" content="noindex,follow">
 </head>
 <body style="font-family:Arial,sans-serif;text-align:center;padding:60px 20px;color:#4a2b4d">
 <p>${he ? 'הדף הועבר לכתובת חדשה.' : 'This page moved.'}</p>
