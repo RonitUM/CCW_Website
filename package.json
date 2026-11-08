@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build"
+    "build": "vite build",
+    "postbuild": "node scripts/generate-redirects.mjs"
   },
   "dependencies": {
     "react": "^18.3.1",
