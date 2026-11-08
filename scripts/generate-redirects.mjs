@@ -45,7 +45,7 @@ for (const [slug, route] of Object.entries(MAP.posts_he)) add(slug, `${ROOT}#/${
 for (const [slug, route] of Object.entries(MAP.posts_en)) add(`en/${slug}`, `${ROOT}#/${route}`, 'en');
 for (const slug of MAP.en_only_posts) add(`en/${slug}`, `${ROOT}#/newsletter`, 'en');
 add('category/newsletter', `${ROOT}#/newsletter`, 'he');
-add('category/newsletter-en', `${ROOT}#/newsletter`, 'en');
+add('en/category/newsletter-en', `${ROOT}#/newsletter`, 'en');
 for (const [oldPath, file] of Object.entries(MAP.pdf)) {
   if (file.charAt(0) === '#') add(oldPath, `${ROOT}#/docs`, 'he');
   else add(oldPath, `${ROOT}${file}`, 'he');
