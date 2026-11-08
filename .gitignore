@@ -1,3 +1,6 @@
 node_modules
 dist
 .env*
+
+# Production build config holds PUBLIC values only (worker URL + public Turnstile sitekey); track it so every build keeps forms connected.
+!.env.production
