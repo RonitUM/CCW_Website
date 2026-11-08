@@ -277,7 +277,7 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
 
   // ---------- Forms ----------
   const endpoint = ((import.meta as any).env && (import.meta as any).env.VITE_FORM_ENDPOINT) || '';
-  const buildForm = (box: HTMLElement, pageId: string, opts?: { hasMsg?: boolean; hasBranch?: boolean; fields?: Array<'name' | 'phone' | 'email'>; dryRun?: boolean }) => {
+  const buildForm = (box: HTMLElement, pageId: string, opts?: { hasMsg?: boolean; hasBranch?: boolean; fields?: Array<'name' | 'phone' | 'email'>; dryRun?: boolean; formKey?: string }) => {
     const dryRun = !!(opts && opts.dryRun);
     const hasMsg = opts && opts.hasMsg !== undefined ? opts.hasMsg : !!box.querySelector('.f.full');
     const hasBranch = opts && opts.hasBranch !== undefined ? opts.hasBranch : (!hasMsg && box.querySelectorAll('.f').length >= 4);
@@ -340,7 +340,7 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
       const btn = form.querySelector('.sbm') as HTMLButtonElement; btn.disabled = true; btn.textContent = t.sending;
       try {
         const r = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ turnstileToken: tsToken, form: pageId, name: nm.value.trim(), phone: ph ? ph.value.trim() : '', email: em ? em.value.trim() : '', branch: br ? br.value : '', message: g('message'), lang, consent: true, page: location.href }) });
+          body: JSON.stringify({ turnstileToken: tsToken, form: (opts && opts.formKey) || pageId, name: nm.value.trim(), phone: ph ? ph.value.trim() : '', email: em ? em.value.trim() : '', branch: br ? br.value : '', message: g('message'), lang, consent: true, page: location.href }) });
         if (!r.ok) throw new Error(String(r.status));
         msg.textContent = t.ok; msg.classList.add('ok'); form.reset(); if (tsKey) { tsToken = ''; try { (window as any).turnstile.reset(tsId); } catch (e) {} }
       } catch (e) { msg.textContent = t.fail; msg.classList.add('bad'); if (tsKey) { tsToken = ''; try { (window as any).turnstile.reset(tsId); } catch (e2) {} } }
@@ -382,7 +382,9 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
       '</div><div class="chk"><i></i><span>' + t.popConsent + '</span></div><span class="sbm">' + esc(t.send) + '</span></div>' +
       '<button type="button" class="pop-later">' + esc(t.popLater) + '</button></div>';
     root.appendChild(pov);
-    buildForm(pov.querySelector('.pop-frm') as HTMLElement, 'popup', { hasMsg: false, hasBranch: true, fields: ['name', 'phone'], dryRun: !popLive });
+    // The popup is a treatment callback request (name + phone + branch); submit it under the
+    // existing 'treat' form key so it uses the worker's approved treat:<branch> recipient routes.
+    buildForm(pov.querySelector('.pop-frm') as HTMLElement, 'popup', { hasMsg: false, hasBranch: true, fields: ['name', 'phone'], dryRun: !popLive, formKey: 'treat' });
     const closeP = () => {
       pov.hidden = true;
       try { localStorage.setItem(POPKEY, '1'); } catch (e) { /* ignore */ }
