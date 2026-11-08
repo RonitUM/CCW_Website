@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Sitemap for the PRODUCTION domain only - do not deploy on the staging URL.
+  The app is hash-routed (#/page); fragments never reach the server and search
+  engines index the whole site as a single document, so the only honest entry
+  under hash routing is the root URL below.
+  When prerendered per-route pages or path-based routing ship, replace this
+  file with one <url> per real route (both languages), and serve it as
+  /sitemap.xml with the matching Sitemap line in robots.txt.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://ccw.org.il/</loc></url>
+</urlset>
