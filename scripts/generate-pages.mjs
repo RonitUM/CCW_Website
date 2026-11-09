@@ -92,7 +92,8 @@ function render(tpl, { id, lang, url, canonicalUrl, depth }) {
   out = out.replace(/<meta property="og:title" content="[^"]*" \/>/, `<meta property="og:title" content="${esc(title)}" />`);
   out = out.replace(/<meta property="og:description" content="[^"]*" \/>/, `<meta property="og:description" content="${esc(desc)}" />`);
   out = out.replace(/<meta property="og:url" content="[^"]*" \/>/, `<meta property="og:url" content="${esc(url)}" />`);
-  out = out.replace(/<link rel="canonical" href="[^"]*" \/>/, `<link rel="canonical" href="${esc(canonicalUrl)}" />`);
+  if (out.indexOf('<link rel="canonical"') !== -1) out = out.replace(/<link rel="canonical" href="[^"]*" \/>/, `<link rel="canonical" href="${esc(canonicalUrl)}" />`);
+  else out = out.replace(/<meta property="og:url"[^\n]*/, (m0) => m0 + `\n    <link rel="canonical" href="${esc(canonicalUrl)}" />`);
   const fill = `<div id="root"><div class="ccw${id === 'home' ? '' : ' sp'}" id="ccw" dir="${dir}" lang="${lang}">${bodyHtml}</div></div>`;
   out = out.replace('<div id="root"></div>', fill);
   return out;
@@ -122,7 +123,6 @@ function stubPage(target, lang) {
 
 const tpl = readFileSync(join(rootDir, 'dist/index.html'), 'utf8');
 if (tpl.indexOf('<div id="root"></div>') === -1) throw new Error('dist/index.html template shape changed');
-if (tpl.indexOf('<link rel="canonical"') === -1) throw new Error('canonical link missing from index.html template');
 
 const dist = join(rootDir, 'dist');
 let pages = 0, stubs = 0;

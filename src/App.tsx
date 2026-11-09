@@ -74,7 +74,7 @@ export function App() {
             if (!a || !root.contains(a)) return;
             if (a.hasAttribute('data-ext')) { e.preventDefault(); return; }
             const langTo = a.getAttribute('data-lang');
-            if (langTo === 'en' || langTo === 'he') { e.preventDefault(); try { localStorage.setItem('ccwLang', langTo); } catch (err) { /* ignore */ } const curEl = root.querySelector('.page.on'); const cp = canonicalPath(curEl ? curEl.id.slice(3) : 'home', langTo); if (cp) { try { history.pushState({ p: curEl ? curEl.id.slice(3) : 'home' }, '', sitePath(cp)); } catch (err) { /* ignore */ } } setLang(langTo); return; }
+            if (langTo === 'en' || langTo === 'he') { e.preventDefault(); try { localStorage.setItem('ccwLang', langTo); } catch (err) { /* ignore */ } const curEl = root.querySelector('.page.on'); const curId = curEl ? curEl.id.slice(3) : 'home'; const cp = canonicalPath(curId, langTo); try { history.pushState({ p: curId }, '', cp ? sitePath(cp) : ('#/' + curId)); } catch (err) { /* ignore */ } setLang(langTo); return; }
             const id = a.getAttribute('data-go');
             if (!id) { if (a.getAttribute('href') === '#') e.preventDefault(); return; }
             e.preventDefault();
