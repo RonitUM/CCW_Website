@@ -6,6 +6,8 @@ const PAGE_COUNTS: Record<string, number> = {
     'nihui-mas': 1,
     'pinkasim': 1,
     'dohot-2025': 11,
+    'dohot-2020': 12,
+    'malcar-old': 1,
     'malcar': 1,
     'taknon': 9,
 };
