@@ -22,8 +22,14 @@ const PREFER = {
 const match = { he: {}, en: {} };
 const canonical = { he: {}, en: {} };
 
+// Optional pilot scope: PILOT_SLUGS="slug,en/slug" limits the emitted tables to those
+// paths, so the built bundle only recognizes those URLs and changes nothing else.
+const PILOT = (process.env.PILOT_SLUGS || '').split(',').map((s) => s.trim()).filter(Boolean);
+const inPilot = (lang, slug) => !PILOT.length || PILOT.indexOf((lang === 'en' ? 'en/' : '') + slug) !== -1;
+
 function addLang(lang, table) {
   for (const [slug, route] of Object.entries(table)) {
+    if (!inPilot(lang, slug)) continue;
     match[lang][slug] = route;
     const pref = PREFER[lang][route];
     if (!canonical[lang][route] || slug === pref) canonical[lang][route] = slug;
@@ -33,16 +39,20 @@ addLang('he', MAP.pages_he);
 addLang('he', MAP.posts_he);
 addLang('en', MAP.pages_en);
 addLang('en', MAP.posts_en);
-match.he['category/newsletter'] = 'newsletter';
-match.en['category/newsletter-en'] = 'newsletter';
-for (const s of MAP.en_only_posts) match.en[s] = 'newsletter';
-canonical.he['newsletter'] = 'category/newsletter';
+if (!PILOT.length) {
+  match.he['category/newsletter'] = 'newsletter';
+  match.en['category/newsletter-en'] = 'newsletter';
+  for (const s of MAP.en_only_posts) match.en[s] = 'newsletter';
+  canonical.he['newsletter'] = 'category/newsletter';
+}
 
 const out = { match, canonical: { he: {}, en: {} } };
 for (const [route, slug] of Object.entries(canonical.he)) out.canonical.he[route] = '/' + slug + '/';
 for (const [route, slug] of Object.entries(canonical.en)) out.canonical.en[route] = '/en/' + slug + '/';
-out.canonical.he['home'] = '/';
-out.canonical.en['home'] = '/en/home/';
+if (!PILOT.length) {
+  out.canonical.he['home'] = '/';
+  out.canonical.en['home'] = '/en/home/';
+}
 
 const target = join(rootDir, 'src/route-map.json');
 writeFileSync(target, JSON.stringify(out, null, 2) + '\n');
