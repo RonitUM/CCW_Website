@@ -6,6 +6,40 @@ import { PDF_PAGES } from './docs/pdf-pages';
 import { html } from './body';
 import { htmlEn } from './body-en';
 import { enhance } from './enhance';
+import routeMap from './route-map.json';
+
+type LangCode = 'he' | 'en';
+const ROUTES = routeMap as unknown as {
+    match: { he: Record<string, string>; en: Record<string, string> };
+    canonical: { he: Record<string, string>; en: Record<string, string> };
+};
+const decSeg = (s: string) => { try { return decodeURIComponent(s); } catch (e) { return s; } };
+// Maps the current URL path to a route id + language, or null when the path is not a mapped page.
+function matchPath(pathname: string): { id: string; lang: LangCode } | null {
+    let seg = pathname.split('/').filter(Boolean).map(decSeg);
+    if (!seg.length) return null;
+    let lang: LangCode = 'he';
+    if (seg[0] === 'en') { lang = 'en'; seg = seg.slice(1); }
+    else if (location.host.indexOf('github.io') !== -1 && seg.length && !(seg.join('/') in ROUTES.match.he) && seg[0] !== 'category' && seg[0] !== 'wp-content') {
+        // Project-site staging host: the first segment is the repo name, not a page slug.
+        seg = seg.slice(1);
+    }
+    const path = seg.join('/');
+    if (!path) return null;
+    const id = (lang === 'en' ? ROUTES.match.en : ROUTES.match.he)[path];
+    return id ? { id, lang } : null;
+}
+// The canonical static URL for a route in a language, or null when the route has no mapped path (keeps hash routing).
+function canonicalPath(id: string, lang: LangCode): string | null {
+    const t = ROUTES.canonical[lang];
+    return (t && t[id]) || null;
+}
+// Absolute path for a canonical route URL, including the repo segment on project-site staging hosts.
+function sitePath(canonical: string): string {
+    if (location.host.indexOf('github.io') === -1) return canonical;
+    const seg = location.pathname.split('/').filter(Boolean);
+    return (seg.length ? '/' + seg[0] : '') + canonical;
+}
 
 export function App() {
     const ref = useRef<HTMLDivElement>(null);
@@ -31,7 +65,7 @@ export function App() {
             const p1 = el!.querySelector('.pg-b p, .sec p, .page p');
             const d1 = (((p1 && p1.textContent) || '').replace(/\s+/g, ' ').trim()).slice(0, 160);
             md.content = id === 'home' || !d1 ? (isEn ? 'The Counseling Center for Women - therapy center, training center and community' : 'מרכז יעוץ לאשה - מרכז טיפולי, מרכז הכשרה וקהילה') : d1;
-            if (push) { try { history.pushState({ p: id }, '', '#/' + id); } catch (e) { /* ignore */ } }
+            if (push) { try { const cp = canonicalPath(id, lang); history.pushState({ p: id }, '', cp ? sitePath(cp) : ('#/' + id)); } catch (e) { /* ignore */ } }
             try { root.scrollIntoView({ block: 'start' }); window.scrollTo(0, 0); } catch (e) { /* ignore */ } try { setTimeout(() => { (root.querySelectorAll('video[data-hero]') as NodeListOf<HTMLVideoElement>).forEach((vd) => { if (vd.hasAttribute('data-up')) return; if (vd.offsetParent !== null && (vd.currentSrc || vd.src) && vd.paused && !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) { vd.muted = true; const pl = vd.play(); if (pl && pl.catch) pl.catch(() => { /* poster stays */ }); } }); }, 60); } catch (e) { /* ignore */ }
         };
         const onClick = (e: MouseEvent) => {
@@ -40,7 +74,7 @@ export function App() {
             if (!a || !root.contains(a)) return;
             if (a.hasAttribute('data-ext')) { e.preventDefault(); return; }
             const langTo = a.getAttribute('data-lang');
-            if (langTo === 'en' || langTo === 'he') { e.preventDefault(); try { localStorage.setItem('ccwLang', langTo); } catch (err) { /* ignore */ } setLang(langTo); return; }
+            if (langTo === 'en' || langTo === 'he') { e.preventDefault(); try { localStorage.setItem('ccwLang', langTo); } catch (err) { /* ignore */ } const curEl = root.querySelector('.page.on'); const curId = curEl ? curEl.id.slice(3) : 'home'; const cp = canonicalPath(curId, langTo); try { history.pushState({ p: curId }, '', cp ? sitePath(cp) : ('#/' + curId)); } catch (err) { /* ignore */ } setLang(langTo); return; }
             const id = a.getAttribute('data-go');
             if (!id) { if (a.getAttribute('href') === '#') e.preventDefault(); return; }
             e.preventDefault();
@@ -96,13 +130,17 @@ export function App() {
         };
         root.addEventListener('click', onTgl);
         const onPop = (e: PopStateEvent) => {
-            const id = (e.state && e.state.p) || (location.hash.indexOf('#/') === 0 ? location.hash.slice(2) : 'home');
+            let id = (e.state && e.state.p) as string | null;
+            if (!id) {
+                if (location.hash.indexOf('#/') === 0) { id = location.hash.slice(2); }
+                else { const m = matchPath(location.pathname); if (m && m.lang !== lang) { try { localStorage.setItem('ccwLang', m.lang); } catch (err) { /* ignore */ } setLang(m.lang); return; } id = (m && m.id) || 'home'; }
+            }
             show(id, false);
         };
         root.addEventListener('click', onClick);
         const undoEnhance = enhance(root, lang);
         window.addEventListener('popstate', onPop);
-        if (location.hash.indexOf('#/') === 0) show(location.hash.slice(2), false); else show('home', false);
+        if (location.hash.indexOf('#/') === 0) { show(location.hash.slice(2), false); } else { const m = matchPath(location.pathname); if (m && m.lang !== lang) { try { localStorage.setItem('ccwLang', m.lang); } catch (e) { /* ignore */ } setLang(m.lang); } else { show(m ? m.id : 'home', false); } }
         return () => { undoEnhance(); window.removeEventListener('touchstart', kick); window.removeEventListener('click', kick); document.removeEventListener('visibilitychange', kick); window.removeEventListener('resize', fit); root.removeEventListener('click', onClick); window.removeEventListener('popstate', onPop); };
     }, [lang]);
     return <div className="ccw" id="ccw" dir={lang === 'en' ? 'ltr' : 'rtl'} lang={lang} ref={ref} dangerouslySetInnerHTML={{ __html: lang === 'en' ? htmlEn : html }} />;
