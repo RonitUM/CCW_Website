@@ -364,7 +364,11 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
   const popLive = popFlag === '1' && !!endpoint && !popPreview;
   const popupOn = popLive || popPreview;
   const POPKEY = 'ccwEntryPopupDone';
-  const onHome = location.hash.indexOf('#/') !== 0 || location.hash === '#/' || location.hash.slice(2) === 'home';
+  // Home means the site root (any language) with no inner hash route. With path-based
+  // prerendered pages, inner pages load without a hash, so the path must be checked too.
+  const segN = location.pathname.split('/').filter(Boolean).length;
+  const atRoot = location.pathname === '/' || (location.host.indexOf('github.io') !== -1 && segN <= 1);
+  const onHome = atRoot && (location.hash.indexOf('#/') !== 0 || location.hash === '#/' || location.hash.slice(2) === 'home');
   let popSeen = false;
   try { popSeen = !!localStorage.getItem(POPKEY); } catch (e) { /* ignore */ }
   if (popupOn && !popSeen && onHome) {

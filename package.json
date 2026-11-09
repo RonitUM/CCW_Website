@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "postbuild": "node scripts/generate-redirects.mjs"
+    "postbuild": "node scripts/generate-pages.mjs",
+    "prebuild": "node scripts/write-route-map.mjs"
   },
   "dependencies": {
     "react": "^18.3.1",
