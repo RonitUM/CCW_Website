@@ -162,6 +162,10 @@ for (const [oldPath, file] of Object.entries(MAP.pdf)) {
   stubs++;
 }
 
+// The old English homepage lived at /en/; the new canonical EN home is /en/home/.
+writeOut('en', stubPage(`${ROOT}/en/home/`, 'en'));
+stubs++;
+
 // Full sitemap: root plus one entry per canonical route URL (both languages).
 const locs = [ROOT + '/'];
 const seen = new Set(locs);
