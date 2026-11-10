@@ -1,0 +1,8 @@
+{
+  "name": "ccw-clicks",
+  "main": "worker.js",
+  "compatibility_date": "2026-11-10",
+  "analytics_engine_datasets": [
+    { "binding": "CCW_CLICKS", "dataset": "ccw_clicks" }
+  ]
+}
