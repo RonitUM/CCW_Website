@@ -1,7 +1,8 @@
 // End-to-end payload test for src/clicks.ts.
 // Build the test bundle first (jsdom cannot create isTrusted events, so the
 // browser-only synthetic-click guard is bypassed IN THE TEST ARTIFACT ONLY):
-//   sed "s|const CLICK_ENDPOINT = '';|const CLICK_ENDPOINT = 'https://clicks.test/collect';|" src/clicks.ts > /tmp/clicks-test-src.ts
+//   sed -e "s|const CLICK_ENDPOINT = '';|const CLICK_ENDPOINT = 'https://clicks.test/collect';|" \
+//       -e "s|'./canonical-paths.js'|'$PWD/src/canonical-paths.js'|" src/clicks.ts > /tmp/clicks-test-src.ts
 //   npx esbuild /tmp/clicks-test-src.ts --bundle --format=iife --global-name=ClicksTest --outfile=/tmp/clicks-test.js
 //   sed 's/if (!ev.isTrusted) return;//g' /tmp/clicks-test.js > /tmp/clicks-test-notrust.js
 //   CLICKS_BUNDLE=/tmp/clicks-test-notrust.js node workers/ccw-clicks/test/client-payloads.test.mjs
@@ -20,7 +21,7 @@ const html = `<!DOCTYPE html><html><body>
 </div>
 <div class="pop-ov"><button class="sbm" id="p1">popup submit</button></div>
 </body></html>`;
-const dom = new JSDOM(html, { url: 'https://ccw.org.il/contact?utm=secret#frag', runScripts: 'outside-only' });
+const dom = new JSDOM(html, { url: 'https://ccw.org.il/en/contact/?utm=secret#frag', runScripts: 'outside-only' });
 const { window } = dom;
 const sent = [];
 Object.defineProperty(window.navigator, 'sendBeacon', { value: (url, blob) => { const i = sent.push({ url, body: null }) - 1; blob.text().then(t => { sent[i].body = t; }); return true; } });
@@ -34,3 +35,11 @@ window.document.getElementById('f1').dispatchEvent(trusted(new window.Event('sub
 await new Promise(r => setTimeout(r, 300));
 for (const s of sent) console.log(s.url, '->', s.body);
 console.log('total beacons:', sent.length);
+// arbitrary typed URL (404 page carrying a name): path must transmit as ''
+const dom2 = new JSDOM('<!DOCTYPE html><html><body><a id="t" href="tel:123">x</a></body></html>', { url: 'https://ccw.org.il/some-patient-name-typed-url', runScripts: 'outside-only' });
+const sent2 = [];
+Object.defineProperty(dom2.window.navigator, 'sendBeacon', { value: (url, blob) => { const i = sent2.push({ url, body: null }) - 1; blob.text().then(t => { sent2[i].body = t; }); return true; } });
+dom2.window.eval(fs.readFileSync(process.env.CLICKS_BUNDLE, 'utf8') + '\n;ClicksTest.initClicks();');
+dom2.window.document.getElementById('t').dispatchEvent(new dom2.window.MouseEvent('click', { bubbles: true }));
+await new Promise(r => setTimeout(r, 200));
+for (const s2 of sent2) console.log(s2.url, '->', s2.body);

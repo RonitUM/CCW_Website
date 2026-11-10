@@ -15,6 +15,10 @@
 // it is public by design once deployed, like the Web Analytics token.
 // "Attempt" events record a tap/submit action only; actual form delivery
 // success is counted separately, server-side, by the forms Worker.
+import { CANONICAL_PATHS } from './canonical-paths.js';
+
+const CANONICAL_PATHS_SET = new Set<string>(CANONICAL_PATHS);
+
 const CLICK_ENDPOINT = '';
 
 type ClickEvent =
@@ -57,8 +61,12 @@ function allowedDetail(d?: string): string {
 }
 
 function pagePath(): string {
-  // Path only: query and hash never leave the browser.
-  return location.pathname || '/';
+  // Transmit only canonical page paths: query and hash never leave the
+  // browser, and an arbitrary typed URL (e.g. a 404 address carrying a
+  // name) is sent as '' - the click still counts, with no page attached.
+  let p = '';
+  try { p = decodeURIComponent(location.pathname || '/').replace(/\/+$/, '') || '/'; } catch (e) { return ''; }
+  return CANONICAL_PATHS_SET.has(p) ? p : '';
 }
 
 function lang(): string {
