@@ -2,9 +2,12 @@
 //
 // Requested by Shai 2026-11-10 ("I want clicks analysis as well"). Counts
 // taps on key actions (donate, request-therapy, phone/email, outbound links,
-// form submit attempts) and sends ONLY: event name + page path + language.
-// No identity, no persistent ID, no session stitching, no cookies or storage,
-// no form values, no search terms, no query strings.
+// form submit attempts) and sends ONLY: event name + page path (no query,
+// no hash) + language +, for outbound links, the destination HOSTNAME only
+// (fixed allowlist enforced server-side in workers/ccw-clicks/worker.js) or,
+// for form attempts, the page id. No identity, no persistent ID, no session
+// stitching, no cookies or storage, no form values, no link text, no search
+// terms, no query strings.
 //
 // DISABLED BY DEFAULT: with CLICK_ENDPOINT empty nothing is sent and this
 // module adds no network calls. The endpoint is the ccw-clicks Cloudflare

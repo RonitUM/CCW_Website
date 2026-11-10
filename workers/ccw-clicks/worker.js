@@ -1,6 +1,11 @@
 // ccw-clicks: anonymous aggregate click counters for ccw.org.il.
-// Receives {e, p, l, d} from the site, validates against a fixed allowlist,
-// and writes one Analytics Engine data point: blobs [event, path, detail, lang].
+// Receives {e, p, l, d} from the site, validates each field against a fixed
+// allowlist, and writes one Analytics Engine data point:
+// blobs [event, path, detail, lang]. 'detail' is ONLY ever one of: an
+// external hostname from ALLOWED_DETAILS (the fixed list of sites this
+// website links to) or a form page id from the same list. Anything else is
+// replaced with '' before storage, so no link text, URL query, or
+// attacker-chosen string can reach the dataset.
 // Deliberately stores no IP, no user agent, no cookie, no identity, no
 // timestamp of its own (Analytics Engine adds its ingest time only).
 // No per-IP rate limiting, by design: that would require storing IPs.
@@ -23,6 +28,25 @@ const ALLOWED_ORIGINS = new Set([
   'https://www.ccw.org.il',
   'https://ronitum.github.io',
 ]);
+// Every value 'detail' may ever hold: the external hosts the site links to
+// (client strips 'www.'), and the site's form page ids (client strips 'pg-').
+// When the site adds an outbound link or a form page, add it here; unlisted
+// values are dropped to '' (the click still counts, without a detail).
+const ALLOWED_DETAILS = new Set([
+  '',
+  // outbound link destinations (hostnames only)
+  'jgive.co.il', 'igul.org.il', 'web.causematch.com',
+  'facebook.com', 'instagram.com', 'linkedin.com', 'youtube.com',
+  'wa.me', 'whatsapp.com',
+  'ynet.co.il', 'haaretz.co.il', 'maariv.co.il', '103fm.maariv.co.il',
+  'betipulnet.co.il', 'onlife.co.il', 'drove.com',
+  'creativecommons.org', 'commons.wikimedia.org',
+  // form page ids
+  'about', 'activity', 'articles', 'audit', 'board', 'careers', 'community',
+  'contact', 'docs', 'donate', 'faq', 'home', 'jlm', 'legacy', 'media',
+  'mediaposts', 'memorial', 'mgmt', 'newsletter', 'patients', 'privacy',
+  'rg', 'story', 'team', 'train', 'treat', 'whatis', 'unknown',
+]);
 
 export default {
   async fetch(request, env) {
@@ -39,12 +63,12 @@ export default {
     const e = String((body && body.e) || '');
     const p = String((body && body.p) || '');
     const l = String((body && body.l) || '');
-    const d = String((body && body.d) || '').slice(0, 60);
+    const rawDetail = String((body && body.d) || '').slice(0, 60);
+    const d = ALLOWED_DETAILS.has(rawDetail) ? rawDetail : '';
     const okEvent = ALLOWED_EVENTS.has(e);
     const okPath = /^\/[a-zA-Z0-9\-_/%.]{0,140}$/.test(p) && !p.includes('..');
     const okLang = l === 'he' || l === 'en';
-    const okDetail = /^[a-z0-9.:-]{0,60}$/i.test(d);
-    if (okEvent && okPath && okLang && okDetail) {
+    if (okEvent && okPath && okLang) {
       try {
         env.CCW_CLICKS.writeDataPoint({ blobs: [e, p, d, l], doubles: [1], indexes: [e] });
       } catch (err) { /* counting must never fail the request */ }
