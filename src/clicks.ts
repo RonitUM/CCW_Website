@@ -31,6 +31,31 @@ type ClickEvent =
 const SOCIAL = ['facebook.com', 'instagram.com', 'linkedin.com', 'youtube.com', 'wa.me', 'whatsapp.com'];
 const DONATE = ['jgive.co.il', 'igul.org.il'];
 
+// The ONLY values the detail field may ever transmit: the external hosts this
+// site links to, and the site's form page ids. Mirrors the allowlist enforced
+// again server-side in workers/ccw-clicks/worker.js, so what is sent already
+// matches the privacy policy (no other hostname, no link text, no query data).
+// When the site adds an outbound link or a form page, add it here AND in the
+// worker; unlisted clicks are still counted, with an empty detail.
+const ALLOWED_DETAIL = new Set([
+  // outbound link destinations (hostnames only, 'www.' stripped)
+  'jgive.co.il', 'igul.org.il', 'web.causematch.com',
+  'facebook.com', 'instagram.com', 'linkedin.com', 'youtube.com',
+  'wa.me', 'whatsapp.com',
+  'ynet.co.il', 'haaretz.co.il', 'maariv.co.il', '103fm.maariv.co.il',
+  'betipulnet.co.il', 'onlife.co.il', 'drove.com',
+  'creativecommons.org', 'commons.wikimedia.org',
+  // form page ids
+  'about', 'activity', 'articles', 'audit', 'board', 'careers', 'community',
+  'contact', 'docs', 'donate', 'faq', 'home', 'jlm', 'legacy', 'media',
+  'mediaposts', 'memorial', 'mgmt', 'newsletter', 'patients', 'privacy',
+  'rg', 'story', 'team', 'train', 'treat', 'whatis', 'unknown',
+]);
+
+function allowedDetail(d?: string): string {
+  return d && ALLOWED_DETAIL.has(d) ? d : '';
+}
+
 function pagePath(): string {
   // Path only: query and hash never leave the browser.
   return location.pathname || '/';
@@ -76,7 +101,7 @@ export function initClicks(): void {
     const t = ev.target as Element | null;
     if (!t || !t.closest) return;
     const a = t.closest('a') as HTMLAnchorElement | null;
-    if (a) { const c = classify(a); if (c) send(c.e, c.d); return; }
+    if (a) { const c = classify(a); if (c) send(c.e, allowedDetail(c.d)); return; }
     const ov = t.closest('.pop-ov');
     if (ov && t.closest('.sbm')) send('popup_submit_attempt');
   }, { capture: true, passive: true });
@@ -85,6 +110,6 @@ export function initClicks(): void {
     const f = ev.target as HTMLFormElement | null;
     if (!f) return;
     const pg = f.closest('.page');
-    send('form_submit_attempt', pg ? pg.id.replace(/^pg-/, '') : 'unknown');
+    send('form_submit_attempt', allowedDetail(pg ? pg.id.replace(/^pg-/, '') : 'unknown'));
   }, { capture: true, passive: true });
 }
