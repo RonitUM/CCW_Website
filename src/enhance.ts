@@ -275,6 +275,24 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
     sync(); start();
   });
 
+  // ---------- Treatment-intent marker ----------
+  // The hero 'פניה לטיפול' / 'Request therapy' CTA links to the contact page with an explicit
+  // ?treat=1 URL marker: those submissions are treatment inquiries and must use the worker's
+  // treat:<branch> recipient routes. The intent lives ONLY in the URL - no storage, nothing
+  // persisted, nothing sent beyond the form's own type field - so it survives refresh, back/
+  // forward and direct sharing of the link, while any plain Contact Us navigation (no marker)
+  // always keeps the general contact routing. Only the exact value treat=1 counts; arbitrary
+  // query input never changes routing.
+  const getIntent = () => {
+    try {
+      if (new URLSearchParams(location.search).get('treat') === '1') return true;
+      const h = location.hash;
+      const i = h.indexOf('?');
+      if (i >= 0 && new URLSearchParams(h.slice(i + 1)).get('treat') === '1') return true;
+    } catch (e) { /* fall through: default routing */ }
+    return false;
+  };
+
   // ---------- Forms ----------
   const endpoint = ((import.meta as any).env && (import.meta as any).env.VITE_FORM_ENDPOINT) || '';
   const buildForm = (box: HTMLElement, pageId: string, opts?: { hasMsg?: boolean; hasBranch?: boolean; fields?: Array<'name' | 'phone' | 'email'>; dryRun?: boolean; formKey?: string }) => {
@@ -340,7 +358,7 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
       const btn = form.querySelector('.sbm') as HTMLButtonElement; btn.disabled = true; btn.textContent = t.sending;
       try {
         const r = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ turnstileToken: tsToken, form: (opts && opts.formKey) || pageId, name: nm.value.trim(), phone: ph ? ph.value.trim() : '', email: em ? em.value.trim() : '', branch: br ? br.value : '', message: g('message'), lang, consent: true, page: location.href }) });
+          body: JSON.stringify({ turnstileToken: tsToken, form: (opts && opts.formKey) || (pageId === 'contact' && getIntent() ? 'treat' : pageId), name: nm.value.trim(), phone: ph ? ph.value.trim() : '', email: em ? em.value.trim() : '', branch: br ? br.value : '', message: g('message'), lang, consent: true, page: location.href }) });
         if (!r.ok) throw new Error(String(r.status));
         msg.textContent = t.ok; msg.classList.add('ok'); form.reset(); if (tsKey) { tsToken = ''; try { (window as any).turnstile.reset(tsId); } catch (e) {} }
       } catch (e) { msg.textContent = t.fail; msg.classList.add('bad'); if (tsKey) { tsToken = ''; try { (window as any).turnstile.reset(tsId); } catch (e2) {} } }
