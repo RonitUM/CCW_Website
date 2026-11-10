@@ -49,7 +49,8 @@ export function App() {
         const root = ref.current!;
         const fit = () => { const w = window.innerWidth; (root.style as any).zoom = String(w > 1100 ? Math.min(1, w / 1440) : 1); };
         fit(); window.addEventListener('resize', fit);
-                const show = (id: string, push: boolean) => {
+                const show = (id: string, push: boolean, qs?: string) => {
+            id = id.split('?')[0]; // an explicit URL marker (e.g. treatment intent) is never part of the page id
             let el = root.querySelector('#pg-' + id);
             if (!el) { if (!id || id === 'home') { id = 'home'; el = root.querySelector('#pg-home'); } else { el = root.querySelector('#pg-404'); } }
             root.querySelectorAll('.page').forEach((p) => p.classList.remove('on'));
@@ -65,7 +66,7 @@ export function App() {
             const p1 = el!.querySelector('.pg-b p, .sec p, .page p');
             const d1 = (((p1 && p1.textContent) || '').replace(/\s+/g, ' ').trim()).slice(0, 160);
             md.content = id === 'home' || !d1 ? (isEn ? 'The Counseling Center for Women - therapy center, training center and community' : 'מרכז יעוץ לאשה - מרכז טיפולי, מרכז הכשרה וקהילה') : d1;
-            if (push) { try { const cp = canonicalPath(id, lang); history.pushState({ p: id }, '', cp ? sitePath(cp) : ('#/' + id)); } catch (e) { /* ignore */ } }
+            if (push) { try { const cp = canonicalPath(id, lang); history.pushState({ p: id }, '', (cp ? sitePath(cp) : ('#/' + id)) + (qs || '')); } catch (e) { /* ignore */ } }
             try { root.scrollIntoView({ block: 'start' }); window.scrollTo(0, 0); } catch (e) { /* ignore */ } try { setTimeout(() => { (root.querySelectorAll('video[data-hero]') as NodeListOf<HTMLVideoElement>).forEach((vd) => { if (vd.hasAttribute('data-up')) return; if (vd.offsetParent !== null && (vd.currentSrc || vd.src) && vd.paused && !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) { vd.muted = true; const pl = vd.play(); if (pl && pl.catch) pl.catch(() => { /* poster stays */ }); } }); }, 60); } catch (e) { /* ignore */ }
         };
         const onClick = (e: MouseEvent) => {
@@ -74,7 +75,7 @@ export function App() {
             if (!a || !root.contains(a)) return;
             if (a.hasAttribute('data-ext')) { e.preventDefault(); return; }
             const langTo = a.getAttribute('data-lang');
-            if (langTo === 'en' || langTo === 'he') { e.preventDefault(); try { localStorage.setItem('ccwLang', langTo); } catch (err) { /* ignore */ } const curEl = root.querySelector('.page.on'); const curId = curEl ? curEl.id.slice(3) : 'home'; const cp = canonicalPath(curId, langTo); try { history.pushState({ p: curId }, '', cp ? sitePath(cp) : ('#/' + curId)); } catch (err) { /* ignore */ } setLang(langTo); return; }
+            if (langTo === 'en' || langTo === 'he') { e.preventDefault(); try { localStorage.setItem('ccwLang', langTo); } catch (err) { /* ignore */ } const curEl = root.querySelector('.page.on'); const curId = curEl ? curEl.id.slice(3) : 'home'; const cp = canonicalPath(curId, langTo); try { history.pushState({ p: curId }, '', (cp ? sitePath(cp) : ('#/' + curId)) + location.search); } catch (err) { /* ignore */ } setLang(langTo); return; }
             const id = a.getAttribute('data-go');
             if (!id) { if (a.getAttribute('href') === '#') e.preventDefault(); return; }
             e.preventDefault();
@@ -84,7 +85,11 @@ export function App() {
                 root.querySelectorAll('.ni.open').forEach((n) => n.classList.remove('open'));
                 if (!was) { ni.classList.add('open'); return; }
             }
-            show(id, true);
+            // An explicit query carried by the link (e.g. the treatment-intent marker ?treat=1)
+            // moves into the pushed URL, so it survives refresh, back/forward and sharing.
+            const href = a.getAttribute('href') || '';
+            const qi = href.indexOf('?');
+            show(id, true, qi >= 0 ? href.slice(qi) : '');
         };
         let cur = 'home';
         const heroVids = Array.from(root.querySelectorAll('video[data-hero]')) as HTMLVideoElement[];
