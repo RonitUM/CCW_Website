@@ -18,6 +18,9 @@ WT="${2:-/tmp/ghp}"
 
 [ -d "$DIST/assets" ] || { echo "dist not built: $DIST" >&2; exit 1; }
 
+# origin/gh-pages may not exist on a fresh clone (default fetch refspec covers
+# only some branches); fetch it explicitly before resolving.
+git -C "$REPO_ROOT" fetch -q origin gh-pages:refs/remotes/origin/gh-pages
 PREV_SHA="$(git -C "$REPO_ROOT" rev-parse origin/gh-pages)"
 
 # Fresh worktree at the live gh-pages tip (holds the currently-served bundles).
