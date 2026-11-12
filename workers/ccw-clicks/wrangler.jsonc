@@ -1,0 +1,13 @@
+{
+  "name": "ccw-clicks",
+  "main": "worker.js",
+  "compatibility_date": "2026-11-10",
+  // Privacy: no Workers Logs for this endpoint. Invocation logs are enriched
+  // with request metadata; disabling observability keeps no per-request logs.
+  // The worker itself writes only allowlisted aggregate counters to the
+  // ccw_clicks Analytics Engine dataset - never IPs, agents, or identifiers.
+  "observability": { "enabled": false },
+  "analytics_engine_datasets": [
+    { "binding": "CCW_CLICKS", "dataset": "ccw_clicks" }
+  ]
+}
