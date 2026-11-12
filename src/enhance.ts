@@ -371,14 +371,17 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
   frms.forEach((box) => buildForm(box, (box.closest('.page') as HTMLElement).id.slice(3)));
 
   // ---------- Entry popup ----------
-  // Inactive by default. Live mode requires BOTH an explicit opt-in (VITE_ENTRY_POPUP=1) and a
+  // Inactive by default outside the approved GitHub test-site preview. Live mode requires BOTH an explicit opt-in (VITE_ENTRY_POPUP=1) and a
   // connected endpoint (VITE_FORM_ENDPOINT): setting the endpoint alone never activates the popup,
   // and the flag alone never shows visitors a form that cannot send. ?popup=1 (or
   // VITE_ENTRY_POPUP=preview) forces an isolated preview that renders the UI but never sends
   // anything, even on a build where live mode is configured.
   // Shown once per browser; any dismissal or a successful send is remembered in localStorage.
   const popFlag = ((import.meta as any).env && (import.meta as any).env.VITE_ENTRY_POPUP) || '';
-  const popPreview = popFlag === 'preview' || /[?&]popup=1/.test(location.search);
+  // Keep the approved, non-sending test-site popup after an ordinary build.
+  // Never apply this default to a custom/live domain; explicit off/live flags still win.
+  const testSitePreview = !popFlag && location.hostname === 'ronitum.github.io' && (location.pathname === '/CCW_Website' || location.pathname.startsWith('/CCW_Website/'));
+  const popPreview = popFlag === 'preview' || testSitePreview || /[?&]popup=1/.test(location.search);
   const popLive = popFlag === '1' && !!endpoint && !popPreview;
   const popupOn = popLive || popPreview;
   const POPKEY = 'ccwEntryPopupDone';
