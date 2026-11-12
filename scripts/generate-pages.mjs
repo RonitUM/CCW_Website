@@ -85,7 +85,11 @@ function render(tpl, { id, lang, url, canonicalUrl, depth }) {
   // Pages live below the site root and the bundle uses relative URLs (base './' for
   // staging), so each page gets a <base> back to the site root; this also covers
   // relative media URLs inside the content and assets resolved at runtime.
-  const base = depth > 0 ? `\n    <base href="${'../'.repeat(depth)}">` : '';
+  // The root page needs it too: its <base href="./"> freezes to the site root at
+  // parse time, so when the SPA history-navigates to a deep route without reload,
+  // relative image/media URLs keep resolving at the root instead of 404ing under
+  // the pushed path.
+  const base = `\n    <base href="${'../'.repeat(depth) || './'}">`;
   out = out.replace('<meta charset="UTF-8" />', `<meta charset="UTF-8" />${base}\n    <script>try{localStorage.setItem('ccwLang','${lang}')}catch(e){}</script>`);
   out = out.replace(/<title>[\s\S]*?<\/title>/, `<title>${esc(title)}</title>`);
   out = out.replace(/<meta name="description" content="[^"]*" \/>/, `<meta name="description" content="${esc(desc)}" />`);
