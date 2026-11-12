@@ -19,7 +19,7 @@ import { CANONICAL_PATHS } from './canonical-paths.js';
 
 const CANONICAL_PATHS_SET = new Set<string>(CANONICAL_PATHS);
 
-const CLICK_ENDPOINT = '';
+const CLICK_ENDPOINT = 'https://ccw-clicks.nitkarm.workers.dev/';
 
 type ClickEvent =
   | 'cta_request_therapy'
