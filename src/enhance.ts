@@ -10,6 +10,7 @@ const T = {
     name: 'שם', phone: 'טלפון', email: 'אימייל', branch: 'הפניה לסניף', pick: 'יש לבחור את הסניף הרצוי מהרשימה',
     rg: 'סניף רמת גן והמרכז', jlm: 'סניף ירושלים והסביבה', ph: 'פרדס חנה', kt: 'קריית טבעון', md: 'מודיעין', send: 'שליחה', sending: 'שולח...',
     req: 'יש למלא את השדה', needOne: 'יש למלא טלפון או אימייל', needPhone: 'יש למלא מספר טלפון', badEmail: 'כתובת אימייל לא תקינה', badPhone: 'מספר טלפון לא תקין', consent: 'יש לאשר את מדיניות הפרטיות',
+    verifyWait: 'יש להשלים את האימות לפני השליחה.', verifyFail: 'האימות לא הושלם. אפשר לנסות שוב.', verifyRetry: 'ניסיון אימות נוסף',
     ok: 'תודה, ההודעה נשלחה. נחזור אליך בהקדם.', fail: 'השליחה נכשלה. אפשר לנסות שוב או ליצור קשר בטלפון.',
     off: 'הטופס עדיין לא מחובר לשליחה, ולכן לא נשלח דבר. אפשר ליצור קשר בטלפון או במייל המופיעים בעמוד.',
     topic: 'נושא הפנייה', pickTopic: 'יש לבחור נושא מהרשימה', general: 'כללי',
@@ -21,6 +22,7 @@ const T = {
     name: 'Name', phone: 'Phone', email: 'Email', branch: 'Referral to branch', pick: 'Please select the desired branch from the list',
     rg: 'Ramat Gan and the Area', jlm: 'Jerusalem and the Area', ph: 'Pardes Hanna, Hadera and the Area', kt: 'Kiryat Tivon', md: 'Modiin and the Area', send: 'Send', sending: 'Sending...',
     req: 'Please fill in this field', needOne: 'Please enter a phone number or an email', needPhone: 'Please enter a phone number', badEmail: 'Invalid email address', badPhone: 'Invalid phone number', consent: 'Please accept the privacy policy',
+    verifyWait: 'Please complete verification before sending.', verifyFail: 'Verification did not complete. Please try again.', verifyRetry: 'Retry verification',
     ok: 'Thank you, your message was sent. We will get back to you shortly.', fail: 'Sending failed. Please try again or contact us by phone.',
     off: 'This form is not connected to sending yet, so nothing was sent. Please use the phone or email shown on the page.',
     topic: 'Subject', pickTopic: 'Please choose a topic', general: 'General',
@@ -316,14 +318,62 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
       '<button type="submit" class="sbm">' + esc(t.send) + '</button><p class="frm-msg" role="status" aria-live="polite"></p></form>';
     const form = box.querySelector('form') as HTMLFormElement;
     const msg = form.querySelector('.frm-msg') as HTMLElement;
+    const btnEl = form.querySelector('.sbm') as HTMLButtonElement;
     // E2E-ONLY (not part of PR75): Turnstile widget, active only when VITE_TURNSTILE_SITEKEY is set at build time.
     const tsKey = ((import.meta as any).env && (import.meta as any).env.VITE_TURNSTILE_SITEKEY) || '';
     let tsToken = '', tsId: any = null;
+    let resetVerification = () => { tsToken = ''; };
+    let syncBtn = () => { btnEl.disabled = false; };
     if (tsKey) {
-      const holder = document.createElement('div'); holder.className = 'ts-holder'; form.querySelector('.sbm')!.before(holder);
-      const mount = () => { const w = (window as any).turnstile; if (!w) { setTimeout(mount, 300); return; } tsId = w.render(holder, { sitekey: tsKey, action: 'ccw_form', callback: (tk: string) => { tsToken = tk; }, 'expired-callback': () => { tsToken = ''; try { w.reset(tsId); } catch (e) {} }, 'error-callback': () => { tsToken = ''; } }); };
-      if (!document.querySelector('script[data-ts]')) { const sc = document.createElement('script'); sc.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit'; sc.async = true; sc.setAttribute('data-ts', '1'); document.head.appendChild(sc); }
-      mount();
+      // Consent-gated verification: no Cloudflare challenge is issued until the visitor ticks
+      // the privacy-policy box, and only for that form. Unticking keeps the widget (a live token
+      // stays valid); re-ticking reuses a live token or re-challenges after expiry/failure.
+      // Send stays disabled until a token exists AND consent is ticked.
+      const csEl = form.elements.namedItem('consent') as HTMLInputElement;
+      const holder = document.createElement('div'); holder.className = 'ts-holder'; holder.hidden = true; form.querySelector('.sbm')!.before(holder);
+      const target = document.createElement('div'); holder.appendChild(target);
+      const status = document.createElement('p'); status.setAttribute('role', 'status'); holder.appendChild(status);
+      const retry = document.createElement('button'); retry.type = 'button'; retry.textContent = t.verifyRetry; retry.hidden = true; holder.appendChild(retry);
+      let disposed = false, timer: ReturnType<typeof setTimeout> | undefined, waitingSince = 0;
+      syncBtn = () => { btnEl.disabled = !(tsToken && csEl.checked); };
+      const fail = () => { if (disposed) return; tsToken = ''; status.textContent = t.verifyFail; retry.hidden = false; syncBtn(); };
+      const mount = () => {
+        if (disposed || tsId !== null) return;
+        const w = (window as any).turnstile;
+        if (!w || !w.render) {
+          if (Date.now() - waitingSince >= 15000) { fail(); return; }
+          timer = setTimeout(mount, 300); return;
+        }
+        try {
+          tsId = w.render(target, { sitekey: tsKey, action: 'ccw_form',
+            callback: (tk: string) => { if (disposed) return; tsToken = tk; status.textContent = ''; retry.hidden = true; syncBtn(); },
+            'expired-callback': () => resetVerification(),
+            'error-callback': fail, 'timeout-callback': fail, 'unsupported-callback': fail });
+        } catch { fail(); }
+      };
+      resetVerification = () => {
+        if (disposed) return;
+        tsToken = ''; status.textContent = ''; retry.hidden = true; syncBtn();
+        if (timer) clearTimeout(timer);
+        if (tsId === null) { waitingSince = Date.now(); mount(); }
+        else { try { (window as any).turnstile.reset(tsId); } catch { fail(); } }
+      };
+      retry.addEventListener('click', resetVerification);
+      csEl.addEventListener('change', () => {
+        if (disposed) return;
+        if (csEl.checked) { holder.hidden = false; if (!tsToken) resetVerification(); }
+        syncBtn();
+      });
+      syncBtn();
+      // One shared API script across forms and language rebuilds.
+      if (!document.querySelector('script[src*="challenges.cloudflare.com/turnstile/v0/api.js"]')) {
+        const sc = document.createElement('script'); sc.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit'; sc.async = true; sc.setAttribute('data-ts', '1'); document.head.appendChild(sc);
+      }
+      cleanups.push(() => {
+        disposed = true; tsToken = ''; if (timer) clearTimeout(timer);
+        retry.removeEventListener('click', resetVerification);
+        if (tsId !== null) { try { (window as any).turnstile.remove(tsId); } catch {} }
+      });
     }
     if (pageId === 'legacy') {
       const topic = form.querySelector('select[name=message]') as HTMLSelectElement;
@@ -354,15 +404,15 @@ export function enhance(root: HTMLElement, lang: Lang): () => void {
       if (!ok) return;
       if (g('website')) { msg.textContent = t.ok; msg.classList.add('ok'); form.reset(); return; } // spam trap: pretend success, send nothing
       if (!endpoint || dryRun) { msg.textContent = t.off; msg.classList.add('warn'); return; }
-      if (tsKey && !tsToken) { msg.textContent = t.fail; msg.classList.add('bad'); return; }
-      const btn = form.querySelector('.sbm') as HTMLButtonElement; btn.disabled = true; btn.textContent = t.sending;
+      if (tsKey && !tsToken) { msg.textContent = t.verifyWait; msg.classList.add('bad'); return; }
+      btnEl.disabled = true; btnEl.textContent = t.sending;
       try {
         const r = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ turnstileToken: tsToken, form: (opts && opts.formKey) || (pageId === 'contact' && getIntent() ? 'treat' : pageId), name: nm.value.trim(), phone: ph ? ph.value.trim() : '', email: em ? em.value.trim() : '', branch: br ? br.value : '', message: g('message'), lang, consent: true, page: location.href }) });
         if (!r.ok) throw new Error(String(r.status));
-        msg.textContent = t.ok; msg.classList.add('ok'); form.reset(); if (tsKey) { tsToken = ''; try { (window as any).turnstile.reset(tsId); } catch (e) {} }
-      } catch (e) { msg.textContent = t.fail; msg.classList.add('bad'); if (tsKey) { tsToken = ''; try { (window as any).turnstile.reset(tsId); } catch (e2) {} } }
-      btn.disabled = false; btn.textContent = t.send;
+        msg.textContent = t.ok; msg.classList.add('ok'); form.reset(); if (tsKey) resetVerification();
+      } catch (e) { msg.textContent = t.fail; msg.classList.add('bad'); if (tsKey) resetVerification(); }
+      syncBtn(); btnEl.textContent = t.send;
     };
     form.addEventListener('submit', submit);
     cleanups.push(() => form.removeEventListener('submit', submit));
