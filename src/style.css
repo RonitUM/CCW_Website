@@ -658,6 +658,7 @@ header .tools > svg[role=button]{cursor:pointer}
 .frm .ts-holder p[role=status]{margin:8px 0 0;font-size:14.5px;color:var(--plum2)}
 .frm .ts-holder button{margin-top:10px;display:inline-flex;background:transparent;color:var(--plum);border:1.5px solid var(--plum);border-radius:40px;padding:10px 26px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit}
 .frm .ts-holder button:hover{background:var(--cream)}
+.frm .ts-holder button[hidden]{display:none}
 .frm .frm-msg{margin:14px 0 0;font-size:16px}
 .frm .frm-msg.ok{color:#2f6b3f}.frm .frm-msg.bad{color:#a3262a}.frm .frm-msg.warn{color:#8a5a00}
 .srch-m{display:none;border:0;background:transparent;width:36px;height:44px;padding:0;cursor:pointer;flex:none;align-items:center;justify-content:center}
